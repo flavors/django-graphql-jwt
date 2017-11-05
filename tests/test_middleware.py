@@ -34,5 +34,5 @@ class MiddlewareTests(GraphQLJWTTestCase):
         request = self.factory.get('/', **headers)
         response = self.middleware(request)
 
-        self.assertTrue(json.loads(response.content)['errors'])
+        self.assertTrue(json.loads(response.content.decode('utf-8'))['errors'])
         self.get_response_mock.assert_not_called()
