@@ -1,0 +1,4 @@
+-r dev.txt
+
+coverage>=4.4
+flake8>=3.3.0
