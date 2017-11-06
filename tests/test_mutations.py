@@ -2,9 +2,10 @@ from datetime import datetime, timedelta
 from unittest.mock import patch
 
 from graphql_jwt import settings
-from graphql_jwt.utils import jwt_encode
+from graphql_jwt.utils import jwt_encode, jwt_payload
 
 from .base import GraphQLJWTTestCase
+from .decorators import override_settings
 
 
 class MutationsTests(GraphQLJWTTestCase):
@@ -69,9 +70,10 @@ class MutationsTests(GraphQLJWTTestCase):
 
         self.assertTrue(response.errors)
 
-    def test_refresh_error(self):
-        del self.payload['orig_iat']
-        token = jwt_encode(self.payload)
+    @override_settings(JWT_ALLOW_REFRESH=False)
+    def test_refresh_error(self, *args):
+        payload = jwt_payload(self.user)
+        token = jwt_encode(payload)
 
         query = '''
         mutation RefreshToken($token: String!) {
@@ -82,3 +84,22 @@ class MutationsTests(GraphQLJWTTestCase):
 
         response = self.client.execute(query, token=token)
         self.assertTrue(response.errors)
+
+    @override_settings(JWT_VERIFY_REFRESH_EXPIRATION=False)
+    def test_refresh_not_verify(self, *args):
+        query = '''
+        mutation RefreshToken($token: String!) {
+          refreshToken(token: $token) {
+            data
+          }
+        }'''
+
+        with patch('graphql_jwt.mutations.datetime') as datetime_mock:
+            datetime_mock.utcnow.return_value = datetime.utcnow() +\
+                settings.JWT_REFRESH_EXPIRATION_DELTA +\
+                timedelta(seconds=1)
+
+            response = self.client.execute(query, token=self.token)
+
+        data = response.data['refreshToken']['data']
+        self.assertEqual(self.user.username, data['payload']['username'])
