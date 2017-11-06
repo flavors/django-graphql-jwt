@@ -26,7 +26,7 @@ class MiddlewareTests(GraphQLJWTTestCase):
 
         self.get_response_mock.assert_called_once_with(request)
 
-    @patch('graphql_jwt.middleware.authenticate')
+    @patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_user_not_authenticate(self, *args):
         headers = {
             'HTTP_AUTHORIZATION': 'JWT ' + self.token,
@@ -51,9 +51,8 @@ class MiddlewareTests(GraphQLJWTTestCase):
 
     def test_header_not_found(self):
         request = self.factory.get('/')
-        response = self.middleware(request)
+        self.middleware(request)
 
-        self.assertTrue(dir(response))
         self.get_response_mock.assert_called_once_with(request)
 
     def test_user_is_authenticated(self):
