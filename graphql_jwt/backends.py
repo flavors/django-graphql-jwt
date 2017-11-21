@@ -12,7 +12,11 @@ class JWTBackend(object):
             return None
 
         token = get_authorization_header(request)
-        return get_user_by_token(token)
+
+        if token is not None:
+            return get_user_by_token(token)
+
+        return None
 
     def get_user(self, user_id):
         return get_user_by_natural_key(user_id)
