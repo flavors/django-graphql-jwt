@@ -43,8 +43,8 @@ Include the JWT backend in your `AUTHENTICATION_BACKENDS` settings:
         'django.contrib.auth.backends.ModelBackend'
     ]
 
-Mutations
-----------
+Token mutations
+---------------
 
 Add mutations to your GraphQL schema
 
@@ -88,6 +88,35 @@ Let's start by creating a simple `UserNode`
 
             payload = jwt_payload(self)
             return jwt_encode(payload)
+
+Login mutation
+--------------
+
+.. code:: python
+
+    import graphene
+
+    from django.contrib.auth import authenticate, login
+
+    class LogIn(graphene.Mutation):
+        user = graphene.Field(UserNode)
+
+        class Arguments:
+            username = graphene.String()
+            password = graphene.String()
+
+        @classmethod
+        def mutate(cls, root, info, username, password):
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                raise Exception('Please enter a correct phone and password')
+
+            if not user.is_active:
+                raise Exception('It seems your account has been disabled')
+
+            login(info.context, user)
+            return cls(user=user)
 
 
 Environment variables
