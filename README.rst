@@ -43,6 +43,9 @@ Include the JWT backend in your `AUTHENTICATION_BACKENDS` settings:
         'django.contrib.auth.backends.ModelBackend'
     ]
 
+Muatations
+----------
+
 Add mutations to your GraphQL schema
 
 .. code:: python
@@ -58,15 +61,33 @@ Add mutations to your GraphQL schema
     schema = graphene.Schema(mutations=Mutations)
 
 
-JWT by user
------------
+User Node
+---------
+
+Let's start by creating a simple `UserNode`
 
 .. code:: python
 
-    from graphql_jwt.utils import jwt_payload, jwt_token
+    import graphene
 
-    payload = jwt_payload(user)
-    token = jwt_token(payload)
+    from django.contrib.auth import get_user_model
+    from graphene_django import DjangoObjectType
+
+    from graphql_jwt.utils import jwt_encode, jwt_payload
+
+
+    class UserNode(DjangoObjectType):
+        token = graphene.String()
+
+        class Meta:
+            model = get_user_model()
+
+        def resolve_token(self, info, **kwargs):
+            if info.context.user != self:
+                return None
+
+            payload = jwt_payload(self)
+            return jwt_encode(payload)
 
 
 Environment variables
