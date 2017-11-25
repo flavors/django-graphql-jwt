@@ -8,7 +8,7 @@ help:
 test:
 	@pytest\
 		--verbose\
-		--cov=core_flavor\
+		--cov=graphql_jwt\
 		--cov-config .coveragerc\
 		--cov-report term\
 		--cov-report xml
