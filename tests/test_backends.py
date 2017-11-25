@@ -30,6 +30,12 @@ class BackendsTests(GraphQLJWTTestCase):
         user = JWTBackend().authenticate(request=None)
         self.assertIsNone(user)
 
+    def test_authenticate_missing_token(self):
+        request = self.factory.get('/')
+        user = JWTBackend().authenticate(request=request)
+
+        self.assertIsNone(user)
+
     def test_get_user(self):
         user = JWTBackend().get_user(self.user.username)
         self.assertEqual(user, self.user)
