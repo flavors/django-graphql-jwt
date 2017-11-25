@@ -119,5 +119,5 @@ Environment variables
 .. |Codecov| image:: https://img.shields.io/codecov/c/github/flavors/graphql-jwt.svg
    :target: https://codecov.io/gh/flavors/graphql-jwt
 
-.. |Code Climate| image:: https://api.codeclimate.com/v1/badges/5c5f19adc7739cd22c6f/maintainability
+.. |Code Climate| image:: https://api.codeclimate.com/v1/badges/7ca6c7ced3df021b7915/maintainability
    :target: https://codeclimate.com/github/flavors/graphql-jwt
