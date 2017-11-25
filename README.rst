@@ -43,7 +43,7 @@ Include the JWT backend in your `AUTHENTICATION_BACKENDS` settings:
         'django.contrib.auth.backends.ModelBackend'
     ]
 
-Muatations
+Mutations
 ----------
 
 Add mutations to your GraphQL schema
