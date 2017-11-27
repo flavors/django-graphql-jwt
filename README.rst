@@ -109,8 +109,8 @@ Login mutation
         def mutate(cls, root, info, username, password):
             user = authenticate(username=username, password=password)
 
-            if user is not None:
-                raise Exception('Please enter a correct phone and password')
+            if user is None:
+                raise Exception('Please enter a correct username and password')
 
             if not user.is_active:
                 raise Exception('It seems your account has been disabled')
