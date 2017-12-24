@@ -18,7 +18,7 @@ def jwt_payload(user):
 
     payload = {
         user.USERNAME_FIELD: username,
-        'exp': datetime.utcnow() + settings.JWT_EXPIRATION_DELTA
+        'exp': datetime.utcnow() + settings.JWT_EXPIRATION_DELTA,
     }
 
     if settings.JWT_ALLOW_REFRESH:
@@ -37,7 +37,7 @@ def jwt_encode(payload):
     return jwt.encode(
         payload,
         settings.JWT_SECRET_KEY,
-        settings.JWT_ALGORITHM
+        settings.JWT_ALGORITHM,
     ).decode('utf-8')
 
 
@@ -47,7 +47,7 @@ def jwt_decode(token):
         settings.JWT_SECRET_KEY,
         settings.JWT_VERIFY,
         options={
-            'verify_exp': settings.JWT_VERIFY_EXPIRATION
+            'verify_exp': settings.JWT_VERIFY_EXPIRATION,
         },
         leeway=settings.JWT_LEEWAY,
         audience=settings.JWT_AUDIENCE,

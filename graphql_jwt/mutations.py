@@ -51,5 +51,5 @@ class Refresh(JWTMutationMixin, graphene.Mutation):
 
         return cls(data={
             'token': jwt_encode(refresh_payload),
-            'payload': payload
+            'payload': payload,
         })

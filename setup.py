@@ -31,7 +31,7 @@ setup(
         'Django>=1.11',
         'django-environ>=0.4.4',
         'graphene-django>=2.0.0',
-        'PyJWT>=1.5.0'
+        'PyJWT>=1.5.0',
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
@@ -52,6 +52,6 @@ setup(
         'django-environ>=0.4.4',
         'coverage>=4.4',
         'graphene-django>=2.0.0',
-        'PyJWT>=1.5.0'
-    ]
+        'PyJWT>=1.5.0',
+    ],
 )

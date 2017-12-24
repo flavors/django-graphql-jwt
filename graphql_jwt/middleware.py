@@ -18,7 +18,7 @@ class JWTMiddleware(object):
                     user = authenticate(request=request)
                 except GraphQLJWTError as err:
                     return JsonResponse({
-                        'errors': [{'message': err.message}]
+                        'errors': [{'message': str(err)}],
                     }, status=401)
 
                 if user is not None:
