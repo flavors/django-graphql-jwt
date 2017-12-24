@@ -1,11 +1,12 @@
 from datetime import timedelta
-from unittest.mock import patch, Mock, PropertyMock
+from unittest.mock import Mock, PropertyMock, patch
 
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, TestCase
 
 from graphql_jwt import utils
 from graphql_jwt.exceptions import GraphQLJWTError
+
 from .decorators import override_settings
 
 

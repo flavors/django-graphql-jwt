@@ -1,7 +1,8 @@
-import environ
-
 from datetime import timedelta
+
 from django.conf import settings
+
+import environ
 
 
 class Env(environ.Env):

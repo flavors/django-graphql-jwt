@@ -1,7 +1,5 @@
 from .utils import (
-    get_authorization_header,
-    get_user_by_token,
-    get_user_by_natural_key
+    get_authorization_header, get_user_by_natural_key, get_user_by_token,
 )
 
 

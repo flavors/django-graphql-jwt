@@ -1,10 +1,10 @@
-import jwt
-
 from calendar import timegm
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
+
+import jwt
 
 from . import settings
 from .exceptions import GraphQLJWTError

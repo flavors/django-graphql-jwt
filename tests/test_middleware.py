@@ -1,8 +1,8 @@
 import json
-
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 from django.http import JsonResponse
+
 from graphql_jwt.middleware import JWTMiddleware
 
 from .base import GraphQLJWTTestCase

@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 from django.test import Client, RequestFactory, testcases
 
 from graphene_django.settings import graphene_settings
-from graphql_jwt.utils import jwt_payload, jwt_encode
+
+from graphql_jwt.utils import jwt_encode, jwt_payload
 
 
 class GraphQLRequestFactory(RequestFactory):

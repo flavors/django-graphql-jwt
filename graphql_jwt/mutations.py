@@ -1,19 +1,14 @@
-import graphene
-
 from calendar import timegm
 from datetime import datetime
-
-from graphene.types.generic import GenericScalar
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from . import settings
+import graphene
+from graphene.types.generic import GenericScalar
 
-from .utils import (
-    jwt_encode, jwt_payload,
-    get_payload, get_user_by_payload
-)
+from . import settings
+from .utils import get_payload, get_user_by_payload, jwt_encode, jwt_payload
 
 
 class JWTMutationMixin(object):
