@@ -40,7 +40,7 @@ Include the JWT backend in your `AUTHENTICATION_BACKENDS` settings:
 
     AUTHENTICATION_BACKENDS = [
         'graphql_jwt.backends.JWTBackend',
-        'django.contrib.auth.backends.ModelBackend'
+        'django.contrib.auth.backends.ModelBackend',
     ]
 
 Token mutations
