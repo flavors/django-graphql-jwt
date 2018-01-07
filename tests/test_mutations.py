@@ -84,22 +84,3 @@ class MutationsTests(GraphQLJWTTestCase):
 
         response = self.client.execute(query, token=token)
         self.assertTrue(response.errors)
-
-    @override_settings(JWT_VERIFY_REFRESH_EXPIRATION=False)
-    def test_refresh_not_verify(self, *args):
-        query = '''
-        mutation RefreshToken($token: String!) {
-          refreshToken(token: $token) {
-            data
-          }
-        }'''
-
-        with patch('graphql_jwt.mutations.datetime') as datetime_mock:
-            datetime_mock.utcnow.return_value = datetime.utcnow() +\
-                settings.JWT_REFRESH_EXPIRATION_DELTA +\
-                timedelta(seconds=1)
-
-            response = self.client.execute(query, token=self.token)
-
-        data = response.data['refreshToken']['data']
-        self.assertEqual(self.user.username, data['payload']['username'])

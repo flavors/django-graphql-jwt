@@ -35,16 +35,15 @@ class Refresh(JWTMutationMixin, graphene.Mutation):
         user = get_user_by_payload(payload)
         orig_iat = payload.get('orig_iat')
 
-        if settings.JWT_VERIFY_REFRESH_EXPIRATION:
-            if orig_iat:
-                utcnow = timegm(datetime.utcnow().utctimetuple())
-                expiration = orig_iat +\
-                    settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+        if orig_iat:
+            utcnow = timegm(datetime.utcnow().utctimetuple())
+            expiration = orig_iat +\
+                settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
 
-                if utcnow > expiration:
-                    raise ValidationError(_('Refresh has expired'))
-            else:
-                raise ValidationError(_('orig_iat field is required'))
+            if utcnow > expiration:
+                raise ValidationError(_('Refresh has expired'))
+        else:
+            raise ValidationError(_('orig_iat field is required'))
 
         refresh_payload = jwt_payload(user)
         refresh_payload['orig_iat'] = orig_iat

@@ -33,9 +33,6 @@ JWT_EXPIRATION_DELTA = env.timedelta(
     timedelta(seconds=60 * 5))
 
 JWT_ALLOW_REFRESH = env.bool('JWT_ALLOW_REFRESH', True)
-JWT_VERIFY_REFRESH_EXPIRATION =\
-    env.bool('JWT_VERIFY_REFRESH_EXPIRATION', True)
-
 JWT_REFRESH_EXPIRATION_DELTA = env.timedelta(
     'JWT_REFRESH_EXPIRATION_DELTA',
     timedelta(days=7))
