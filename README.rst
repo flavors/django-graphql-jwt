@@ -4,7 +4,10 @@ Django GraphQL JWT
 |Pypi| |Wheel| |Build Status| |Codecov| |Code Climate|
 
 
-JSON Web Token for Django GraphQL
+JSON Web Token Authentication for `Django GraphQL`_
+
+.. _Django GraphQL: https://github.com/graphql-python/graphene-django
+
 
 Dependencies
 ------------
