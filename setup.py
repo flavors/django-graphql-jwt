@@ -54,4 +54,10 @@ setup(
         'graphene-django>=2.0.0',
         'PyJWT>=1.5.0',
     ],
+    package_data={
+        'graphql_jwt': [
+            'locale/*/LC_MESSAGES/django.po',
+            'locale/*/LC_MESSAGES/django.mo',
+        ],
+    },
 )

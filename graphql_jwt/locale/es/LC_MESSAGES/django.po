@@ -1,17 +1,17 @@
 # Domake.io i18n
-# Copyright (C) mongkok 2017
+# Copyright (C) mongkok 2018
 # This file is distributed under the same license as the django-graphql-jwt package.
 # Translators:
-# mongkok <dani.pyc@gmail.com>, 2017.
+# mongkok <domake.io@gmail.com>, 2018.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-05 18:10+0000\n"
-"PO-Revision-Date: 2017-11-05 18:10+0000\n"
-"Last-Translator: mongkok <dani.pyc@gmail.com>\n"
+"POT-Creation-Date: 2018-01-08 01:22+0530\n"
+"PO-Revision-Date: 2018-01-05 16:20+0000\n"
+"Last-Translator: mongkok <domake.io@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: mutations.py:50
+#: mutations.py:44
 msgid "Refresh has expired"
 msgstr "El refresco ha expirado"
 
-#: mutations.py:52
+#: mutations.py:46
 msgid "orig_iat field is required"
 msgstr "El campo orig_iat es requerido"
 
@@ -41,7 +41,7 @@ msgstr "Token inválido"
 
 #: utils.py:92
 msgid "Invalid payload"
-msgstr "Payload iválido"
+msgstr "Payload inválido"
 
 #: utils.py:97
 msgid "User is disabled"
