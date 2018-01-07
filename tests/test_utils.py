@@ -53,7 +53,15 @@ class UtilsTests(TestCase):
         with self.assertRaises(GraphQLJWTError):
             utils.get_payload(token)
 
-    def test_payload_decoding_error(self):
+    def test_payload_decode_audience_missing(self):
+        payload = utils.jwt_payload(self.user)
+        token = utils.jwt_encode(payload)
+
+        with override_settings(JWT_AUDIENCE='test'):
+            with self.assertRaises(GraphQLJWTError):
+                utils.get_payload(token)
+
+    def test_payload_decode_error(self):
         with self.assertRaises(GraphQLJWTError):
             utils.get_payload('invalid')
 
