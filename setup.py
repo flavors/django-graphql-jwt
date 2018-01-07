@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import re
 
@@ -34,7 +36,7 @@ setup(
         'PyJWT>=1.5.0',
     ],
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
@@ -44,13 +46,15 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Framework :: Django',
+        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
     ],
     zip_safe=False,
     tests_require=[
         'Django>=1.11',
         'django-environ>=0.4.4',
-        'coverage>=4.4',
         'graphene-django>=2.0.0',
         'PyJWT>=1.5.0',
     ],
