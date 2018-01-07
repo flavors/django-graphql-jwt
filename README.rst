@@ -153,59 +153,81 @@ Environment variables
 ---------------------
 
 `JWT_ALGORITHM`_
+
 ::
+
     Algorithm for cryptographic signing
     Default: HS256 
 
 
 `JWT_AUDIENCE`_
+
 ::
+
     Identifies the recipients that the JWT is intended for
     Default: None
 
 
 JWT_AUTH_HEADER_PREFIX
+
 ::
+
     Authorization prefix
     Default: JWT
 
 `JWT_ISSUER`_
+
 ::
+
     Identifies the principal that issued the JWT
     Default: None
 
 `JWT_LEEWAY`_
+
 ::
+
     Validate an expiration time which is in the past but not very far
     Default: seconds=0
 
 JWT_SECRET_KEY
+
 ::
+
     The secret key used to sign the JWT
     Default: settings.SECRET_KEY
 
 `JWT_VERIFY`_
+
 ::
+
     Secret key verification
     Default: True
 
 `JWT_VERIFY_EXPIRATION`_
+
 ::
+
     Expiration time verification
     Default: False
 
 JWT_EXPIRATION_DELTA
+
 ::
+
     Timedelta added to utcnow() to set the expiration time
     Default: minutes=5
 
 JWT_ALLOW_REFRESH
+
 ::
+
     Enable token refresh
     Default: True
 
 JWT_REFRESH_EXPIRATION_DELTA
+
 ::
+
     Limit on token refresh
     Default: days=7
 
