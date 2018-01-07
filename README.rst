@@ -4,7 +4,7 @@ Django GraphQL JWT
 |Pypi| |Wheel| |Build Status| |Codecov| |Code Climate|
 
 
-JSON Web Token for GraphQL
+JSON Web Token for Django GraphQL
 
 Dependencies
 ------------
@@ -43,36 +43,18 @@ Include the JWT backend in your `AUTHENTICATION_BACKENDS` settings:
         'django.contrib.auth.backends.ModelBackend',
     ]
 
-Token mutations
----------------
-
-Add mutations to your GraphQL schema
-
-.. code:: python
-
-    import graphene
-    import graphql_jwt
-
-
-    class Mutations(graphene.ObjectType):
-        verify_token = graphql_jwt.Verify.Field()
-        refresh_token = graphql_jwt.Refresh.Field()
-
-    schema = graphene.Schema(mutations=Mutations)
-
 
 User Node
 ---------
 
-Let's start by creating a simple `UserNode`
+Let's start by creating a simple `UserNode`.
 
 .. code:: python
 
-    import graphene
-
     from django.contrib.auth import get_user_model
-    from graphene_django import DjangoObjectType
 
+    import graphene
+    from graphene_django import DjangoObjectType
     from graphql_jwt.utils import jwt_encode, jwt_payload
 
 
@@ -89,14 +71,18 @@ Let's start by creating a simple `UserNode`
             payload = jwt_payload(self)
             return jwt_encode(payload)
 
+
 Login mutation
 --------------
 
+Create the `LogIn` mutation on your schema to authenticate the user.
+
 .. code:: python
+
+    from django.contrib.auth import authenticate, login
 
     import graphene
 
-    from django.contrib.auth import authenticate, login
 
     class LogIn(graphene.Mutation):
         user = graphene.Field(UserNode)
@@ -119,21 +105,114 @@ Login mutation
             return cls(user=user)
 
 
+Verify and refresh token
+------------------------
+
+Add mutations to your GraphQL schema.
+
+.. code:: python
+
+    import graphene
+    import graphql_jwt
+
+
+    class Mutations(graphene.ObjectType):
+        verify_token = graphql_jwt.Verify.Field()
+        refresh_token = graphql_jwt.Refresh.Field()
+
+
+    schema = graphene.Schema(mutations=Mutations)
+
+
+``verifyToken`` to confirm that the JWT is valid.
+
+.. code:: graphql
+
+    mutation {
+      verifyToken(token: "...") {
+        payload
+      }
+    }
+
+
+``refreshToken`` to obtain a brand new token with renewed expiration time for non-expired tokens.
+
+.. code:: graphql
+
+    mutation {
+      refreshToken(token: "...") {
+        data
+      }
+    }
+
+
 Environment variables
 ---------------------
 
-- JWT_ALGORITHM
-- JWT_AUDIENCE
-- JWT_AUTH_HEADER_PREFIX
-- JWT_ISSUER
-- JWT_LEEWAY
-- JWT_SECRET_KEY
-- JWT_VERIFY
-- JWT_VERIFY_EXPIRATION
-- JWT_EXPIRATION_DELTA
-- JWT_ALLOW_REFRESH
-- JWT_VERIFY_REFRESH_EXPIRATION
-- JWT_REFRESH_EXPIRATION_DELTA
+`JWT_ALGORITHM`_
+::
+    Algorithm for cryptographic signing
+    Default: HS256 
+
+
+`JWT_AUDIENCE`_
+::
+    Identifies the recipients that the JWT is intended for
+    Default: None
+
+
+JWT_AUTH_HEADER_PREFIX
+::
+    Authorization prefix
+    Default: JWT
+
+`JWT_ISSUER`_
+::
+    Identifies the principal that issued the JWT
+    Default: None
+
+`JWT_LEEWAY`_
+::
+    Validate an expiration time which is in the past but not very far
+    Default: seconds=0
+
+JWT_SECRET_KEY
+::
+    The secret key used to sign the JWT
+    Default: settings.SECRET_KEY
+
+`JWT_VERIFY`_
+::
+    Secret key verification
+    Default: True
+
+`JWT_VERIFY_EXPIRATION`_
+::
+    Expiration time verification
+    Default: False
+
+JWT_EXPIRATION_DELTA
+::
+    Timedelta added to utcnow() to set the expiration time
+    Default: minutes=5
+
+JWT_ALLOW_REFRESH
+::
+    Enable token refresh
+    Default: True
+
+JWT_REFRESH_EXPIRATION_DELTA
+::
+    Limit on token refresh
+    Default: days=7
+
+
+.. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
+.. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
+.. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss
+.. _JWT_LEEWAY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=leeway#expiration-time-claim-exp
+.. _JWT_VERIFY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify#reading-the-claimset-without-validation
+.. _JWT_VERIFY_EXPIRATION: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify_exp#expiration-time-claim-exp
 
 
 .. |Pypi| image:: https://img.shields.io/pypi/v/django-graphql-jwt.svg
