@@ -4,11 +4,9 @@ help:
 	@echo "  test        Runs tests"
 	@echo "  test-all    Runs tests using tox"
 	@echo "  release     Makes a release"
-	@echo "  isort       Runs isort recursively from your current directory"
-
 
 test:
-	@pytest tests --pdb --flake8
+	@pytest tests
 
 coverage:
 	@pytest\
@@ -27,7 +25,4 @@ release:
 	@python setup.py sdist upload
 	@python setup.py bdist_wheel upload
 
-isort:
-	@isort -rc .
-
-.PHONY: help test coverage test-all release isort
+.PHONY: help test coverage test-all release
