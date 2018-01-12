@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 from unittest.mock import patch
 
 from graphql_jwt import settings
-from graphql_jwt.utils import jwt_encode, jwt_payload
+from graphql_jwt.shortcuts import get_token
+from graphql_jwt.utils import get_payload
 
 from .base import GraphQLJWTTestCase
 from .decorators import override_settings
@@ -38,7 +39,8 @@ class MutationsTests(GraphQLJWTTestCase):
         query = '''
         mutation RefreshToken($token: String!) {
           refreshToken(token: $token) {
-            data
+            token
+            payload
           }
         }'''
 
@@ -48,16 +50,21 @@ class MutationsTests(GraphQLJWTTestCase):
 
             response = self.client.execute(query, token=self.token)
 
-        data = response.data['refreshToken']['data']
+        data = response.data['refreshToken']
+        token = data['token']
 
-        self.assertNotEqual(self.token, data['token'])
+        self.assertNotEqual(self.token, token)
         self.assertEqual(self.user.username, data['payload']['username'])
+
+        payload = get_payload(token)
+        self.assertEqual(self.payload['orig_iat'], payload['orig_iat'])
 
     def test_refresh_expired(self):
         query = '''
         mutation RefreshToken($token: String!) {
           refreshToken(token: $token) {
-            data
+            token
+            payload
           }
         }'''
 
@@ -72,13 +79,13 @@ class MutationsTests(GraphQLJWTTestCase):
 
     @override_settings(JWT_ALLOW_REFRESH=False)
     def test_refresh_error(self, *args):
-        payload = jwt_payload(self.user)
-        token = jwt_encode(payload)
+        token = get_token(self.user)
 
         query = '''
         mutation RefreshToken($token: String!) {
           refreshToken(token: $token) {
-            data
+            token
+            payload
           }
         }'''
 

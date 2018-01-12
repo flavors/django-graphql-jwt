@@ -28,7 +28,8 @@ class Verify(JWTMutationMixin, graphene.Mutation):
 
 
 class Refresh(JWTMutationMixin, graphene.Mutation):
-    data = GenericScalar()
+    token = graphene.String()
+    payload = GenericScalar()
 
     @classmethod
     def mutate(cls, root, info, token, **args):
@@ -46,10 +47,5 @@ class Refresh(JWTMutationMixin, graphene.Mutation):
         else:
             raise ValidationError(_('orig_iat field is required'))
 
-        refresh_payload = jwt_payload(user)
-        refresh_payload['orig_iat'] = orig_iat
-
-        return cls(data={
-            'token': jwt_encode(refresh_payload),
-            'payload': payload,
-        })
+        token = get_token(user, orig_iat=orig_iat)
+        return cls(token=token, payload=payload)
