@@ -8,7 +8,8 @@ import graphene
 from graphene.types.generic import GenericScalar
 
 from . import settings
-from .utils import get_payload, get_user_by_payload, jwt_encode, jwt_payload
+from .shortcuts import get_token
+from .utils import get_payload, get_user_by_payload
 
 
 class JWTMutationMixin(object):

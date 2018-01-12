@@ -96,8 +96,3 @@ def get_user_by_payload(payload):
     if user is not None and not user.is_active:
         raise GraphQLJWTError(_('User is disabled'))
     return user
-
-
-def get_user_by_token(token):
-    payload = get_payload(token)
-    return get_user_by_payload(payload)

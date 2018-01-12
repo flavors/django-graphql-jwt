@@ -1,6 +1,5 @@
-from .utils import (
-    get_authorization_header, get_user_by_natural_key, get_user_by_token,
-)
+from .shortcuts import get_user_by_token
+from .utils import get_authorization_header, get_user_by_natural_key
 
 
 class JWTBackend(object):
