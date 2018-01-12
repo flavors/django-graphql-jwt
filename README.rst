@@ -4,8 +4,9 @@ Django GraphQL JWT
 |Pypi| |Wheel| |Build Status| |Codecov| |Code Climate|
 
 
-JSON Web Token Authentication for `Django GraphQL`_
+`JSON Web Token`_ authentication for `Django GraphQL`_
 
+.. _JSON Web Token: https://jwt.io/
 .. _Django GraphQL: https://github.com/graphql-python/graphene-django
 
 
@@ -26,7 +27,7 @@ Install last stable version from Pypi.
     pip install django-graphql-jwt
 
 
-Include the JWT middleware in your `MIDDLEWARE` settings:
+Include the JWT middleware in your *MIDDLEWARE* settings:
 
 .. code:: python
 
@@ -37,7 +38,7 @@ Include the JWT middleware in your `MIDDLEWARE` settings:
         ...
     ]
 
-Include the JWT backend in your `AUTHENTICATION_BACKENDS` settings:
+Include the JWT backend in your *AUTHENTICATION_BACKENDS* settings:
 
 .. code:: python
 
@@ -47,48 +48,21 @@ Include the JWT backend in your `AUTHENTICATION_BACKENDS` settings:
     ]
 
 
-User Node
----------
+Login
+-----
 
-Let's start by creating a simple `UserNode`.
-
-.. code:: python
-
-    from django.contrib.auth import get_user_model
-
-    import graphene
-    from graphene_django import DjangoObjectType
-    from graphql_jwt.utils import jwt_encode, jwt_payload
-
-
-    class UserNode(DjangoObjectType):
-        token = graphene.String()
-
-        class Meta:
-            model = get_user_model()
-
-        def resolve_token(self, info, **kwargs):
-            if info.context.user != self:
-                return None
-
-            payload = jwt_payload(self)
-            return jwt_encode(payload)
-
-
-Login mutation
---------------
-
-Create the `LogIn` mutation on your schema to authenticate the user.
+Create a *LogIn* mutation to authenticate the user.
 
 .. code:: python
 
     from django.contrib.auth import authenticate, login
 
     import graphene
+    from graphql_jwt.shortcuts import get_token
 
 
     class LogIn(graphene.Mutation):
-        user = graphene.Field(UserNode)
+        token = graphene.String()
 
         class Arguments:
             username = graphene.String()
@@ -105,13 +79,27 @@ Create the `LogIn` mutation on your schema to authenticate the user.
                 raise Exception('It seems your account has been disabled')
 
             login(info.context, user)
-            return cls(user=user)
+            return cls(token=get_token(user))
+
+
+Add the *LogIn* mutation to your GraphQL schema.
+
+.. code:: python
+
+    import graphene
+
+
+    class Mutations(graphene.ObjectType):
+        login = LogIn.Field()
+
+
+    schema = graphene.Schema(mutations=Mutations)
 
 
 Verify and refresh token
 ------------------------
 
-Add mutations to your GraphQL schema.
+Add mutations to the root schema.
 
 .. code:: python
 
@@ -124,15 +112,12 @@ Add mutations to your GraphQL schema.
         refresh_token = graphql_jwt.Refresh.Field()
 
 
-    schema = graphene.Schema(mutations=Mutations)
-
-
 ``verifyToken`` to confirm that the JWT is valid.
 
 .. code:: graphql
 
-    mutation {
-      verifyToken(token: "...") {
+    mutation VerifyToken($token: String!) {
+      verifyToken(token: $token) {
         payload
       }
     }
@@ -142,9 +127,10 @@ Add mutations to your GraphQL schema.
 
 .. code:: graphql
 
-    mutation {
-      refreshToken(token: "...") {
-        data
+    mutation RefreshToken($token: String!) {
+      refreshToken(token: $token) {
+        token
+        payload
       }
     }
 
@@ -159,21 +145,12 @@ Environment variables
     Algorithm for cryptographic signing
     Default: HS256 
 
-
 `JWT_AUDIENCE`_
 
 ::
 
     Identifies the recipients that the JWT is intended for
     Default: None
-
-
-JWT_AUTH_HEADER_PREFIX
-
-::
-
-    Authorization prefix
-    Default: JWT
 
 `JWT_ISSUER`_
 
@@ -189,7 +166,7 @@ JWT_AUTH_HEADER_PREFIX
     Validate an expiration time which is in the past but not very far
     Default: seconds=0
 
-JWT_SECRET_KEY
+`JWT_SECRET_KEY`_
 
 ::
 
@@ -231,11 +208,19 @@ JWT_REFRESH_EXPIRATION_DELTA
     Limit on token refresh
     Default: days=7
 
+JWT_AUTH_HEADER_PREFIX
+
+::
+
+    Authorization prefix
+    Default: JWT
+
 
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
 .. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss
 .. _JWT_LEEWAY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=leeway#expiration-time-claim-exp
+.. _JWT_SECRET_KEY: http://pyjwt.readthedocs.io/en/latest/algorithms.html?highlight=secret+key#asymmetric-public-key-algorithms
 .. _JWT_VERIFY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify#reading-the-claimset-without-validation
 .. _JWT_VERIFY_EXPIRATION: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify_exp#expiration-time-claim-exp
 
