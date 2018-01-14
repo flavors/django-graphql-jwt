@@ -1,17 +1,17 @@
-from datetime import datetime, timedelta
-from unittest.mock import patch
+import graphene
 
-from graphql_jwt import settings
-from graphql_jwt.shortcuts import get_token
-from graphql_jwt.utils import get_payload
+import graphql_jwt
 
-from .base import GraphQLJWTTestCase
-from .decorators import override_settings
+from . import mutations
+from .testcases import GraphQLSchemaTestCase
 
 
-class MutationsTests(GraphQLJWTTestCase):
+class VerifyTests(mutations.VerifyTestsMixin, GraphQLSchemaTestCase):
 
-    def test_verify(self):
+    class Mutations(graphene.ObjectType):
+        verify_token = graphql_jwt.Verify.Field()
+
+    def execute(self, variables):
         query = '''
         mutation VerifyToken($token: String!) {
           verifyToken(token: $token) {
@@ -19,23 +19,15 @@ class MutationsTests(GraphQLJWTTestCase):
           }
         }'''
 
-        response = self.client.execute(query, token=self.token)
-        payload = response.data['verifyToken']['payload']
+        return self.client.execute(query, **variables)
 
-        self.assertEqual(self.user.username, payload['username'])
 
-    def test_verify_invalid_token(self):
-        query = '''
-        mutation VerifyToken($token: String!) {
-          verifyToken(token: $token) {
-            payload
-          }
-        }'''
+class RefreshTests(mutations.RefreshTestsMixin, GraphQLSchemaTestCase):
 
-        response = self.client.execute(query, token='invalid')
-        self.assertTrue(response.errors)
+    class Mutations(graphene.ObjectType):
+        refresh_token = graphql_jwt.Refresh.Field()
 
-    def test_refresh(self):
+    def execute(self, variables):
         query = '''
         mutation RefreshToken($token: String!) {
           refreshToken(token: $token) {
@@ -44,50 +36,4 @@ class MutationsTests(GraphQLJWTTestCase):
           }
         }'''
 
-        with patch('graphql_jwt.utils.datetime') as datetime_mock:
-            datetime_mock.utcnow.return_value =\
-                datetime.utcnow() + timedelta(seconds=1)
-
-            response = self.client.execute(query, token=self.token)
-
-        data = response.data['refreshToken']
-        token = data['token']
-
-        self.assertNotEqual(self.token, token)
-        self.assertEqual(self.user.username, data['payload']['username'])
-
-        payload = get_payload(token)
-        self.assertEqual(self.payload['orig_iat'], payload['orig_iat'])
-
-    def test_refresh_expired(self):
-        query = '''
-        mutation RefreshToken($token: String!) {
-          refreshToken(token: $token) {
-            token
-            payload
-          }
-        }'''
-
-        with patch('graphql_jwt.mutations.datetime') as datetime_mock:
-            datetime_mock.utcnow.return_value = datetime.utcnow() +\
-                settings.JWT_REFRESH_EXPIRATION_DELTA +\
-                timedelta(seconds=1)
-
-            response = self.client.execute(query, token=self.token)
-
-        self.assertTrue(response.errors)
-
-    @override_settings(JWT_ALLOW_REFRESH=False)
-    def test_refresh_error(self, *args):
-        token = get_token(self.user)
-
-        query = '''
-        mutation RefreshToken($token: String!) {
-          refreshToken(token: $token) {
-            token
-            payload
-          }
-        }'''
-
-        response = self.client.execute(query, token=token)
-        self.assertTrue(response.errors)
+        return self.client.execute(query, **variables)
