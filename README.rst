@@ -135,6 +135,24 @@ Add mutations to the root schema.
     }
 
 
+Relay
+-----
+
+Complete support for `Relay`_.
+
+.. _Relay: https://facebook.github.io/relay/
+
+.. code:: python
+
+    import graphene
+    import graphql_jwt
+
+
+    class Mutations(graphene.ObjectType):
+        verify_token = graphql_jwt.relay.Verify.Field()
+        refresh_token = graphql_jwt.relay.Refresh.Field()
+
+
 Environment variables
 ---------------------
 
