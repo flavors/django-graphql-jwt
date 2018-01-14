@@ -29,12 +29,12 @@ Changes:
 -----
 
 Changes:
-- Fix 'es' locale directory
-- Remove JWT_VERIFY_REFRESH_EXPIRATION
-- JWT_LEEWAY timedelta type
-- 100% coverage
-- A pretty README
-- Support Python 3.7
+ - Fix 'es' locale directory
+ - Remove JWT_VERIFY_REFRESH_EXPIRATION
+ - JWT_LEEWAY timedelta type
+ - 100% coverage
+ - A pretty README
+ - Support Python 3.7
 
 
 0.0.2
