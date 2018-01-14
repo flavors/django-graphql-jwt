@@ -249,11 +249,11 @@ JWT_AUTH_HEADER_PREFIX
 .. |Wheel| image:: https://img.shields.io/pypi/wheel/django-graphql-jwt.svg
    :target: https://pypi.python.org/pypi/django-graphql-jwt
 
-.. |Build Status| image:: https://travis-ci.org/flavors/graphql-jwt.svg?branch=master
-   :target: https://travis-ci.org/flavors/graphql-jwt
+.. |Build Status| image:: https://travis-ci.org/flavors/django-graphql-jwt.svg?branch=master
+   :target: https://travis-ci.org/flavors/django-graphql-jwt
 
-.. |Codecov| image:: https://img.shields.io/codecov/c/github/flavors/graphql-jwt.svg
-   :target: https://codecov.io/gh/flavors/graphql-jwt
+.. |Codecov| image:: https://img.shields.io/codecov/c/github/flavors/django-graphql-jwt.svg
+   :target: https://codecov.io/gh/flavors/django-graphql-jwt
 
 .. |Code Climate| image:: https://api.codeclimate.com/v1/badges/7ca6c7ced3df021b7915/maintainability
-   :target: https://codeclimate.com/github/flavors/graphql-jwt
+   :target: https://codeclimate.com/github/flavors/django-graphql-jwt

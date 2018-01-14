@@ -27,7 +27,7 @@ setup(
     author='mongkok',
     author_email='domake.io@gmail.com',
     maintainer='mongkok',
-    url='https://github.com/flavors/graphql-jwt/',
+    url='https://github.com/flavors/django-graphql-jwt/',
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Django>=1.11',
