@@ -9,8 +9,8 @@ from graphql_jwt.utils import jwt_encode, jwt_payload
 
 class GraphQLRequestFactory(RequestFactory):
 
-    def execute(self, query, **kwargs):
-        return self._schema.execute(query, variable_values=kwargs)
+    def execute(self, query, **variables):
+        return self._schema.execute(query, variable_values=variables)
 
 
 class GraphQLClient(GraphQLRequestFactory, Client):
