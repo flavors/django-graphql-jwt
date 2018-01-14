@@ -2,7 +2,7 @@ from graphql_jwt import settings as graphql_jwt_settings
 from graphql_jwt.backends import JWTBackend
 from graphql_jwt.exceptions import GraphQLJWTError
 
-from .base import GraphQLJWTTestCase
+from .testcases import GraphQLJWTTestCase
 
 
 class BackendsTests(GraphQLJWTTestCase):

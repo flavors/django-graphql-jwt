@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from graphql_jwt import settings as graphql_jwt_settings
 from graphql_jwt.middleware import JWTMiddleware
 
-from .base import GraphQLJWTTestCase
+from .testcases import GraphQLJWTTestCase
 
 
 class MiddlewareTests(GraphQLJWTTestCase):
