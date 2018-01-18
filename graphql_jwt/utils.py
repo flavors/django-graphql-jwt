@@ -85,8 +85,7 @@ def get_user_by_natural_key(user_id):
 
 
 def get_user_by_payload(payload):
-    User = get_user_model()
-    username = payload.get(User.USERNAME_FIELD)
+    username = payload.get(get_user_model().USERNAME_FIELD)
 
     if not username:
         raise GraphQLJWTError(_('Invalid payload'))
