@@ -48,56 +48,8 @@ Include the ``JSONWebTokenBackend`` backend in your *AUTHENTICATION_BACKENDS* se
     ]
 
 
-Login
------
-
-Create a *LogIn* mutation to authenticate the user.
-
-.. code:: python
-
-    from django.contrib.auth import authenticate, login
-
-    import graphene
-    from graphql_jwt.shortcuts import get_token
-
-
-    class LogIn(graphene.Mutation):
-        token = graphene.String()
-
-        class Arguments:
-            username = graphene.String()
-            password = graphene.String()
-
-        @classmethod
-        def mutate(cls, root, info, username, password):
-            user = authenticate(username=username, password=password)
-
-            if user is None:
-                raise Exception('Please enter a correct username and password')
-
-            if not user.is_active:
-                raise Exception('It seems your account has been disabled')
-
-            login(info.context, user)
-            return cls(token=get_token(user))
-
-
-Add the *LogIn* mutation to your GraphQL schema.
-
-.. code:: python
-
-    import graphene
-
-
-    class Mutations(graphene.ObjectType):
-        login = LogIn.Field()
-
-
-    schema = graphene.Schema(mutations=Mutations)
-
-
-Verify and refresh token
-------------------------
+Schema
+------
 
 Add mutations to the root schema.
 
@@ -108,11 +60,29 @@ Add mutations to the root schema.
 
 
     class Mutations(graphene.ObjectType):
+        token_auth = graphql_jwt.ObtainJSONWebToken.Field()
         verify_token = graphql_jwt.Verify.Field()
         refresh_token = graphql_jwt.Refresh.Field()
 
+    schema = graphene.Schema(mutations=Mutations)
 
-``verifyToken`` to confirm that the JWT is valid.
+
+- ``tokenAuth`` to authenticate the user and obtain the JSON Web Token.
+
+The mutation uses your User's model `USERNAME_FIELD`_, which by default is ``username``.
+
+.. _USERNAME_FIELD: https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#django.contrib.auth.models.CustomUser
+
+.. code:: graphql
+
+    mutation TokenAuth($username: String!, $password: String!) {
+      tokenAuth(username: $username, password: $password) {
+        token
+      }
+    }
+
+
+- ``verifyToken`` to confirm that the *token* is valid.
 
 .. code:: graphql
 
@@ -123,7 +93,12 @@ Add mutations to the root schema.
     }
 
 
-``refreshToken`` to obtain a brand new token with renewed expiration time for non-expired tokens.
+- ``refreshToken`` to obtain a brand new *token* with renewed expiration time for **non-expired tokens**.
+
+`[wiki]`_ Configure your *refresh token* scenario and set the flag ``JWT_VERIFY_EXPIRATION=true``.
+
+.. _[wiki]: https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration
+
 
 .. code:: graphql
 
@@ -149,8 +124,41 @@ Complete support for `Relay`_.
 
 
     class Mutations(graphene.ObjectType):
+        token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
         verify_token = graphql_jwt.relay.Verify.Field()
         refresh_token = graphql_jwt.relay.Refresh.Field()
+
+
+Customizing
+-----------
+
+If you want to customize the ``ObtainJSONWebToken`` behavior, you'll need to customize the ``.do_auth()`` method on a subclass of ``JSONWebTokenMutation`` or ``.relay.JSONWebTokenMutation``.
+
+.. code:: python
+
+    import graphene
+    import graphql_jwt
+
+
+    class ObtainJSONWebToken(graphql_jwt.JSONWebTokenMutation):
+        user = graphene.Field(UserType)
+
+        @classmethod
+        def do_auth(cls, info):
+            return cls(user=info.context.user)
+
+Authenticate the user and obtain the *token* and the *user id*.
+
+.. code:: graphql
+
+    mutation TokenAuth($username: String!, $password: String!) {
+      tokenAuth(username: $username, password: $password) {
+        token
+        user {
+          id
+        }
+      }
+    }
 
 
 Environment variables
@@ -241,6 +249,13 @@ JWT_AUTH_HEADER_PREFIX
 .. _JWT_SECRET_KEY: http://pyjwt.readthedocs.io/en/latest/algorithms.html?highlight=secret+key#asymmetric-public-key-algorithms
 .. _JWT_VERIFY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify#reading-the-claimset-without-validation
 .. _JWT_VERIFY_EXPIRATION: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify_exp#expiration-time-claim-exp
+
+----
+
+Credits to `@jpadilla`_ / `django-rest-framework-jwt`_.
+
+.. _@jpadilla: https://github.com/jpadilla
+.. _django-rest-framework-jwt: https://github.com/GetBlimp/django-rest-framework-jwt
 
 
 .. |Pypi| image:: https://img.shields.io/pypi/v/django-graphql-jwt.svg
