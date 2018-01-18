@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-19 01:56+0530\n"
+"POT-Creation-Date: 2018-01-19 03:45+0530\n"
 "PO-Revision-Date: 2018-01-05 16:20+0000\n"
 "Last-Translator: mongkok <domake.io@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -19,13 +19,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decorators.py:24
+#: decorators.py:25
 msgid "Please, enter valid credentials"
 msgstr "Por favor, introduce unas credenciales válidas"
-
-#: decorators.py:28
-msgid "It seems your account has been disabled"
-msgstr "Parece que tu cuenta ha sido deshabilitada"
 
 #: mixins.py:61
 msgid "Refresh has expired"
