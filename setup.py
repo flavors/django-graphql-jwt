@@ -32,7 +32,7 @@ setup(
     install_requires=[
         'Django>=1.11',
         'django-environ>=0.4.4',
-        'graphene-django>=2.0.0',
+        'graphene>=2.0.0',
         'PyJWT>=1.5.0',
     ],
     classifiers=[
@@ -55,7 +55,7 @@ setup(
     tests_require=[
         'Django>=1.11',
         'django-environ>=0.4.4',
-        'graphene-django>=2.0.0',
+        'graphene>=2.0.0',
         'PyJWT>=1.5.0',
     ],
     package_data={
