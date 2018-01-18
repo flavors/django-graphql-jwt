@@ -27,7 +27,7 @@ class GraphQLJWTTestCase(testcases.TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            email='test',
+            username='test',
             password='dolphins')
 
         self.payload = jwt_payload(self.user)
