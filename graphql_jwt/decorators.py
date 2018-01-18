@@ -23,10 +23,6 @@ def token_auth(f):
             raise exceptions.GraphQLJWTError(
                 _('Please, enter valid credentials'))
 
-        if not user.is_active:
-            raise exceptions.GraphQLJWTError(
-                _('It seems your account has been disabled'))
-
         login(info.context, user)
         result = f(cls, root, info, **kwargs)
 
