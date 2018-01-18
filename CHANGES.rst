@@ -2,6 +2,16 @@ Changelog
 =========
 
 
+0.1.4
+-----
+
+Changes:
+ - CRITICAL: Renamed JWTMiddleware to JSONWebTokenMiddleware
+ - CRITICAL: Renamed JWTBackend to JSONWebTokenBackend
+ - ObtainJSONWebToken mutation
+ - Customizing, JSONWebTokenMutation abstract class
+
+
 0.1.3
 -----
 
