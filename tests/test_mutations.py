@@ -6,6 +6,23 @@ from . import mixins
 from .testcases import GraphQLSchemaTestCase
 
 
+class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
+                              GraphQLSchemaTestCase):
+
+    class Mutations(graphene.ObjectType):
+        token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+
+    def execute(self, variables):
+        query = '''
+        mutation TokenAuth($username: String!, $password: String!) {
+          tokenAuth(username: $username, password: $password) {
+            token
+          }
+        }'''
+
+        return self.client.execute(query, **variables)
+
+
 class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
 
     class Mutations(graphene.ObjectType):

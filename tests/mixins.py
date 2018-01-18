@@ -8,6 +8,27 @@ from graphql_jwt.utils import get_payload
 from .decorators import override_settings
 
 
+class ObtainJSONWebTokenTestsMixin(object):
+
+    @patch('graphql_jwt.decorators.login')
+    def test_token_auth(self, *args):
+        response = self.execute({
+            'username': self.user.username,
+            'password': 'dolphins',
+        })
+
+        payload = get_payload(response.data['tokenAuth']['token'])
+        self.assertEqual(self.user.username, payload['username'])
+
+    def test_token_auth_invalid_credentials(self, *args):
+        response = self.execute({
+            'username': self.user.username,
+            'password': 'wrong',
+        })
+
+        self.assertTrue(response.errors)
+
+
 class VerifyTestsMixin(object):
 
     def test_verify(self):

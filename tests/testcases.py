@@ -26,7 +26,10 @@ class GraphQLClient(GraphQLRequestFactory, Client):
 class GraphQLJWTTestCase(testcases.TestCase):
 
     def setUp(self):
-        self.user = get_user_model().objects.create_user(username='test')
+        self.user = get_user_model().objects.create_user(
+            email='test',
+            password='dolphins')
+
         self.payload = jwt_payload(self.user)
         self.token = jwt_encode(self.payload)
         self.factory = RequestFactory()
