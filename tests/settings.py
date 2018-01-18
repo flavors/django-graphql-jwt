@@ -12,5 +12,5 @@ DATABASES = {
 SECRET_KEY = 'test'
 
 AUTHENTICATION_BACKENDS = [
-    'graphql_jwt.backends.JWTBackend',
+    'graphql_jwt.backends.JSONWebTokenBackend',
 ]

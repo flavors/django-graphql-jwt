@@ -27,23 +27,23 @@ Install last stable version from Pypi.
     pip install django-graphql-jwt
 
 
-Include the JWT middleware in your *MIDDLEWARE* settings:
+Include the ``JSONWebTokenMiddleware`` middleware in your *MIDDLEWARE* settings:
 
 .. code:: python
 
     MIDDLEWARE = [
         ...
         'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'graphql_jwt.middleware.JWTMiddleware',
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
         ...
     ]
 
-Include the JWT backend in your *AUTHENTICATION_BACKENDS* settings:
+Include the ``JSONWebTokenBackend`` backend in your *AUTHENTICATION_BACKENDS* settings:
 
 .. code:: python
 
     AUTHENTICATION_BACKENDS = [
-        'graphql_jwt.backends.JWTBackend',
+        'graphql_jwt.backends.JSONWebTokenBackend',
         'django.contrib.auth.backends.ModelBackend',
     ]
 

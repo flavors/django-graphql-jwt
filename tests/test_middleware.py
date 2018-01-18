@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 from django.http import JsonResponse
 
 from graphql_jwt import settings as graphql_jwt_settings
-from graphql_jwt.middleware import JWTMiddleware
+from graphql_jwt.middleware import JSONWebTokenMiddleware
 
 from .testcases import GraphQLJWTTestCase
 
@@ -15,7 +15,7 @@ class MiddlewareTests(GraphQLJWTTestCase):
         super().setUp()
 
         self.get_response_mock = MagicMock(return_value=JsonResponse({}))
-        self.middleware = JWTMiddleware(self.get_response_mock)
+        self.middleware = JSONWebTokenMiddleware(self.get_response_mock)
 
     def test_authenticate(self):
         headers = {

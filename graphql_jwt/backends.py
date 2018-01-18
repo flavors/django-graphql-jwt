@@ -2,7 +2,7 @@ from .shortcuts import get_user_by_token
 from .utils import get_authorization_header, get_user_by_natural_key
 
 
-class JWTBackend(object):
+class JSONWebTokenBackend(object):
 
     def authenticate(self, request=None, **credentials):
         if request is None:
