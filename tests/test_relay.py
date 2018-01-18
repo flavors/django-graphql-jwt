@@ -2,11 +2,11 @@ import graphene
 
 import graphql_jwt
 
-from . import mutations
+from . import mixins
 from .testcases import GraphQLSchemaTestCase
 
 
-class VerifyRelayTests(mutations.VerifyTestsMixin, GraphQLSchemaTestCase):
+class VerifyRelayTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         verify_token = graphql_jwt.relay.Verify.Field()
@@ -23,7 +23,7 @@ class VerifyRelayTests(mutations.VerifyTestsMixin, GraphQLSchemaTestCase):
         return self.client.execute(query, input=input)
 
 
-class RefreshRelayTests(mutations.RefreshTestsMixin, GraphQLSchemaTestCase):
+class RefreshRelayTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         refresh_token = graphql_jwt.relay.Refresh.Field()

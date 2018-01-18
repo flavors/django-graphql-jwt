@@ -1,6 +1,6 @@
 import graphene
 
-from . import mutations
+from . import mixins
 from .utils import get_payload
 
 __all__ = ['Verify', 'Refresh']
@@ -13,7 +13,7 @@ class JWTMutationMixin(object):
 
 
 class Verify(JWTMutationMixin,
-             mutations.VerifyMixin,
+             mixins.VerifyMixin,
              graphene.relay.ClientIDMutation):
 
     @classmethod
@@ -22,7 +22,7 @@ class Verify(JWTMutationMixin,
 
 
 class Refresh(JWTMutationMixin,
-              mutations.RefreshMixin,
+              mixins.RefreshMixin,
               graphene.relay.ClientIDMutation):
 
     @classmethod

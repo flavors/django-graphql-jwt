@@ -2,11 +2,11 @@ import graphene
 
 import graphql_jwt
 
-from . import mutations
+from . import mixins
 from .testcases import GraphQLSchemaTestCase
 
 
-class VerifyTests(mutations.VerifyTestsMixin, GraphQLSchemaTestCase):
+class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         verify_token = graphql_jwt.Verify.Field()
@@ -22,7 +22,7 @@ class VerifyTests(mutations.VerifyTestsMixin, GraphQLSchemaTestCase):
         return self.client.execute(query, **variables)
 
 
-class RefreshTests(mutations.RefreshTestsMixin, GraphQLSchemaTestCase):
+class RefreshTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         refresh_token = graphql_jwt.Refresh.Field()
