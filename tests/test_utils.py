@@ -2,15 +2,16 @@ from datetime import timedelta
 from unittest.mock import Mock, PropertyMock, patch
 
 from django.contrib.auth import get_user_model
-from django.test import RequestFactory, TestCase
+from django.test import RequestFactory
 
 from graphql_jwt import utils
 from graphql_jwt.exceptions import GraphQLJWTError
 
 from .decorators import override_settings
+from .testcases import UserTestCase
 
 
-class UtilsTests(TestCase):
+class UtilsTests(UserTestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(username='test')

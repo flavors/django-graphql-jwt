@@ -23,12 +23,18 @@ class GraphQLClient(GraphQLRequestFactory, Client):
         self._schema = graphene.Schema(**kwargs)
 
 
-class GraphQLJWTTestCase(testcases.TestCase):
+class UserTestCase(testcases.TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             username='test',
             password='dolphins')
+
+
+class GraphQLJWTTestCase(UserTestCase):
+
+    def setUp(self):
+        super().setUp()
 
         self.payload = jwt_payload(self.user)
         self.token = jwt_encode(self.payload)
