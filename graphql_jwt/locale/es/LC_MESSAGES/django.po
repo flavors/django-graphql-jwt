@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GraphQL JWT\n"
+"Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-08 01:22+0530\n"
+"POT-Creation-Date: 2018-01-19 01:56+0530\n"
 "PO-Revision-Date: 2018-01-05 16:20+0000\n"
 "Last-Translator: mongkok <domake.io@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -19,11 +19,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: mutations.py:44
+#: decorators.py:24
+msgid "Please, enter valid credentials"
+msgstr "Por favor, introduce unas credenciales válidas"
+
+#: decorators.py:28
+msgid "It seems your account has been disabled"
+msgstr "Parece que tu cuenta ha sido deshabilitada"
+
+#: mixins.py:61
 msgid "Refresh has expired"
 msgstr "El refresco ha expirado"
 
-#: mutations.py:46
+#: mixins.py:63
 msgid "orig_iat field is required"
 msgstr "El campo orig_iat es requerido"
 
@@ -39,10 +47,10 @@ msgstr "Error decodificando la firma"
 msgid "Invalid token"
 msgstr "Token inválido"
 
-#: utils.py:92
+#: utils.py:91
 msgid "Invalid payload"
 msgstr "Payload inválido"
 
-#: utils.py:97
+#: utils.py:96
 msgid "User is disabled"
 msgstr "Usuario deshabilitado"
