@@ -19,8 +19,8 @@ class GraphQLClient(GraphQLRequestFactory, Client):
         super().__init__(**defaults)
         self._schema = None
 
-    def schema(self, **defaults):
-        self._schema = graphene.Schema(**defaults)
+    def schema(self, **kwargs):
+        self._schema = graphene.Schema(**kwargs)
 
 
 class GraphQLJWTTestCase(testcases.TestCase):
