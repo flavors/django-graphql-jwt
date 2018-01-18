@@ -1,25 +1,57 @@
 import graphene
 
 from . import mixins
+from .decorators import token_auth
 from .utils import get_payload
 
-__all__ = ['Verify', 'Refresh']
+__all__ = [
+    'JSONWebTokenMutation',
+    'ObtainJSONWebToken',
+    'Verify',
+    'Refresh',
+]
 
 
-class JWTMutationMixin(object):
+class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
+                           graphene.Mutation):
+
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def __init_subclass_with_meta__(cls, arguments=None, **options):
+        super().__init_subclass_with_meta__(
+            arguments=cls.auth_fields(),
+            **options)
+
+    @classmethod
+    @token_auth
+    def mutate(cls, root, info, **kwargs):
+        return cls.do_auth(info)
+
+
+class ObtainJSONWebToken(mixins.DoAuthMixin, JSONWebTokenMutation):
+    """Obtain JSON Web Token mutation"""
+
+
+class JSONWebTokenMixin(object):
 
     class Arguments:
         token = graphene.String()
 
 
-class Verify(JWTMutationMixin, mixins.VerifyMixin, graphene.Mutation):
+class Verify(JSONWebTokenMixin,
+             mixins.VerifyMixin,
+             graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, token, **kwargs):
         return cls(payload=get_payload(token))
 
 
-class Refresh(JWTMutationMixin, mixins.RefreshMixin, graphene.Mutation):
+class Refresh(JSONWebTokenMixin,
+              mixins.RefreshMixin,
+              graphene.Mutation):
 
     @classmethod
     def mutate(cls, *arg, **kwargs):

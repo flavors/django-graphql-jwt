@@ -1,6 +1,15 @@
 from . import relay
-from .mutations import Verify, Refresh
+from .mutations import (
+    JSONWebTokenMutation, ObtainJSONWebToken,
+    Verify, Refresh
+)
 
-__all__ = ['relay', 'Verify', 'Refresh']
+__all__ = [
+    'relay',
+    'JSONWebTokenMutation',
+    'ObtainJSONWebToken',
+    'Verify',
+    'Refresh',
+]
 
 __version__ = '0.1.3'
