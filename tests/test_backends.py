@@ -41,5 +41,5 @@ class BackendsTests(GraphQLJWTTestCase):
         self.assertIsNone(user)
 
     def test_get_user(self):
-        user = JSONWebTokenBackend().get_user(self.user.username)
+        user = JSONWebTokenBackend().get_user(self.user.get_username())
         self.assertEqual(user, self.user)

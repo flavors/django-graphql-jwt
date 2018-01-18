@@ -13,16 +13,16 @@ class ObtainJSONWebTokenTestsMixin(object):
     @patch('graphql_jwt.decorators.login')
     def test_token_auth(self, *args):
         response = self.execute({
-            'username': self.user.username,
+            'username': self.user.get_username(),
             'password': 'dolphins',
         })
 
         payload = get_payload(response.data['tokenAuth']['token'])
-        self.assertEqual(self.user.username, payload['username'])
+        self.assertEqual(self.user.get_username(), payload['username'])
 
     def test_token_auth_invalid_credentials(self, *args):
         response = self.execute({
-            'username': self.user.username,
+            'username': self.user.get_username(),
             'password': 'wrong',
         })
 
@@ -37,7 +37,7 @@ class VerifyTestsMixin(object):
         })
 
         payload = response.data['verifyToken']['payload']
-        self.assertEqual(self.user.username, payload['username'])
+        self.assertEqual(self.user.get_username(), payload['username'])
 
     def test_verify_invalid_token(self):
         response = self.execute({
@@ -62,7 +62,7 @@ class RefreshTestsMixin(object):
         token = data['token']
 
         self.assertNotEqual(self.token, token)
-        self.assertEqual(self.user.username, data['payload']['username'])
+        self.assertEqual(self.user.get_username(), data['payload']['username'])
 
         payload = get_payload(token)
         self.assertEqual(self.payload['orig_iat'], payload['orig_iat'])
