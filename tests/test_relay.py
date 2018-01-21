@@ -24,7 +24,7 @@ class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
         return self.client.execute(query, input=input)
 
 
-class VerifyRelayTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
+class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         verify_token = graphql_jwt.relay.Verify.Field()
@@ -41,7 +41,7 @@ class VerifyRelayTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
         return self.client.execute(query, input=input)
 
 
-class RefreshRelayTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
+class RefreshTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         refresh_token = graphql_jwt.relay.Refresh.Field()
