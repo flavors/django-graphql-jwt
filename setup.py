@@ -22,7 +22,7 @@ setup(
     name='django-graphql-jwt',
     version=get_version('graphql_jwt'),
     license='MIT',
-    description='JSON Web Token for GraphQL',
+    description='JSON Web Token for Django GraphQL',
     long_description='\n\n'.join(get_long_description()),
     author='mongkok',
     author_email='domake.io@gmail.com',
