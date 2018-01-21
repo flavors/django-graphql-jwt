@@ -18,7 +18,11 @@ def token_auth(f):
             return payload
 
         username = kwargs.get(get_user_model().USERNAME_FIELD)
-        user = authenticate(username=username, password=password)
+
+        user = authenticate(
+            request=info.context,
+            username=username,
+            password=password)
 
         if user is None:
             raise exceptions.GraphQLJWTError(
