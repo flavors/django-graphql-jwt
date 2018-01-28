@@ -270,5 +270,5 @@ Credits to `@jpadilla`_ / `django-rest-framework-jwt`_.
 .. |Codecov| image:: https://img.shields.io/codecov/c/github/flavors/django-graphql-jwt.svg
    :target: https://codecov.io/gh/flavors/django-graphql-jwt
 
-.. |Code Climate| image:: https://api.codeclimate.com/v1/badges/7ca6c7ced3df021b7915/maintainability
+.. |Code Climate| image:: https://api.codeclimate.com/v1/badges/c79a185d546f7e34fdd6/maintainability
    :target: https://codeclimate.com/github/flavors/django-graphql-jwt
