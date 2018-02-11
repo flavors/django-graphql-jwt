@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.5
+-----
+
+Changes:
+ - Removed login() usage
+ - Renamed do_auth() to resolve()
+
 
 0.1.4
 -----
@@ -24,23 +31,23 @@ Changes:
 
 Changes:
  - Shortcuts, get_token
- - Modify Refresh output fields
- - Update README, don’t include the token as a UserType field
+ - Modified Refresh output fields
+ - Updated README, don’t include the token as a UserType field
 
 
 0.1.1
 -----
 
 Changes:
- - Fix rst paragraphs blocks
+ - Fixed rst paragraphs blocks
 
 
 0.1.0
 -----
 
 Changes:
- - Fix 'es' locale directory
- - Remove JWT_VERIFY_REFRESH_EXPIRATION
+ - Fixed 'es' locale directory
+ - Removed JWT_VERIFY_REFRESH_EXPIRATION
  - JWT_LEEWAY timedelta type
  - 100% coverage
  - A pretty README
@@ -51,7 +58,7 @@ Changes:
 -----
 
 Changes:
- - Fix auth backend missing token
+ - Fixed auth backend missing token
 
 
 0.0.1
