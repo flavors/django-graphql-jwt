@@ -26,10 +26,10 @@ class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
     @classmethod
     @token_auth
     def mutate(cls, root, info, **kwargs):
-        return cls.do_auth(info)
+        return cls.resolve(root, info)
 
 
-class ObtainJSONWebToken(mixins.DoAuthMixin, JSONWebTokenMutation):
+class ObtainJSONWebToken(mixins.ResolveMixin, JSONWebTokenMutation):
     """Obtain JSON Web Token mutation"""
 
 

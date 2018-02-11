@@ -17,8 +17,8 @@ class ObtainJSONWebTokenMixin(object):
 
     @classmethod
     def __init_subclass_with_meta__(cls, name=None, **options):
-        assert getattr(cls, 'do_auth', None), (
-            '{name}.do_auth method is required in a JSONWebTokenMutation.'
+        assert getattr(cls, 'resolve', None), (
+            '{name}.resolve method is required in a JSONWebTokenMutation.'
         ).format(name=name or cls.__name__)
 
         super().__init_subclass_with_meta__(name=name, **options)
@@ -31,10 +31,10 @@ class ObtainJSONWebTokenMixin(object):
         }
 
 
-class DoAuthMixin(object):
+class ResolveMixin(object):
 
     @classmethod
-    def do_auth(cls, info):
+    def resolve(cls, root, info):
         return cls()
 
 

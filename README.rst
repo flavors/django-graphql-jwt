@@ -132,7 +132,7 @@ Complete support for `Relay`_.
 Customizing
 -----------
 
-If you want to customize the ``ObtainJSONWebToken`` behavior, you'll need to customize the ``.do_auth()`` method on a subclass of ``JSONWebTokenMutation`` or ``.relay.JSONWebTokenMutation``.
+If you want to customize the ``ObtainJSONWebToken`` behavior, you'll need to customize the ``.resolve()`` method on a subclass of ``JSONWebTokenMutation`` or ``.relay.JSONWebTokenMutation``.
 
 .. code:: python
 
@@ -144,7 +144,7 @@ If you want to customize the ``ObtainJSONWebToken`` behavior, you'll need to cus
         user = graphene.Field(UserType)
 
         @classmethod
-        def do_auth(cls, info):
+        def resolve(cls, root, info):
             return cls(user=info.context.user)
 
 Authenticate the user and obtain the *token* and the *user id*.
