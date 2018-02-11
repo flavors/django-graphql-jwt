@@ -10,7 +10,6 @@ from .decorators import override_settings
 
 class ObtainJSONWebTokenTestsMixin(object):
 
-    @patch('graphql_jwt.decorators.login')
     def test_token_auth(self, *args):
         response = self.execute({
             'username': self.user.get_username(),

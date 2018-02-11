@@ -1,6 +1,6 @@
 from functools import wraps
 
-from django.contrib.auth import authenticate, get_user_model, login
+from django.contrib.auth import authenticate, get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 from promise import Promise, is_thenable
@@ -28,7 +28,9 @@ def token_auth(f):
             raise exceptions.GraphQLJWTError(
                 _('Please, enter valid credentials'))
 
-        login(info.context, user)
+        if hasattr(info.context, 'user'):
+            info.context.user = user
+
         result = f(cls, root, info, **kwargs)
         values = (user, result)
 
