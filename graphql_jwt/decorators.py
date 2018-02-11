@@ -12,8 +12,8 @@ from .shortcuts import get_token
 def token_auth(f):
     @wraps(f)
     def wrapper(cls, root, info, password, **kwargs):
-        def on_resolve(value):
-            user, payload = value
+        def on_resolve(values):
+            user, payload = values
             payload.token = get_token(user)
             return payload
 
@@ -30,10 +30,10 @@ def token_auth(f):
 
         login(info.context, user)
         result = f(cls, root, info, **kwargs)
-        value = (user, result)
+        values = (user, result)
 
         # Improved mutation with thenable check
         if is_thenable(result):
-            return Promise.resolve(value).then(on_resolve)
-        return on_resolve(value)
+            return Promise.resolve(values).then(on_resolve)
+        return on_resolve(values)
     return wrapper
