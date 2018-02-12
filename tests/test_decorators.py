@@ -9,7 +9,7 @@ from .testcases import UserTestCase
 
 class DecoratorsTests(UserTestCase):
 
-    def test_token_auth(self, *args):
+    def test_token_auth(self):
 
         @decorators.token_auth
         def wrapped(self, root, info, **kwargs):
@@ -17,8 +17,9 @@ class DecoratorsTests(UserTestCase):
 
         mock = MagicMock()
 
-        result = wrapped(self, mock, mock,
-                         password='dolphins',
-                         username=self.user.get_username())
+        result = wrapped(
+            self, mock, mock,
+            password='dolphins',
+            username=self.user.get_username())
 
         self.assertTrue(is_thenable(result))
