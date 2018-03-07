@@ -95,9 +95,7 @@ The mutation uses your User's model `USERNAME_FIELD`_, which by default is ``use
 
 - ``refreshToken`` to obtain a brand new *token* with renewed expiration time for **non-expired tokens**.
 
-`[wiki]`_ Configure your *refresh token* scenario and set the flag ``JWT_VERIFY_EXPIRATION=true``.
-
-.. _[wiki]: https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration
+`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration>`_ Configure your *refresh token* scenario and set the flag ``JWT_VERIFY_EXPIRATION=true``.
 
 
 .. code:: graphql
@@ -108,6 +106,43 @@ The mutation uses your User's model `USERNAME_FIELD`_, which by default is ``use
         payload
       }
     }
+
+
+Authentication in GraphQL queries
+---------------------------------
+
+Now in order to access protected API you must include the ``Authorization: JWT <token>`` header.
+
+Django-graphql-jwt uses middleware to hook the authenticated user into request object. The simple, raw way to limit access to data is to check ``info.context.user.is_authenticated``:
+
+.. code:: python
+
+    import graphene
+
+
+    class Query(graphene.ObjectType):
+        viewer = graphene.Field(UserType)
+
+        def resolve_viewer(self, info, **kwargs):
+            user = info.context.user
+            if not user.is_authenticated:
+                raise Exception('Authentication credentials were not provided')
+            return user
+
+
+`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Auth-Decorators>`_ As a shortcut, you can use a ``login_required()`` decorator for your queries and mutations:
+
+.. code:: python
+
+    import graphene
+
+
+    class Query(graphene.ObjectType):
+        viewer = graphene.Field(UserType)
+
+        @login_required
+        def resolve_viewer(self, info, **kwargs):
+            return info.context.user
 
 
 Relay
