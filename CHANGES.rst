@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.7
+-----
+
+Changes:
+ - Added anonymous-hyperlink
+
+
 0.1.6
 -----
 
@@ -8,7 +15,7 @@ Changes:
  - Added Python 2.7 support
 
 
- 0.1.5
+0.1.5
 -----
 
 Changes:
