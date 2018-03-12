@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
-from unittest.mock import patch
 
 from graphql_jwt import settings
 from graphql_jwt.shortcuts import get_token
 from graphql_jwt.utils import get_payload
 
+from .compat import mock
 from .decorators import override_settings
 
 
@@ -49,7 +49,7 @@ class VerifyTestsMixin(object):
 class RefreshTestsMixin(object):
 
     def test_refresh(self):
-        with patch('graphql_jwt.utils.datetime') as datetime_mock:
+        with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:
             datetime_mock.utcnow.return_value =\
                 datetime.utcnow() + timedelta(seconds=1)
 
@@ -67,7 +67,7 @@ class RefreshTestsMixin(object):
         self.assertEqual(self.payload['orig_iat'], payload['orig_iat'])
 
     def test_refresh_expired(self):
-        with patch('graphql_jwt.mixins.datetime') as datetime_mock:
+        with mock.patch('graphql_jwt.mixins.datetime') as datetime_mock:
             datetime_mock.utcnow.return_value = datetime.utcnow() +\
                 settings.JWT_REFRESH_EXPIRATION_DELTA +\
                 timedelta(seconds=1)
