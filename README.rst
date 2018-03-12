@@ -94,7 +94,7 @@ The mutation uses your User's model `USERNAME_FIELD`_, which by default is ``use
 
 - ``refreshToken`` to obtain a brand new *token* with renewed expiration time for **non-expired tokens**.
 
-`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration>`_ Configure your *refresh token* scenario and set the flag ``JWT_VERIFY_EXPIRATION=true``.
+`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration>`__ Configure your *refresh token* scenario and set the flag ``JWT_VERIFY_EXPIRATION=true``.
 
 
 .. code:: graphql
@@ -129,7 +129,7 @@ Django-graphql-jwt uses middleware to hook the authenticated user into request o
             return user
 
 
-`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Auth-decorators>`_ As a shortcut, you can use a ``login_required()`` decorator for your queries and mutations:
+`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Auth-decorators>`__ As a shortcut, you can use a ``login_required()`` decorator for your queries and mutations:
 
 .. code:: python
 
