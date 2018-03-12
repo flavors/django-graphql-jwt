@@ -1,20 +1,20 @@
 import json
-from unittest.mock import MagicMock, patch
 
 from django.http import JsonResponse
 
 from graphql_jwt import settings as graphql_jwt_settings
 from graphql_jwt.middleware import JSONWebTokenMiddleware
 
+from .compat import mock
 from .testcases import GraphQLJWTTestCase
 
 
 class MiddlewareTests(GraphQLJWTTestCase):
 
     def setUp(self):
-        super().setUp()
+        super(MiddlewareTests, self).setUp()
 
-        self.get_response_mock = MagicMock(return_value=JsonResponse({}))
+        self.get_response_mock = mock.MagicMock(return_value=JsonResponse({}))
         self.middleware = JSONWebTokenMiddleware(self.get_response_mock)
 
     def test_authenticate(self):
@@ -29,7 +29,7 @@ class MiddlewareTests(GraphQLJWTTestCase):
 
         self.get_response_mock.assert_called_once_with(request)
 
-    @patch('graphql_jwt.middleware.authenticate', return_value=None)
+    @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_user_not_authenticate(self, *args):
         headers = {
             'HTTP_AUTHORIZATION': '{0} {1}'.format(

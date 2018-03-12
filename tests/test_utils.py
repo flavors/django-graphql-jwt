@@ -1,5 +1,4 @@
 from datetime import timedelta
-from unittest.mock import Mock, PropertyMock, patch
 
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory
@@ -7,6 +6,7 @@ from django.test import RequestFactory
 from graphql_jwt import utils
 from graphql_jwt.exceptions import GraphQLJWTError
 
+from .compat import mock
 from .decorators import override_settings
 from .testcases import UserTestCase
 
@@ -17,8 +17,8 @@ class UtilsTests(UserTestCase):
         self.user = get_user_model().objects.create_user(username='test')
         self.factory = RequestFactory()
 
-    @patch('django.contrib.auth.models.User.get_username',
-           return_value=Mock(pk='test'))
+    @mock.patch('django.contrib.auth.models.User.get_username',
+                return_value=mock.Mock(pk='test'))
     def test_payload_foreign_key_pk(self, *args):
         payload = utils.jwt_payload(self.user)
         username_field = get_user_model().USERNAME_FIELD
@@ -74,9 +74,9 @@ class UtilsTests(UserTestCase):
         with self.assertRaises(GraphQLJWTError):
             utils.get_user_by_payload({})
 
-    @patch('django.contrib.auth.models.User.is_active',
-           new_callable=PropertyMock,
-           return_value=False)
+    @mock.patch('django.contrib.auth.models.User.is_active',
+                new_callable=mock.PropertyMock,
+                return_value=False)
     def test_user_disabled_by_payload(self, *args):
         payload = utils.jwt_payload(self.user)
 

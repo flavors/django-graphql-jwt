@@ -21,7 +21,8 @@ class ObtainJSONWebTokenMixin(object):
             '{name}.resolve method is required in a JSONWebTokenMutation.'
         ).format(name=name or cls.__name__)
 
-        super().__init_subclass_with_meta__(name=name, **options)
+        super(ObtainJSONWebTokenMixin, cls)\
+            .__init_subclass_with_meta__(name=name, **options)
 
     @classmethod
     def auth_fields(cls):

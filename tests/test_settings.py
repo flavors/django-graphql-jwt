@@ -1,14 +1,15 @@
 from datetime import timedelta
-from unittest.mock import patch
 
 from django.test import TestCase
 
 from graphql_jwt import settings
 
+from .compat import mock
+
 
 class SettingsTests(TestCase):
 
-    @patch.dict('os.environ', {
+    @mock.patch.dict('os.environ', {
         'TEST_TIMEDELTA': 'hours=1,days=1',
     })
     def test_env_timedelta_cast(self):
