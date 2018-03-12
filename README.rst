@@ -13,7 +13,6 @@ Django GraphQL JWT
 Dependencies
 ------------
 
-* Python ≥ 3.4
 * Django ≥ 1.11
 
 
@@ -130,7 +129,7 @@ Django-graphql-jwt uses middleware to hook the authenticated user into request o
             return user
 
 
-`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Auth-Decorators>`_ As a shortcut, you can use a ``login_required()`` decorator for your queries and mutations:
+`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Auth-decorators>`_ As a shortcut, you can use a ``login_required()`` decorator for your queries and mutations:
 
 .. code:: python
 
