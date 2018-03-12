@@ -16,7 +16,7 @@ class GraphQLRequestFactory(RequestFactory):
 class GraphQLClient(GraphQLRequestFactory, Client):
 
     def __init__(self, **defaults):
-        super().__init__(**defaults)
+        super(GraphQLClient, self).__init__(**defaults)
         self._schema = None
 
     def schema(self, **kwargs):
@@ -34,7 +34,7 @@ class UserTestCase(testcases.TestCase):
 class GraphQLJWTTestCase(UserTestCase):
 
     def setUp(self):
-        super().setUp()
+        super(GraphQLJWTTestCase, self).setUp()
 
         self.payload = jwt_payload(self.user)
         self.token = jwt_encode(self.payload)
@@ -50,6 +50,5 @@ class GraphQLSchemaTestCase(GraphQLJWTTestCase):
     client_class = GraphQLClient
 
     def setUp(self):
-        super().setUp()
-
+        super(GraphQLSchemaTestCase, self).setUp()
         self.client.schema(query=self.Query, mutation=self.Mutations)

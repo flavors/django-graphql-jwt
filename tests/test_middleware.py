@@ -12,7 +12,7 @@ from .testcases import GraphQLJWTTestCase
 class MiddlewareTests(GraphQLJWTTestCase):
 
     def setUp(self):
-        super().setUp()
+        super(MiddlewareTests, self).setUp()
 
         self.get_response_mock = MagicMock(return_value=JsonResponse({}))
         self.middleware = JSONWebTokenMiddleware(self.get_response_mock)
