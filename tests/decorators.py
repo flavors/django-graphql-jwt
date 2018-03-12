@@ -1,17 +1,20 @@
-import contextlib
+from django.test.utils import TestContextDecorator
 
 from graphql_jwt import settings
 
 
-@contextlib.contextmanager
-def override_settings(**override):
-    restore = {}
+class override_settings(TestContextDecorator):
 
-    try:
-        for var, value in override.items():
-            restore[var] = getattr(settings, var)
-            setattr(settings, var, value)
-        yield
-    finally:
-        for var, value in restore.items():
-            setattr(settings, var, value)
+    def __init__(self, **kwargs):
+        self.options = kwargs
+        self.overridden_settings = {}
+        super(override_settings, self).__init__()
+
+    def enable(self):
+        for key, new_value in self.options.items():
+            self.overridden_settings[key] = getattr(settings, key)
+            setattr(settings, key, new_value)
+
+    def disable(self):
+        for key in self.options:
+            setattr(settings, key, self.overridden_settings[key])
