@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.8
+-----
+
+Changes:
+ - Added old style middleware support
+
+
 0.1.7
 -----
 
