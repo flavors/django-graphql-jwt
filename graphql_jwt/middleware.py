@@ -1,17 +1,15 @@
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.utils.cache import patch_vary_headers
+from django.utils.deprecation import MiddlewareMixin
 
 from .exceptions import GraphQLJWTError
 from .utils import get_authorization_header
 
 
-class JSONWebTokenMiddleware(object):
+class JSONWebTokenMiddleware(MiddlewareMixin):
 
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
+    def process_request(self, request):
         if get_authorization_header(request) is not None:
             if not hasattr(request, 'user') or request.user.is_anonymous:
                 try:
@@ -24,6 +22,6 @@ class JSONWebTokenMiddleware(object):
                 if user is not None:
                     request.user = request._cached_user = user
 
-        response = self.get_response(request)
+    def process_response(self, request, response):
         patch_vary_headers(response, ('Authorization',))
         return response
