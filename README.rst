@@ -112,7 +112,7 @@ Authentication in GraphQL queries
 
 Now in order to access protected API you must include the ``Authorization: JWT <token>`` header.
 
-Django-graphql-jwt uses middleware to hook the authenticated user into request object. The simple, raw way to limit access to data is to check ``info.context.user.is_authenticated``:
+*Django-graphql-jwt* uses middleware to hook the authenticated user into request object. The simple, raw way to limit access to data is to check ``info.context.user.is_authenticated``:
 
 .. code:: python
 
@@ -129,11 +129,12 @@ Django-graphql-jwt uses middleware to hook the authenticated user into request o
             return user
 
 
-`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Auth-decorators>`__ As a shortcut, you can use a ``login_required()`` decorator for your queries and mutations:
+As a shortcut, you can use the ``login_required()`` decorator for your *resolvers* and *mutations*:
 
 .. code:: python
 
     import graphene
+    from graphql_jwt.decorators import login_required
 
 
     class Query(graphene.ObjectType):
@@ -166,7 +167,7 @@ Complete support for `Relay`_.
 Customizing
 -----------
 
-If you want to customize the ``ObtainJSONWebToken`` behavior, you'll need to customize the ``.resolve()`` method on a subclass of ``JSONWebTokenMutation`` or ``.relay.JSONWebTokenMutation``.
+If you want to customize the ``ObtainJSONWebToken`` behavior, you'll need to customize the ``resolve()`` method on a subclass of ``JSONWebTokenMutation`` or ``.relay.JSONWebTokenMutation``.
 
 .. code:: python
 
