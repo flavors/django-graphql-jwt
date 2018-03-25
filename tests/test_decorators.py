@@ -14,6 +14,24 @@ def info_mock(user):
 
 class DecoratorsTests(UserTestCase):
 
+    def test_user_passes_test(self):
+
+        @decorators.user_passes_test(lambda u: u.pk == self.user.pk)
+        def wrapped(info):
+            """Decorated function"""
+
+        result = wrapped(info_mock(self.user))
+        self.assertIsNone(result)
+
+    def test_user_passes_test_permission_denied(self):
+
+        @decorators.user_passes_test(lambda u: u.pk == self.user.pk + 1)
+        def wrapped(info):
+            """Decorated function"""
+
+        with self.assertRaises(exceptions.PermissionDenied):
+            wrapped(info_mock(self.user))
+
     def test_login_required(self):
 
         @decorators.login_required
