@@ -28,7 +28,6 @@ def context(f):
 
 
 def user_passes_test(test_func):
-
     def decorator(f):
         @wraps(f)
         @context(f)
