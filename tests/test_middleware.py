@@ -14,7 +14,7 @@ class MiddlewareTests(GraphQLJWTTestCase):
     def setUp(self):
         super(MiddlewareTests, self).setUp()
 
-        self.get_response_mock = mock.MagicMock(return_value=JsonResponse({}))
+        self.get_response_mock = mock.Mock(return_value=JsonResponse({}))
         self.middleware = JSONWebTokenMiddleware(self.get_response_mock)
 
     def test_authenticate(self):

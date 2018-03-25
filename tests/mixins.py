@@ -10,7 +10,7 @@ from .decorators import override_settings
 
 class ObtainJSONWebTokenTestsMixin(object):
 
-    def test_token_auth(self, *args):
+    def test_token_auth(self):
         response = self.execute({
             'username': self.user.get_username(),
             'password': 'dolphins',
@@ -19,7 +19,7 @@ class ObtainJSONWebTokenTestsMixin(object):
         payload = get_payload(response.data['tokenAuth']['token'])
         self.assertEqual(self.user.get_username(), payload['username'])
 
-    def test_token_auth_invalid_credentials(self, *args):
+    def test_token_auth_invalid_credentials(self):
         response = self.execute({
             'username': self.user.get_username(),
             'password': 'wrong',
@@ -79,7 +79,7 @@ class RefreshTestsMixin(object):
         self.assertTrue(response.errors)
 
     @override_settings(JWT_ALLOW_REFRESH=False)
-    def test_refresh_error(self, *args):
+    def test_refresh_error(self):
         token = get_token(self.user)
         response = self.execute({
             'token': token,
