@@ -94,8 +94,9 @@ The mutation uses your User's model `USERNAME_FIELD`_, which by default is ``use
 
 - ``refreshToken`` to obtain a brand new *token* with renewed expiration time for **non-expired tokens**.
 
-`[wiki] <https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration>`__ Configure your *refresh token* scenario and set the flag ``JWT_VERIFY_EXPIRATION=true``.
+`Configure your refresh token scenario`_ and set the flag ``JWT_VERIFY_EXPIRATION=true``.
 
+.. _Configure your refresh token scenario: https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration
 
 .. code:: graphql
 
@@ -130,6 +131,10 @@ Now in order to access protected API you must include the ``Authorization: JWT <
 
 
 As a shortcut, you can use the ``login_required()`` decorator for your *resolvers* and *mutations*:
+
+See the `documentation`_ to know the full list of decorators.
+
+.. _documentation: https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration
 
 .. code:: python
 
