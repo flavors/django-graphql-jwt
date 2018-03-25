@@ -134,7 +134,7 @@ As a shortcut, you can use the ``login_required()`` decorator for your *resolver
 
 See the `documentation`_ to know the full list of decorators.
 
-.. _documentation: https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration
+.. _documentation: https://github.com/flavors/django-graphql-jwt/wiki/Auth-decorators
 
 .. code:: python
 
@@ -300,7 +300,7 @@ Credits and thanks.
 .. _@jpadilla: https://github.com/jpadilla
 .. _django-rest-framework-jwt: https://github.com/GetBlimp/django-rest-framework-jwt
 .. _@jonatasbaldin: https://github.com/jonatasbaldin
-.. _howtographql: https://github.com/jonatasbaldin/howtographql
+.. _howtographql: https://github.com/howtographql/graphql-python
 
 
 .. |Pypi| image:: https://img.shields.io/pypi/v/django-graphql-jwt.svg
