@@ -292,10 +292,15 @@ JWT_AUTH_HEADER_PREFIX
 
 ----
 
-Credits to `@jpadilla`_ / `django-rest-framework-jwt`_.
+Credits and thanks.
+
+* `@jpadilla`_ / `django-rest-framework-jwt`_
+* `@jonatasbaldin`_ / `howtographql`_
 
 .. _@jpadilla: https://github.com/jpadilla
 .. _django-rest-framework-jwt: https://github.com/GetBlimp/django-rest-framework-jwt
+.. _@jonatasbaldin: https://github.com/jonatasbaldin
+.. _howtographql: https://github.com/jonatasbaldin/howtographql
 
 
 .. |Pypi| image:: https://img.shields.io/pypi/v/django-graphql-jwt.svg
