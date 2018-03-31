@@ -50,7 +50,7 @@ class RefreshMixin(object):
 
     @classmethod
     def refresh(cls, root, info, token, **kwargs):
-        payload = get_payload(token)
+        payload = get_payload(token, info.context)
         user = get_user_by_payload(payload)
         orig_iat = payload.get('orig_iat')
 

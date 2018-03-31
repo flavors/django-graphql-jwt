@@ -10,7 +10,7 @@ from .exceptions import GraphQLJWTError
 from .settings import jwt_settings
 
 
-def jwt_payload(user):
+def jwt_payload(user, context=None):
     username = user.get_username()
 
     if hasattr(username, 'pk'):
@@ -33,7 +33,7 @@ def jwt_payload(user):
     return payload
 
 
-def jwt_encode(payload):
+def jwt_encode(payload, context=None):
     return jwt.encode(
         payload,
         jwt_settings.JWT_SECRET_KEY,
@@ -41,7 +41,7 @@ def jwt_encode(payload):
     ).decode('utf-8')
 
 
-def jwt_decode(token):
+def jwt_decode(token, context=None):
     return jwt.decode(
         token,
         jwt_settings.JWT_SECRET_KEY,
@@ -64,9 +64,9 @@ def get_authorization_header(request):
     return auth[1]
 
 
-def get_payload(token):
+def get_payload(token, context=None):
     try:
-        payload = jwt_settings.JWT_DECODE_HANDLER(token)
+        payload = jwt_settings.JWT_DECODE_HANDLER(token, context)
     except jwt.ExpiredSignature:
         raise GraphQLJWTError(_('Signature has expired'))
     except jwt.DecodeError:
