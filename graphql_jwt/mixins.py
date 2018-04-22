@@ -7,7 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 import graphene
 from graphene.types.generic import GenericScalar
 
-from . import exceptions, settings
+from . import exceptions
+from .settings import jwt_settings
 from .shortcuts import get_token
 from .utils import get_payload, get_user_by_payload
 
@@ -49,14 +50,14 @@ class RefreshMixin(object):
 
     @classmethod
     def refresh(cls, root, info, token, **kwargs):
-        payload = get_payload(token)
+        payload = get_payload(token, info.context)
         user = get_user_by_payload(payload)
         orig_iat = payload.get('orig_iat')
 
         if orig_iat:
             utcnow = timegm(datetime.utcnow().utctimetuple())
             expiration = orig_iat +\
-                settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+                jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
 
             if utcnow > expiration:
                 raise exceptions.GraphQLJWTError(_('Refresh has expired'))

@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 
-from graphql_jwt import settings
+from graphql_jwt.settings import jwt_settings
 from graphql_jwt.shortcuts import get_token
 from graphql_jwt.utils import get_payload
 
 from .compat import mock
-from .decorators import override_settings
+from .decorators import override_jwt_settings
 
 
 class ObtainJSONWebTokenTestsMixin(object):
@@ -69,7 +69,7 @@ class RefreshTestsMixin(object):
     def test_refresh_expired(self):
         with mock.patch('graphql_jwt.mixins.datetime') as datetime_mock:
             datetime_mock.utcnow.return_value = datetime.utcnow() +\
-                settings.JWT_REFRESH_EXPIRATION_DELTA +\
+                jwt_settings.JWT_REFRESH_EXPIRATION_DELTA +\
                 timedelta(seconds=1)
 
             response = self.execute({
@@ -78,7 +78,7 @@ class RefreshTestsMixin(object):
 
         self.assertTrue(response.errors)
 
-    @override_settings(JWT_ALLOW_REFRESH=False)
+    @override_jwt_settings(JWT_ALLOW_REFRESH=False)
     def test_refresh_error(self):
         token = get_token(self.user)
         response = self.execute({

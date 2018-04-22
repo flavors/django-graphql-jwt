@@ -1,6 +1,6 @@
-from graphql_jwt import settings as graphql_jwt_settings
 from graphql_jwt.backends import JSONWebTokenBackend
 from graphql_jwt.exceptions import GraphQLJWTError
+from graphql_jwt.settings import jwt_settings
 
 from .testcases import GraphQLJWTTestCase
 
@@ -10,7 +10,7 @@ class BackendsTests(GraphQLJWTTestCase):
     def test_authenticate(self):
         headers = {
             'HTTP_AUTHORIZATION': '{0} {1}'.format(
-                graphql_jwt_settings.JWT_AUTH_HEADER_PREFIX,
+                jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
 
@@ -22,7 +22,7 @@ class BackendsTests(GraphQLJWTTestCase):
     def test_authenticate_fail(self):
         headers = {
             'HTTP_AUTHORIZATION': '{} invalid'.format(
-                graphql_jwt_settings.JWT_AUTH_HEADER_PREFIX),
+                jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
         request = self.factory.get('/', **headers)

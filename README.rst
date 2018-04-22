@@ -201,15 +201,33 @@ Authenticate the user and obtain the *token* and the *user id*.
     }
 
 
-Environment variables
----------------------
+Settings
+--------
+
+*Django-graphql-jwt* reads your configuration from **environment variables**
+
+.. code:: sh
+
+    $ JWT_EXPIRATION_DELTA=minutes=10
+
+
+and a single **Django setting** named ``GRAPHQL_JWT``
+
+.. code:: python
+
+    GRAPHQL_JWT = {
+        'JWT_EXPIRATION_DELTA': timedelta(minutes=10),
+    }
+
+
+Here's a **list of settings** available in *Django-graphql-jwt* and their default values.
 
 `JWT_ALGORITHM`_
 
 ::
 
     Algorithm for cryptographic signing
-    Default: HS256 
+    Default: 'HS256'
 
 `JWT_AUDIENCE`_
 
@@ -230,7 +248,7 @@ Environment variables
 ::
 
     Validate an expiration time which is in the past but not very far
-    Default: seconds=0
+    Default: timedelta(seconds=0)
 
 `JWT_SECRET_KEY`_
 
@@ -258,7 +276,7 @@ JWT_EXPIRATION_DELTA
 ::
 
     Timedelta added to utcnow() to set the expiration time
-    Default: minutes=5
+    Default: timedelta(minutes=5)
 
 JWT_ALLOW_REFRESH
 
@@ -272,14 +290,35 @@ JWT_REFRESH_EXPIRATION_DELTA
 ::
 
     Limit on token refresh
-    Default: days=7
+    Default: timedelta(days=7)
 
 JWT_AUTH_HEADER_PREFIX
 
 ::
 
     Authorization prefix
-    Default: JWT
+    Default: 'JWT'
+
+JWT_PAYLOAD_HANDLER
+
+::
+
+    A custom function `f(user, context)` to generate the token payload
+    Default: 'graphql_jwt.utils.jwt_payload'
+
+JWT_ENCODE_HANDLER
+
+::
+
+    A custom function `f(payload, context)` to encode the token
+    Default: 'graphql_jwt.utils.jwt_encode'
+
+JWT_DECODE_HANDLER
+
+::
+
+    A custom function `f(token, context)` to decode the token
+    Default: 'graphql_jwt.utils.jwt_decode'
 
 
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html

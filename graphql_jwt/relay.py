@@ -45,7 +45,7 @@ class Verify(JSONWebTokenMixin,
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, token, **kwargs):
-        return cls(payload=get_payload(token))
+        return cls(payload=get_payload(token, info.context))
 
 
 class Refresh(JSONWebTokenMixin,

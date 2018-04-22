@@ -6,11 +6,11 @@ from django.utils.translation import ugettext as _
 
 import jwt
 
-from . import settings
 from .exceptions import GraphQLJWTError
+from .settings import jwt_settings
 
 
-def jwt_payload(user):
+def jwt_payload(user, context=None):
     username = user.get_username()
 
     if hasattr(username, 'pk'):
@@ -18,55 +18,55 @@ def jwt_payload(user):
 
     payload = {
         user.USERNAME_FIELD: username,
-        'exp': datetime.utcnow() + settings.JWT_EXPIRATION_DELTA,
+        'exp': datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA,
     }
 
-    if settings.JWT_ALLOW_REFRESH:
+    if jwt_settings.JWT_ALLOW_REFRESH:
         payload['orig_iat'] = timegm(datetime.utcnow().utctimetuple())
 
-    if settings.JWT_AUDIENCE is not None:
-        payload['aud'] = settings.JWT_AUDIENCE
+    if jwt_settings.JWT_AUDIENCE is not None:
+        payload['aud'] = jwt_settings.JWT_AUDIENCE
 
-    if settings.JWT_ISSUER is not None:
-        payload['iss'] = settings.JWT_ISSUER
+    if jwt_settings.JWT_ISSUER is not None:
+        payload['iss'] = jwt_settings.JWT_ISSUER
 
     return payload
 
 
-def jwt_encode(payload):
+def jwt_encode(payload, context=None):
     return jwt.encode(
         payload,
-        settings.JWT_SECRET_KEY,
-        settings.JWT_ALGORITHM,
+        jwt_settings.JWT_SECRET_KEY,
+        jwt_settings.JWT_ALGORITHM,
     ).decode('utf-8')
 
 
-def jwt_decode(token):
+def jwt_decode(token, context=None):
     return jwt.decode(
         token,
-        settings.JWT_SECRET_KEY,
-        settings.JWT_VERIFY,
+        jwt_settings.JWT_SECRET_KEY,
+        jwt_settings.JWT_VERIFY,
         options={
-            'verify_exp': settings.JWT_VERIFY_EXPIRATION,
+            'verify_exp': jwt_settings.JWT_VERIFY_EXPIRATION,
         },
-        leeway=settings.JWT_LEEWAY,
-        audience=settings.JWT_AUDIENCE,
-        issuer=settings.JWT_ISSUER,
-        algorithms=[settings.JWT_ALGORITHM])
+        leeway=jwt_settings.JWT_LEEWAY,
+        audience=jwt_settings.JWT_AUDIENCE,
+        issuer=jwt_settings.JWT_ISSUER,
+        algorithms=[jwt_settings.JWT_ALGORITHM])
 
 
 def get_authorization_header(request):
     auth = request.META.get('HTTP_AUTHORIZATION', '').split()
-    prefix = settings.JWT_AUTH_HEADER_PREFIX
+    prefix = jwt_settings.JWT_AUTH_HEADER_PREFIX
 
     if len(auth) != 2 or auth[0].lower() != prefix.lower():
         return None
     return auth[1]
 
 
-def get_payload(token):
+def get_payload(token, context=None):
     try:
-        payload = jwt_decode(token)
+        payload = jwt_settings.JWT_DECODE_HANDLER(token, context)
     except jwt.ExpiredSignature:
         raise GraphQLJWTError(_('Signature has expired'))
     except jwt.DecodeError:
