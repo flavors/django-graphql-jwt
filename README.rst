@@ -132,9 +132,7 @@ Now in order to access protected API you must include the ``Authorization: JWT <
 
 As a shortcut, you can use the ``login_required()`` decorator for your *resolvers* and *mutations*:
 
-See the `documentation`_ to know the full list of decorators.
-
-.. _documentation: https://github.com/flavors/django-graphql-jwt/wiki/Auth-decorators
+See the `documentation <https://github.com/flavors/django-graphql-jwt/wiki/Auth-decorators>`__ for the full list of decorators.
 
 .. code:: python
 
@@ -167,6 +165,9 @@ Complete support for `Relay`_.
         token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
         verify_token = graphql_jwt.relay.Verify.Field()
         refresh_token = graphql_jwt.relay.Refresh.Field()
+
+
+Relay mutations only accepts one argument named *input*, read the `documentation <https://github.com/flavors/django-graphql-jwt/wiki/Relay-queries>`__ for more info.
 
 
 Customizing
