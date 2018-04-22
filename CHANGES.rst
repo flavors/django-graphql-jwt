@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.10
+------
+
+* Added JWTSettings
+* Added jwt-handlers to settings
+* Added context argument to jwt-handlers
+
 0.1.9
 -----
 
