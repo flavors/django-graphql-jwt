@@ -293,6 +293,13 @@ JWT_REFRESH_EXPIRATION_DELTA
     Limit on token refresh
     Default: timedelta(days=7)
 
+JWT_AUTH_HEADER
+
+::
+
+    Authorization header name
+    Default: 'HTTP_AUTHORIZATION'
+
 JWT_AUTH_HEADER_PREFIX
 
 ::
