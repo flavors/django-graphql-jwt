@@ -45,6 +45,17 @@ class UtilsTests(UserTestCase):
 
         self.assertIsNone(header)
 
+    @override_jwt_settings(JWT_AUTH_HEADER='HTTP_AUTHORIZATION_TOKEN')
+    def test_custom_authorization_header(self):
+        headers = {
+            'HTTP_AUTHORIZATION_TOKEN': 'JWT token',
+        }
+
+        request = self.factory.get('/', **headers)
+        header = utils.get_authorization_header(request)
+
+        self.assertEqual(header, 'token')
+
     @override_jwt_settings(
         JWT_VERIFY_EXPIRATION=True,
         JWT_EXPIRATION_DELTA=timedelta(seconds=-1))

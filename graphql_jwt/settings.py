@@ -24,6 +24,7 @@ env = Env()
 DEFAULTS = {
     'JWT_ALGORITHM': env('JWT_ALGORITHM', default='HS256'),
     'JWT_AUDIENCE': env('JWT_AUDIENCE', default=None),
+    'JWT_AUTH_HEADER': env('JWT_AUTH_HEADER', default='HTTP_AUTHORIZATION'),
     'JWT_AUTH_HEADER_PREFIX': env('JWT_AUTH_HEADER_PREFIX', default='JWT'),
     'JWT_ISSUER': env('JWT_ISSUER', default=None),
     'JWT_LEEWAY': env.timedelta('JWT_LEEWAY', 0),
