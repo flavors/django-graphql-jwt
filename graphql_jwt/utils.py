@@ -56,7 +56,7 @@ def jwt_decode(token, context=None):
 
 
 def get_authorization_header(request):
-    auth = request.META.get('HTTP_AUTHORIZATION', '').split()
+    auth = request.META.get(jwt_settings.JWT_AUTH_HEADER, '').split()
     prefix = jwt_settings.JWT_AUTH_HEADER_PREFIX
 
     if len(auth) != 2 or auth[0].lower() != prefix.lower():
