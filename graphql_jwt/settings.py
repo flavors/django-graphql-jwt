@@ -2,6 +2,7 @@ from datetime import timedelta
 from importlib import import_module
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.test.signals import setting_changed
 from django.utils import six
 
@@ -53,6 +54,10 @@ DEFAULTS = {
     'JWT_PAYLOAD_HANDLER': env(
         'JWT_PAYLOAD_HANDLER',
         default='graphql_jwt.utils.jwt_payload'),
+    'JWT_USERNAME_CLAIM': env(
+        'JWT_USERNAME_CLAIM',
+        default=get_user_model().USERNAME_FIELD,
+    ),
 }
 
 IMPORT_STRINGS = (
