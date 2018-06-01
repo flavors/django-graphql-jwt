@@ -220,7 +220,7 @@ and a single **Django setting** named ``GRAPHQL_JWT``
         'JWT_EXPIRATION_DELTA': timedelta(minutes=10),
     }
 
-to enable token expiration and set the timeout to 1 hour with settings
+to enable token expiration and set the timeout to 1 hour using the settings file
 
 .. code:: python
 
