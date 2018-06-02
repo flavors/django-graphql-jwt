@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from io import open
 import os
 import re
 
@@ -8,7 +9,7 @@ from setuptools import find_packages, setup
 
 def get_long_description():
     for filename in ('README.rst',):
-        with open(filename, 'r') as f:
+        with open(filename, 'r', encoding='utf-8') as f:
             yield f.read()
 
 
