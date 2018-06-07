@@ -205,7 +205,7 @@ Authenticate the user and obtain the *token* and the *user id*.
 Settings
 --------
 
-*Django-graphql-jwt* reads your configuration from **environment variables**
+*Django-graphql-jwt* reads your configuration from your settings file, then from **environment variables**, falling back on the defaults in the package for any undefined variables
 
 .. code:: sh
 
@@ -220,6 +220,39 @@ and a single **Django setting** named ``GRAPHQL_JWT``
         'JWT_EXPIRATION_DELTA': timedelta(minutes=10),
     }
 
+to enable token expiration and set the timeout to 1 hour using the settings file
+
+.. code:: python
+
+    GRAPHQL_JWT = {
+        'JWT_EXPIRATION_DELTA': timedelta(minutes=60),
+        'JWT_VERIFY_EXPIRATION': True,
+        'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+    }
+
+to enable token expiration and set the timeout to 1 minute in the environment variables (helpful for testing the expiration process)
+
+.. code:: sh
+
+    export JWT_EXPIRATION_DELTA=minutes=1
+    export JWT_VERIFY_EXPIRATION=true
+    export JWT_REFRESH_EXPIRATION_DELTA=days=7
+
+To check if settings variable is set
+
+.. code:: python
+
+    from graphql_jwt.settings import jwt_settings
+
+    jwt_settings.JWT_VERIFY_EXPIRATION
+
+To check to see if the token is expired
+
+.. code:: python
+
+    from graphql_jwt.shortcuts import get_token, get_user_by_token
+
+    token = get_token(user)
 
 Here's a **list of settings** available in *Django-graphql-jwt* and their default values.
 
