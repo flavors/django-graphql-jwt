@@ -6,11 +6,16 @@ from graphene.types.generic import GenericScalar
 
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
+from .compat import mock
+
 
 class GraphQLRequestFactory(RequestFactory):
 
     def execute(self, query, **variables):
-        return self._schema.execute(query, variable_values=variables)
+        return self._schema.execute(
+            query,
+            variable_values=variables,
+            context_value=mock.MagicMock())
 
 
 class GraphQLClient(GraphQLRequestFactory, Client):
