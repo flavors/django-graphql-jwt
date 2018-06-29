@@ -5,6 +5,7 @@ from django.test import RequestFactory
 
 from graphql_jwt import utils
 from graphql_jwt.exceptions import GraphQLJWTError
+from graphql_jwt.settings import jwt_settings
 
 from .compat import mock
 from .decorators import override_jwt_settings
@@ -37,7 +38,7 @@ class UtilsTests(UserTestCase):
 
     def test_invalid_authorization_header_prefix(self):
         headers = {
-            'HTTP_AUTHORIZATION': 'INVALID token',
+            jwt_settings.JWT_AUTH_HEADER: 'INVALID token',
         }
 
         request = self.factory.get('/', **headers)
@@ -48,7 +49,8 @@ class UtilsTests(UserTestCase):
     @override_jwt_settings(JWT_AUTH_HEADER='HTTP_AUTHORIZATION_TOKEN')
     def test_custom_authorization_header(self):
         headers = {
-            'HTTP_AUTHORIZATION_TOKEN': 'JWT token',
+            'HTTP_AUTHORIZATION_TOKEN': '{} token'.format(
+                jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
         request = self.factory.get('/', **headers)
