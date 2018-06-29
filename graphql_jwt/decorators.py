@@ -7,7 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 from promise import Promise, is_thenable
 
 from . import exceptions
+from .settings import jwt_settings
 from .shortcuts import get_token
+from .utils import get_authorization_header
 
 __all__ = [
     'user_passes_test',
@@ -66,6 +68,9 @@ def token_auth(f):
 
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
+        if get_authorization_header(info.context) is not None:
+            del info.context.Meta[jwt_settings.JWT_AUTH_HEADER]
+
         user = authenticate(
             request=info.context,
             username=username,
@@ -81,7 +86,6 @@ def token_auth(f):
         result = f(cls, root, info, **kwargs)
         values = (user, result)
 
-        # Improved mutation with thenable check
         if is_thenable(result):
             return Promise.resolve(values).then(on_resolve)
         return on_resolve(values)
