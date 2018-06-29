@@ -9,7 +9,7 @@ class BackendsTests(GraphQLJWTTestCase):
 
     def test_authenticate(self):
         headers = {
-            'HTTP_AUTHORIZATION': '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -21,7 +21,7 @@ class BackendsTests(GraphQLJWTTestCase):
 
     def test_authenticate_fail(self):
         headers = {
-            'HTTP_AUTHORIZATION': '{} invalid'.format(
+            jwt_settings.JWT_AUTH_HEADER: '{} invalid'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 

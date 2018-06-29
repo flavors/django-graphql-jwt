@@ -19,7 +19,7 @@ class MiddlewareTests(GraphQLJWTTestCase):
 
     def test_authenticate(self):
         headers = {
-            'HTTP_AUTHORIZATION': '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -32,7 +32,7 @@ class MiddlewareTests(GraphQLJWTTestCase):
     @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_user_not_authenticate(self, *args):
         headers = {
-            'HTTP_AUTHORIZATION': '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -44,7 +44,7 @@ class MiddlewareTests(GraphQLJWTTestCase):
 
     def test_graphql_error(self):
         headers = {
-            'HTTP_AUTHORIZATION': '{} invalid'.format(
+            jwt_settings.JWT_AUTH_HEADER: '{} invalid'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
@@ -63,7 +63,7 @@ class MiddlewareTests(GraphQLJWTTestCase):
 
     def test_user_is_authenticated(self):
         headers = {
-            'HTTP_AUTHORIZATION': '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }

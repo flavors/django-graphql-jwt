@@ -3,6 +3,8 @@ from django.contrib.auth import models
 from promise import Promise, is_thenable
 
 from graphql_jwt import decorators, exceptions
+from graphql_jwt.settings import jwt_settings
+from graphql_jwt.shortcuts import get_token
 
 from .compat import mock
 from .testcases import UserTestCase
@@ -91,17 +93,30 @@ class DecoratorsTests(UserTestCase):
         with self.assertRaises(exceptions.PermissionDenied):
             wrapped(info_mock(self.user))
 
-    def test_token_auth_thenable(self):
+    def test_token_auth_already_authenticated(self):
 
         @decorators.token_auth
         def wrapped(cls, root, info, **kwargs):
             return Promise()
 
+        info_mock = mock.MagicMock()
+        token = get_token(self.user)
+
+        headers = {
+            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+                jwt_settings.JWT_AUTH_HEADER_PREFIX,
+                token),
+        }
+
+        type(info_mock.context).META = mock.PropertyMock(return_value=headers)
+
         result = wrapped(
             self,
             None,
-            mock.Mock(),
+            info_mock,
             password='dolphins',
             username=self.user.get_username())
 
         self.assertTrue(is_thenable(result))
+        info_mock.context.Meta.__delitem__\
+            .assert_called_once_with(jwt_settings.JWT_AUTH_HEADER)
