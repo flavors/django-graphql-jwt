@@ -63,7 +63,7 @@ Add mutations to the root schema.
         verify_token = graphql_jwt.Verify.Field()
         refresh_token = graphql_jwt.Refresh.Field()
 
-    schema = graphene.Schema(mutations=Mutations)
+    schema = graphene.Schema(mutation=Mutations)
 
 
 - ``tokenAuth`` to authenticate the user and obtain the JSON Web Token.
