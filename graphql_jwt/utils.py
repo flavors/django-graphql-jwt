@@ -85,7 +85,7 @@ def get_user_by_natural_key(user_id):
 
 
 def get_user_by_payload(payload):
-    username = payload.get(get_user_model().USERNAME_FIELD)
+    username = payload.get(jwt_settings.JWT_USERNAME_CLAIM)
 
     if not username:
         raise GraphQLJWTError(_('Invalid payload'))
