@@ -205,14 +205,7 @@ Authenticate the user and obtain the *token* and the *user id*.
 Settings
 --------
 
-*Django-graphql-jwt* reads your configuration from **environment variables**
-
-.. code:: sh
-
-    $ JWT_EXPIRATION_DELTA=minutes=10
-
-
-and a single **Django setting** named ``GRAPHQL_JWT``
+*Django-graphql-jwt* reads your configuration from a single **Django setting** named ``GRAPHQL_JWT``
 
 .. code:: python
 

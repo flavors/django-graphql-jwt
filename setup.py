@@ -32,7 +32,6 @@ setup(
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Django>=1.11',
-        'django-environ>=0.4.4',
         'graphene>=2.0.0',
         'PyJWT>=1.5.0',
     ],
@@ -56,7 +55,6 @@ setup(
     zip_safe=False,
     tests_require=[
         'Django>=1.11',
-        'django-environ>=0.4.4',
         'graphene>=2.0.0',
         'PyJWT>=1.5.0',
     ],

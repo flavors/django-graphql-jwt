@@ -4,19 +4,8 @@ from django.test import TestCase
 
 from graphql_jwt import settings
 
-from .compat import mock
-
 
 class SettingsTests(TestCase):
-
-    @mock.patch.dict('os.environ', {
-        'TEST': 'hours=1,days=1',
-    })
-    def test_env_timedelta_cast(self):
-        env = settings.Env()
-        var = env.timedelta('TEST')
-
-        self.assertEqual(var, timedelta(hours=1, days=1))
 
     def test_perform_import(self):
         f = settings.perform_import(id, '')
