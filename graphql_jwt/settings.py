@@ -2,6 +2,7 @@ from datetime import timedelta
 from importlib import import_module
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.test.signals import setting_changed
 from django.utils import six
 
@@ -21,12 +22,16 @@ DEFAULTS = {
     'JWT_ENCODE_HANDLER': 'graphql_jwt.utils.jwt_encode',
     'JWT_DECODE_HANDLER': 'graphql_jwt.utils.jwt_decode',
     'JWT_PAYLOAD_HANDLER': 'graphql_jwt.utils.jwt_payload',
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER': (
+        lambda payload: payload.get(get_user_model().USERNAME_FIELD)
+    ),
 }
 
 IMPORT_STRINGS = (
     'JWT_ENCODE_HANDLER',
     'JWT_DECODE_HANDLER',
     'JWT_PAYLOAD_HANDLER',
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER',
 )
 
 

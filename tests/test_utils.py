@@ -22,9 +22,9 @@ class UtilsTests(UserTestCase):
                 return_value=mock.Mock(pk='test'))
     def test_payload_foreign_key_pk(self, *args):
         payload = utils.jwt_payload(self.user)
-        username_field = get_user_model().USERNAME_FIELD
+        username = jwt_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER(payload)
 
-        self.assertEqual(payload[username_field], 'test')
+        self.assertEqual(username, 'test')
 
     @override_jwt_settings(JWT_AUDIENCE='test')
     def test_payload_audience(self):
