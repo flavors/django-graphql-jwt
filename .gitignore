@@ -15,10 +15,11 @@
 __pycache__
 
 *.egg*
-.cache
-.coverage
-.tox
+/.cache
+/.coverage
+/.pytest_cache
+/.tox
 
-build/
-coverage.xml
-dist/
+/build
+/coverage.xml
+/dist
