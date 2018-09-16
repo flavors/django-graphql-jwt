@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-25 02:02+0700\n"
+"POT-Creation-Date: 2018-09-16 23:54+0700\n"
 "PO-Revision-Date: 2018-01-05 16:20+0000\n"
 "Last-Translator: mongkok <domake.io@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decorators.py:84
+#: decorators.py:81
 msgid "Please, enter valid credentials"
 msgstr "Por favor, introduce unas credenciales válidas"
 
@@ -27,11 +27,11 @@ msgstr "Por favor, introduce unas credenciales válidas"
 msgid "You do not have permission to perform this action"
 msgstr "Usted no tiene permiso para realizar esta acción"
 
-#: mixins.py:62
+#: mixins.py:63
 msgid "Refresh has expired"
 msgstr "El refresco ha expirado"
 
-#: mixins.py:64
+#: mixins.py:65
 msgid "orig_iat field is required"
 msgstr "El campo orig_iat es requerido"
 
