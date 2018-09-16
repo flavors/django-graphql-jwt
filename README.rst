@@ -321,6 +321,13 @@ JWT_DECODE_HANDLER
     A custom function `f(token, context)` to decode the token
     Default: 'graphql_jwt.utils.jwt_decode'
 
+JWT_PAYLOAD_GET_USERNAME_HANDLER
+
+::
+
+    A custom function `f(payload)` to obtain the username
+    Default: lambda payload: payload.get(get_user_model().USERNAME_FIELD)
+
 
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
