@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.1.11
+------
+
+* CRITICAL: Removed environment settings variables
+* Added JWT_AUTH_HEADER setting
+* Added JWT_PAYLOAD_GET_USERNAME_HANDLER setting
+* Fixed TokenAuth mutation when user is already authenticated
+
 0.1.10
 ------
 
