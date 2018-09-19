@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1.12
+------
+
+* Fixed context.META attribute
+
 0.1.11
 ------
 
