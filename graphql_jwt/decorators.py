@@ -69,7 +69,7 @@ def token_auth(f):
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
         if get_authorization_header(info.context) is not None:
-            del info.context.Meta[jwt_settings.JWT_AUTH_HEADER]
+            del info.context.META[jwt_settings.JWT_AUTH_HEADER]
 
         user = authenticate(
             request=info.context,
