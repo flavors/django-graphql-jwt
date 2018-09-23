@@ -51,6 +51,7 @@ setup(
         'Framework :: Django',
         'Framework :: Django :: 1.11',
         'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
     ],
     zip_safe=False,
     tests_require=[
