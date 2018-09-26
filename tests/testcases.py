@@ -4,14 +4,8 @@ from django.test import RequestFactory, testcases
 import graphene
 from graphene.types.generic import GenericScalar
 
-from graphql_jwt.testcases import GraphQLJWTClient
+from graphql_jwt.testcases import GraphQLJWTTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
-
-
-class GraphQLTestClient(GraphQLJWTClient):
-
-    def schema(self, **kwargs):
-        self._schema = graphene.Schema(**kwargs)
 
 
 class UserTestCase(testcases.TestCase):
@@ -22,24 +16,23 @@ class UserTestCase(testcases.TestCase):
             password='dolphins')
 
 
-class GraphQLJWTTestCase(UserTestCase):
+class TestCase(UserTestCase):
 
     def setUp(self):
-        super(GraphQLJWTTestCase, self).setUp()
+        super(TestCase, self).setUp()
 
         self.payload = jwt_payload(self.user)
         self.token = jwt_encode(self.payload)
         self.factory = RequestFactory()
 
 
-class GraphQLSchemaTestCase(GraphQLJWTTestCase):
+class SchemaTestCase(TestCase, GraphQLJWTTestCase):
 
     class Query(graphene.ObjectType):
         test = GenericScalar()
 
     Mutations = None
-    client_class = GraphQLTestClient
 
     def setUp(self):
-        super(GraphQLSchemaTestCase, self).setUp()
+        super(SchemaTestCase, self).setUp()
         self.client.schema(query=self.Query, mutation=self.Mutations)
