@@ -1,28 +1,14 @@
 from django.contrib.auth import get_user_model
-from django.test import Client, RequestFactory, testcases
+from django.test import RequestFactory, testcases
 
 import graphene
 from graphene.types.generic import GenericScalar
 
+from graphql_jwt.testcases import GraphQLJWTClient
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
-from .compat import mock
 
-
-class GraphQLRequestFactory(RequestFactory):
-
-    def execute(self, query, **variables):
-        return self._schema.execute(
-            query,
-            variable_values=variables,
-            context_value=mock.MagicMock())
-
-
-class GraphQLClient(GraphQLRequestFactory, Client):
-
-    def __init__(self, **defaults):
-        super(GraphQLClient, self).__init__(**defaults)
-        self._schema = None
+class GraphQLTestClient(GraphQLJWTClient):
 
     def schema(self, **kwargs):
         self._schema = graphene.Schema(**kwargs)
@@ -52,7 +38,7 @@ class GraphQLSchemaTestCase(GraphQLJWTTestCase):
         test = GenericScalar()
 
     Mutations = None
-    client_class = GraphQLClient
+    client_class = GraphQLTestClient
 
     def setUp(self):
         super(GraphQLSchemaTestCase, self).setUp()

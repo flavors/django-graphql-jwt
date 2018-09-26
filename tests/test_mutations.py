@@ -20,7 +20,7 @@ class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
           }
         }'''
 
-        return self.client.execute(query, **variables)
+        return self.client.execute(query, variables)
 
 
 class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
@@ -36,7 +36,7 @@ class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
           }
         }'''
 
-        return self.client.execute(query, **variables)
+        return self.client.execute(query, variables)
 
 
 class RefreshTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
@@ -53,4 +53,4 @@ class RefreshTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
           }
         }'''
 
-        return self.client.execute(query, **variables)
+        return self.client.execute(query, variables)
