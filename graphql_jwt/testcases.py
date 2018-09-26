@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from django.core.handlers.wsgi import WSGIRequest
 from django.test import Client, RequestFactory, testcases
 
+import graphene
 from graphene_django.settings import graphene_settings
 
 
@@ -25,6 +26,9 @@ class GraphQLJWTClient(SchemaRequestFactory, Client):
         request = WSGIRequest(self._base_environ(**request))
         request.user = authenticate(request)
         return request
+
+    def schema(self, **kwargs):
+        self._schema = graphene.Schema(**kwargs)
 
     def credentials(self, **kwargs):
         self._credentials = kwargs
