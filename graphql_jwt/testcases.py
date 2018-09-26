@@ -5,6 +5,9 @@ from django.test import Client, RequestFactory, testcases
 import graphene
 from graphene_django.settings import graphene_settings
 
+from .settings import jwt_settings
+from .shortcuts import get_token
+
 
 class SchemaRequestFactory(RequestFactory):
 
@@ -37,6 +40,13 @@ class GraphQLJWTClient(SchemaRequestFactory, Client):
         extra.update(self._credentials)
         context = self.post('/', **extra)
         return super(GraphQLJWTClient, self).execute(context, query, variables)
+
+    def authenticate(self, user):
+        self._credentials = {
+            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+                jwt_settings.JWT_AUTH_HEADER_PREFIX,
+                get_token(user)),
+        }
 
     def logout(self):
         self._credentials.pop('HTTP_AUTHORIZATION', None)
