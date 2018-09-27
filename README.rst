@@ -202,6 +202,34 @@ Authenticate the user and obtain the *token* and the *user id*.
     }
 
 
+Writing tests
+-------------
+
+This package includes a subclass of `unittest.TestCase <https://docs.python.org/3/library/unittest.html#unittest.TestCase>`__ and improve support for making GraphQL queries using JSON Web Token authentication.
+
+.. code:: python
+
+    from django.contrib.auth import get_user_model
+
+    from graphql_jwt.testcases import JSONWebTokenTestCase
+
+
+    class UsersTests(JSONWebTokenTestCase):
+
+        def setUp(self):
+            self.user = get_user_model().objects.create(username='test')
+            self.client.authenticate(self.user)
+
+        def test_users(self):
+            query = '''
+            query GetUsers($username: String) {
+              users(username: $username) {
+                id
+              }
+            }'''
+            self.client.execute(query, variables={'username': self.user.username})
+
+
 Settings
 --------
 
