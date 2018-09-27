@@ -1,18 +1,28 @@
+from functools import wraps
+
 import graphene
 
 import graphql_jwt
 
 from . import mixins
-from .testcases import GraphQLSchemaTestCase
+from .testcases import SchemaTestCase
+
+
+def input_variables(f):
+    @wraps(f)
+    def wrapper(self, variables):
+        return f(self, {'input': variables})
+    return wrapper
 
 
 class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
-                              GraphQLSchemaTestCase):
+                              SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
 
-    def execute(self, input):
+    @input_variables
+    def execute(self, variables):
         query = '''
         mutation TokenAuth($input: ObtainJSONWebTokenInput!) {
           tokenAuth(input: $input) {
@@ -21,15 +31,16 @@ class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
           }
         }'''
 
-        return self.client.execute(query, input=input)
+        return self.client.execute(query, variables=variables)
 
 
-class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
+class VerifyTests(mixins.VerifyTestsMixin, SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         verify_token = graphql_jwt.relay.Verify.Field()
 
-    def execute(self, input):
+    @input_variables
+    def execute(self, variables):
         query = '''
         mutation VerifyToken($input: VerifyInput!) {
           verifyToken(input: $input) {
@@ -38,15 +49,16 @@ class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
           }
         }'''
 
-        return self.client.execute(query, input=input)
+        return self.client.execute(query, variables=variables)
 
 
-class RefreshTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
+class RefreshTests(mixins.RefreshTestsMixin, SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         refresh_token = graphql_jwt.relay.Refresh.Field()
 
-    def execute(self, input):
+    @input_variables
+    def execute(self, variables):
         query = '''
         mutation RefreshToken($input: RefreshInput!) {
           refreshToken(input: $input) {
@@ -56,4 +68,4 @@ class RefreshTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
           }
         }'''
 
-        return self.client.execute(query, input=input)
+        return self.client.execute(query, variables=variables)

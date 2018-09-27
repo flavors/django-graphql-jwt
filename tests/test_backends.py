@@ -2,10 +2,10 @@ from graphql_jwt.backends import JSONWebTokenBackend
 from graphql_jwt.exceptions import GraphQLJWTError
 from graphql_jwt.settings import jwt_settings
 
-from .testcases import GraphQLJWTTestCase
+from .testcases import TestCase
 
 
-class BackendsTests(GraphQLJWTTestCase):
+class BackendsTests(TestCase):
 
     def test_authenticate(self):
         headers = {

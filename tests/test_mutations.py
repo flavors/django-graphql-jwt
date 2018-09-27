@@ -3,11 +3,11 @@ import graphene
 import graphql_jwt
 
 from . import mixins
-from .testcases import GraphQLSchemaTestCase
+from .testcases import SchemaTestCase
 
 
 class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
-                              GraphQLSchemaTestCase):
+                              SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         token_auth = graphql_jwt.ObtainJSONWebToken.Field()
@@ -20,10 +20,10 @@ class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
           }
         }'''
 
-        return self.client.execute(query, **variables)
+        return self.client.execute(query, variables)
 
 
-class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
+class VerifyTests(mixins.VerifyTestsMixin, SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         verify_token = graphql_jwt.Verify.Field()
@@ -36,10 +36,10 @@ class VerifyTests(mixins.VerifyTestsMixin, GraphQLSchemaTestCase):
           }
         }'''
 
-        return self.client.execute(query, **variables)
+        return self.client.execute(query, variables)
 
 
-class RefreshTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
+class RefreshTests(mixins.RefreshTestsMixin, SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         refresh_token = graphql_jwt.Refresh.Field()
@@ -53,4 +53,4 @@ class RefreshTests(mixins.RefreshTestsMixin, GraphQLSchemaTestCase):
           }
         }'''
 
-        return self.client.execute(query, **variables)
+        return self.client.execute(query, variables)

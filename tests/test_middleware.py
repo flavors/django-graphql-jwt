@@ -6,10 +6,10 @@ from graphql_jwt.middleware import JSONWebTokenMiddleware
 from graphql_jwt.settings import jwt_settings
 
 from .compat import mock
-from .testcases import GraphQLJWTTestCase
+from .testcases import TestCase
 
 
-class MiddlewareTests(GraphQLJWTTestCase):
+class MiddlewareTests(TestCase):
 
     def setUp(self):
         super(MiddlewareTests, self).setUp()

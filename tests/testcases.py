@@ -1,31 +1,11 @@
 from django.contrib.auth import get_user_model
-from django.test import Client, RequestFactory, testcases
+from django.test import RequestFactory, testcases
 
 import graphene
 from graphene.types.generic import GenericScalar
 
+from graphql_jwt.testcases import JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
-
-from .compat import mock
-
-
-class GraphQLRequestFactory(RequestFactory):
-
-    def execute(self, query, **variables):
-        return self._schema.execute(
-            query,
-            variable_values=variables,
-            context_value=mock.MagicMock())
-
-
-class GraphQLClient(GraphQLRequestFactory, Client):
-
-    def __init__(self, **defaults):
-        super(GraphQLClient, self).__init__(**defaults)
-        self._schema = None
-
-    def schema(self, **kwargs):
-        self._schema = graphene.Schema(**kwargs)
 
 
 class UserTestCase(testcases.TestCase):
@@ -36,24 +16,23 @@ class UserTestCase(testcases.TestCase):
             password='dolphins')
 
 
-class GraphQLJWTTestCase(UserTestCase):
+class TestCase(UserTestCase):
 
     def setUp(self):
-        super(GraphQLJWTTestCase, self).setUp()
+        super(TestCase, self).setUp()
 
         self.payload = jwt_payload(self.user)
         self.token = jwt_encode(self.payload)
         self.factory = RequestFactory()
 
 
-class GraphQLSchemaTestCase(GraphQLJWTTestCase):
+class SchemaTestCase(TestCase, JSONWebTokenTestCase):
 
     class Query(graphene.ObjectType):
         test = GenericScalar()
 
     Mutations = None
-    client_class = GraphQLClient
 
     def setUp(self):
-        super(GraphQLSchemaTestCase, self).setUp()
+        super(SchemaTestCase, self).setUp()
         self.client.schema(query=self.Query, mutation=self.Mutations)
