@@ -60,9 +60,9 @@ class RefreshMixin(object):
                 jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
 
             if utcnow > expiration:
-                raise exceptions.GraphQLJWTError(_('Refresh has expired'))
+                raise exceptions.JSONWebTokenError(_('Refresh has expired'))
         else:
-            raise exceptions.GraphQLJWTError(_('orig_iat field is required'))
+            raise exceptions.JSONWebTokenError(_('orig_iat field is required'))
 
         token = get_token(user, orig_iat=orig_iat)
         return cls(token=token, payload=payload)

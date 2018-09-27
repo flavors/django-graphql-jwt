@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.test import RequestFactory
 
 from graphql_jwt import utils
-from graphql_jwt.exceptions import GraphQLJWTError
+from graphql_jwt.exceptions import JSONWebTokenError
 from graphql_jwt.settings import jwt_settings
 
 from .compat import mock
@@ -65,7 +65,7 @@ class UtilsTests(UserTestCase):
         payload = utils.jwt_payload(self.user)
         token = utils.jwt_encode(payload)
 
-        with self.assertRaises(GraphQLJWTError):
+        with self.assertRaises(JSONWebTokenError):
             utils.get_payload(token)
 
     def test_payload_decode_audience_missing(self):
@@ -73,11 +73,11 @@ class UtilsTests(UserTestCase):
         token = utils.jwt_encode(payload)
 
         with override_jwt_settings(JWT_AUDIENCE='test'):
-            with self.assertRaises(GraphQLJWTError):
+            with self.assertRaises(JSONWebTokenError):
                 utils.get_payload(token)
 
     def test_payload_decode_error(self):
-        with self.assertRaises(GraphQLJWTError):
+        with self.assertRaises(JSONWebTokenError):
             utils.get_payload('invalid')
 
     def test_user_by_natural_key_not_exists(self):
@@ -85,7 +85,7 @@ class UtilsTests(UserTestCase):
         self.assertIsNone(user)
 
     def test_user_by_invalid_payload(self):
-        with self.assertRaises(GraphQLJWTError):
+        with self.assertRaises(JSONWebTokenError):
             utils.get_user_by_payload({})
 
     @mock.patch('django.contrib.auth.models.User.is_active',
@@ -94,5 +94,5 @@ class UtilsTests(UserTestCase):
     def test_user_disabled_by_payload(self, *args):
         payload = utils.jwt_payload(self.user)
 
-        with self.assertRaises(GraphQLJWTError):
+        with self.assertRaises(JSONWebTokenError):
             utils.get_user_by_payload(payload)

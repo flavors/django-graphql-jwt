@@ -77,7 +77,7 @@ def token_auth(f):
             password=password)
 
         if user is None:
-            raise exceptions.GraphQLJWTError(
+            raise exceptions.JSONWebTokenError(
                 _('Please, enter valid credentials'))
 
         if hasattr(info.context, 'user'):

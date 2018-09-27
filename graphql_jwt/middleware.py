@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.utils.cache import patch_vary_headers
 from django.utils.deprecation import MiddlewareMixin
 
-from .exceptions import GraphQLJWTError
+from .exceptions import JSONWebTokenError
 from .utils import get_authorization_header
 
 
@@ -14,7 +14,7 @@ class JSONWebTokenMiddleware(MiddlewareMixin):
             if not hasattr(request, 'user') or request.user.is_anonymous:
                 try:
                     user = authenticate(request=request)
-                except GraphQLJWTError as err:
+                except JSONWebTokenError as err:
                     return JsonResponse({
                         'errors': [{'message': str(err)}],
                     }, status=401)

@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 
 import jwt
 
-from .exceptions import GraphQLJWTError
+from .exceptions import JSONWebTokenError
 from .settings import jwt_settings
 
 
@@ -68,11 +68,11 @@ def get_payload(token, context=None):
     try:
         payload = jwt_settings.JWT_DECODE_HANDLER(token, context)
     except jwt.ExpiredSignature:
-        raise GraphQLJWTError(_('Signature has expired'))
+        raise JSONWebTokenError(_('Signature has expired'))
     except jwt.DecodeError:
-        raise GraphQLJWTError(_('Error decoding signature'))
+        raise JSONWebTokenError(_('Error decoding signature'))
     except jwt.InvalidTokenError:
-        raise GraphQLJWTError(_('Invalid token'))
+        raise JSONWebTokenError(_('Invalid token'))
     return payload
 
 
@@ -88,10 +88,10 @@ def get_user_by_payload(payload):
     username = jwt_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER(payload)
 
     if not username:
-        raise GraphQLJWTError(_('Invalid payload'))
+        raise JSONWebTokenError(_('Invalid payload'))
 
     user = get_user_by_natural_key(username)
 
     if user is not None and not user.is_active:
-        raise GraphQLJWTError(_('User is disabled'))
+        raise JSONWebTokenError(_('User is disabled'))
     return user

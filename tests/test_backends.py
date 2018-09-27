@@ -1,5 +1,5 @@
 from graphql_jwt.backends import JSONWebTokenBackend
-from graphql_jwt.exceptions import GraphQLJWTError
+from graphql_jwt.exceptions import JSONWebTokenError
 from graphql_jwt.settings import jwt_settings
 
 from .testcases import TestCase
@@ -27,7 +27,7 @@ class BackendsTests(TestCase):
 
         request = self.factory.get('/', **headers)
 
-        with self.assertRaises(GraphQLJWTError):
+        with self.assertRaises(JSONWebTokenError):
             JSONWebTokenBackend().authenticate(request=request)
 
     def test_authenticate_null_request(self):
