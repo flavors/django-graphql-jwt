@@ -18,10 +18,10 @@ class SchemaRequestFactory(RequestFactory):
             variables=variables)
 
 
-class GraphQLJWTClient(SchemaRequestFactory, Client):
+class JSONWebTokenClient(SchemaRequestFactory, Client):
 
     def __init__(self, **defaults):
-        super(GraphQLJWTClient, self).__init__(**defaults)
+        super(JSONWebTokenClient, self).__init__(**defaults)
         self._credentials = {}
         self._schema = graphene_settings.SCHEMA
 
@@ -39,7 +39,8 @@ class GraphQLJWTClient(SchemaRequestFactory, Client):
     def execute(self, query, variables=None, **extra):
         extra.update(self._credentials)
         context = self.post('/', **extra)
-        return super(GraphQLJWTClient, self).execute(context, query, variables)
+        return super(JSONWebTokenClient, self)\
+            .execute(context, query, variables)
 
     def authenticate(self, user):
         self._credentials = {
@@ -52,5 +53,5 @@ class GraphQLJWTClient(SchemaRequestFactory, Client):
         self._credentials.pop('HTTP_AUTHORIZATION', None)
 
 
-class GraphQLJWTTestCase(testcases.TestCase):
-    client_class = GraphQLJWTClient
+class JSONWebTokenTestCase(testcases.TestCase):
+    client_class = JSONWebTokenClient

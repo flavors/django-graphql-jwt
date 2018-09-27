@@ -4,7 +4,7 @@ from django.test import RequestFactory, testcases
 import graphene
 from graphene.types.generic import GenericScalar
 
-from graphql_jwt.testcases import GraphQLJWTTestCase
+from graphql_jwt.testcases import JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
 
@@ -26,7 +26,7 @@ class TestCase(UserTestCase):
         self.factory = RequestFactory()
 
 
-class SchemaTestCase(TestCase, GraphQLJWTTestCase):
+class SchemaTestCase(TestCase, JSONWebTokenTestCase):
 
     class Query(graphene.ObjectType):
         test = GenericScalar()
