@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.1.13
+------
+
+* Added unittest subclasses for writing tests
+* Renamed GraphQLJWTError to JSONWebTokenError
+
 0.1.12
 ------
 
