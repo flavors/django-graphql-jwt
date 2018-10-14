@@ -220,10 +220,10 @@ This package includes a subclass of `unittest.TestCase <https://docs.python.org/
             self.user = get_user_model().objects.create(username='test')
             self.client.authenticate(self.user)
 
-        def test_users(self):
+        def test_get_user(self):
             query = '''
-            query GetUsers($username: String) {
-              users(username: $username) {
+            query GetUser($username: String!) {
+              user(username: $username) {
                 id
               }
             }'''
