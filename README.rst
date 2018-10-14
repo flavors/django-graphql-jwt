@@ -238,6 +238,7 @@ Settings
 .. code:: python
 
     GRAPHQL_JWT = {
+        'JWT_VERIFY_EXPIRATION': True,
         'JWT_EXPIRATION_DELTA': timedelta(minutes=10),
     }
 
