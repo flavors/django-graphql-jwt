@@ -2,7 +2,7 @@ from functools import wraps
 
 from django.contrib.auth import authenticate, get_user_model
 from django.utils import six
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from promise import Promise, is_thenable
 

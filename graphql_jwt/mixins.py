@@ -2,7 +2,7 @@ from calendar import timegm
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 import graphene
 from graphene.types.generic import GenericScalar
