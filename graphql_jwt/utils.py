@@ -95,3 +95,13 @@ def get_user_by_payload(payload):
     if user is not None and not user.is_active:
         raise JSONWebTokenError(_('User is disabled'))
     return user
+
+
+def refresh_has_expired(orig_iat, context=None):
+    utcnow = timegm(datetime.utcnow().utctimetuple())
+    expiration = orig_iat +\
+        jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+
+    if utcnow > expiration:
+        return True
+    return False
