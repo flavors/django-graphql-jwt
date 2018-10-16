@@ -32,8 +32,8 @@ msgid "Refresh has expired"
 msgstr "El refresco ha expirado"
 
 #: mixins.py:65
-msgid "orig_iat field is required"
-msgstr "El campo orig_iat es requerido"
+msgid "origIat field is required"
+msgstr "El campo origIat es requerido"
 
 #: utils.py:71
 msgid "Signature has expired"

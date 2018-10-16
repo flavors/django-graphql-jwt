@@ -22,7 +22,7 @@ def jwt_payload(user, context=None):
     }
 
     if jwt_settings.JWT_ALLOW_REFRESH:
-        payload['orig_iat'] = timegm(datetime.utcnow().utctimetuple())
+        payload['origIat'] = timegm(datetime.utcnow().utctimetuple())
 
     if jwt_settings.JWT_AUDIENCE is not None:
         payload['aud'] = jwt_settings.JWT_AUDIENCE

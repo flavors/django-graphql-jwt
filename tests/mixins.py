@@ -64,7 +64,7 @@ class RefreshTestsMixin(object):
         self.assertEqual(self.user.get_username(), data['payload']['username'])
 
         payload = get_payload(token)
-        self.assertEqual(self.payload['orig_iat'], payload['orig_iat'])
+        self.assertEqual(self.payload['origIat'], payload['origIat'])
 
     def test_refresh_expired(self):
         with mock.patch('graphql_jwt.mixins.datetime') as datetime_mock:
