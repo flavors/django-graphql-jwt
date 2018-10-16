@@ -11,7 +11,7 @@ class JSONWebTokenBackend(object):
         token = get_authorization_header(request)
 
         if token is not None:
-            return get_user_by_token(token)
+            return get_user_by_token(token, request)
 
         return None
 
