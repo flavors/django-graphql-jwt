@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from promise import Promise, is_thenable
 
 from . import exceptions
+from .refresh_token.shortcuts import create_refresh_token
 from .settings import jwt_settings
 from .shortcuts import get_token
 from .utils import get_authorization_header
@@ -64,6 +65,10 @@ def token_auth(f):
         def on_resolve(values):
             user, payload = values
             payload.token = get_token(user, info.context)
+
+            if jwt_settings.JWT_LONG_TIME_REFRESH:
+                payload.refresh_token = create_refresh_token(user).token
+
             return payload
 
         username = kwargs.get(get_user_model().USERNAME_FIELD)
