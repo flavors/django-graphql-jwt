@@ -25,13 +25,6 @@ class ObtainJSONWebTokenMixin(object):
         super(ObtainJSONWebTokenMixin, cls)\
             .__init_subclass_with_meta__(name=name, **options)
 
-    @classmethod
-    def get_authentication_input(cls):
-        return {
-            get_user_model().USERNAME_FIELD: graphene.String(required=True),
-            'password': graphene.String(required=True),
-        }
-
 
 class ResolveMixin(object):
 

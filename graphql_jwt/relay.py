@@ -19,9 +19,13 @@ class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
         abstract = True
 
     @classmethod
-    def __init_subclass_with_meta__(cls, **options):
-        options.setdefault('input_fields', cls.get_authentication_input())
-        super(JSONWebTokenMutation, cls).__init_subclass_with_meta__(**options)
+    def Field(cls, *args, **kwargs):
+        cls._meta.arguments['input']._meta.fields.update({
+            get_user_model().USERNAME_FIELD:
+            graphene.InputField(graphene.String, required=True),
+            'password': graphene.InputField(graphene.String, required=True),
+        })
+        return super(JSONWebTokenMutation, cls).Field(*args, **kwargs)
 
     @classmethod
     @token_auth
