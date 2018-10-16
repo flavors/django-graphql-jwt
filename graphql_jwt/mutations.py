@@ -20,7 +20,7 @@ class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
 
     @classmethod
     def __init_subclass_with_meta__(cls, **options):
-        options.setdefault('arguments', cls.auth_fields())
+        options.setdefault('arguments', cls.get_authentication_input())
         super(JSONWebTokenMutation, cls).__init_subclass_with_meta__(**options)
 
     @classmethod
