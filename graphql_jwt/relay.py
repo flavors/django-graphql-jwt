@@ -36,7 +36,7 @@ class ObtainJSONWebToken(mixins.ResolveMixin, JSONWebTokenMutation):
 class JSONWebTokenMixin(object):
 
     class Input:
-        token = graphene.String()
+        token = graphene.String(required=True)
 
 
 class Verify(JSONWebTokenMixin,
