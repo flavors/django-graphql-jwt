@@ -1,4 +1,7 @@
+from django.contrib.auth import get_user_model
+
 import graphene
+from graphene.types.generic import GenericScalar
 
 from . import mixins
 from .decorators import token_auth
@@ -37,24 +40,22 @@ class ObtainJSONWebToken(mixins.ResolveMixin, JSONWebTokenMutation):
     """Obtain JSON Web Token mutation"""
 
 
-class JSONWebTokenMixin(object):
+class Verify(graphene.ClientIDMutation):
+    payload = GenericScalar()
 
     class Input:
         token = graphene.String(required=True)
-
-
-class Verify(JSONWebTokenMixin,
-             mixins.VerifyMixin,
-             graphene.relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, token, **kwargs):
         return cls(payload=get_payload(token, info.context))
 
 
-class Refresh(JSONWebTokenMixin,
-              mixins.RefreshMixin,
-              graphene.relay.ClientIDMutation):
+class Refresh(mixins.RefreshMixin, graphene.ClientIDMutation):
+    payload = GenericScalar()
+
+    class Input(mixins.RefreshMixin.Fields):
+        """Refresh Input"""
 
     @classmethod
     def mutate_and_get_payload(cls, *args, **kwargs):
