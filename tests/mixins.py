@@ -67,7 +67,7 @@ class RefreshTestsMixin(object):
         self.assertEqual(self.payload['origIat'], payload['origIat'])
 
     def test_refresh_expired(self):
-        with mock.patch('graphql_jwt.mixins.datetime') as datetime_mock:
+        with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:
             datetime_mock.utcnow.return_value = datetime.utcnow() +\
                 jwt_settings.JWT_REFRESH_EXPIRATION_DELTA +\
                 timedelta(seconds=1)
