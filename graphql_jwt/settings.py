@@ -18,7 +18,7 @@ DEFAULTS = {
     'JWT_VERIFY_EXPIRATION': False,
     'JWT_EXPIRATION_DELTA': timedelta(seconds=60 * 5),
     'JWT_ALLOW_REFRESH': True,
-    'JWT_LONG_TIME_REFRESH': False,
+    'JWT_LONG_RUNNING_REFRESH': False,
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
     'JWT_REFRESH_TOKEN_MODEL': 'refresh_token.RefreshToken',
     'JWT_REFRESH_TOKEN_LENGTH': 20,

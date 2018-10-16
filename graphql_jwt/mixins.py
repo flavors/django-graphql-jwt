@@ -16,7 +16,7 @@ class JSONWebTokenMixin(object):
     def __init_subclass_with_meta__(cls, **options):
         super(JSONWebTokenMixin, cls).__init_subclass_with_meta__(**options)
 
-        if jwt_settings.JWT_LONG_TIME_REFRESH:
+        if jwt_settings.JWT_LONG_RUNNING_REFRESH:
             cls._meta.fields['refresh_token'] = graphene.Field(graphene.String)
 
 
@@ -61,7 +61,7 @@ class KeepAliveRefreshMixin(object):
 
 
 class RefreshMixin((LongRunningRefreshTokenMixin
-                    if jwt_settings.JWT_LONG_TIME_REFRESH
+                    if jwt_settings.JWT_LONG_RUNNING_REFRESH
                     else KeepAliveRefreshMixin),
                    JSONWebTokenMixin):
     """Refresh mixin"""
