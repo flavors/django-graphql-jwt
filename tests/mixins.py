@@ -8,7 +8,7 @@ from .compat import mock
 from .decorators import override_jwt_settings
 
 
-class ObtainJSONWebTokenTestsMixin(object):
+class TokenAuthMixin(object):
 
     def test_token_auth(self):
         response = self.execute({
@@ -28,7 +28,7 @@ class ObtainJSONWebTokenTestsMixin(object):
         self.assertTrue(response.errors)
 
 
-class VerifyTestsMixin(object):
+class VerifyMixin(object):
 
     def test_verify(self):
         response = self.execute({
@@ -46,7 +46,7 @@ class VerifyTestsMixin(object):
         self.assertTrue(response.errors)
 
 
-class RefreshTestsMixin(object):
+class RefreshMixin(object):
 
     def test_refresh(self):
         with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:

@@ -15,8 +15,7 @@ def input_variables(f):
     return wrapper
 
 
-class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
-                              SchemaTestCase):
+class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
@@ -34,7 +33,7 @@ class ObtainJSONWebTokenTests(mixins.ObtainJSONWebTokenTestsMixin,
         return self.client.execute(query, variables=variables)
 
 
-class VerifyTests(mixins.VerifyTestsMixin, SchemaTestCase):
+class VerifyTests(mixins.VerifyMixin, SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         verify_token = graphql_jwt.relay.Verify.Field()
@@ -52,7 +51,7 @@ class VerifyTests(mixins.VerifyTestsMixin, SchemaTestCase):
         return self.client.execute(query, variables=variables)
 
 
-class RefreshTests(mixins.RefreshTestsMixin, SchemaTestCase):
+class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         refresh_token = graphql_jwt.relay.Refresh.Field()
