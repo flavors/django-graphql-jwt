@@ -5,6 +5,7 @@ from graphene.types.generic import GenericScalar
 
 from . import mixins
 from .decorators import token_auth
+from .refresh_token.mutations import Revoke
 from .utils import get_payload
 
 __all__ = [
@@ -12,6 +13,7 @@ __all__ = [
     'ObtainJSONWebToken',
     'Verify',
     'Refresh',
+    'Revoke',
 ]
 
 
