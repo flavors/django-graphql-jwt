@@ -65,4 +65,5 @@ class RefreshMixin((RefreshTokenMixin
                     if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN
                     else KeepAliveRefreshMixin),
                    JSONWebTokenMixin):
-    """Refresh mixin"""
+
+    payload = GenericScalar()

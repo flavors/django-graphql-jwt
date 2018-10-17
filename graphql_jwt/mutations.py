@@ -53,7 +53,6 @@ class Verify(graphene.Mutation):
 
 
 class Refresh(mixins.RefreshMixin, graphene.Mutation):
-    payload = GenericScalar()
 
     class Arguments(mixins.RefreshMixin.Fields):
         """Refresh Arguments"""

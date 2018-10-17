@@ -54,7 +54,6 @@ class Verify(graphene.ClientIDMutation):
 
 
 class Refresh(mixins.RefreshMixin, graphene.ClientIDMutation):
-    payload = GenericScalar()
 
     class Input(mixins.RefreshMixin.Fields):
         """Refresh Input"""
