@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from datetime import datetime, timedelta
 
 from graphql_jwt.settings import jwt_settings
@@ -6,6 +7,19 @@ from graphql_jwt.utils import get_payload
 
 from .compat import mock
 from .decorators import override_jwt_settings
+
+
+@contextmanager
+def back_to_the_future(**kwargs):
+    with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:
+        datetime_mock.utcnow.return_value =\
+            datetime.utcnow() + timedelta(**kwargs)
+        yield datetime_mock
+
+
+def refresh_expired():
+    expires = jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+    return back_to_the_future(seconds=1 + expires)
 
 
 class TokenAuthMixin(object):
@@ -49,10 +63,7 @@ class VerifyMixin(object):
 class RefreshMixin(object):
 
     def test_refresh(self):
-        with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:
-            datetime_mock.utcnow.return_value =\
-                datetime.utcnow() + timedelta(seconds=1)
-
+        with back_to_the_future(seconds=1):
             response = self.execute({
                 'token': self.token,
             })
@@ -60,18 +71,16 @@ class RefreshMixin(object):
         data = response.data['refreshToken']
         token = data['token']
 
-        self.assertNotEqual(self.token, token)
-        self.assertEqual(self.user.get_username(), data['payload']['username'])
+        self.assertNotEqual(token, self.token)
+        self.assertEqual(data['payload']['username'], self.user.get_username())
 
         payload = get_payload(token)
-        self.assertEqual(self.payload['origIat'], payload['origIat'])
+
+        self.assertEqual(payload['origIat'], self.payload['origIat'])
+        self.assertGreater(payload['exp'], self.payload['exp'])
 
     def test_refresh_expired(self):
-        with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:
-            datetime_mock.utcnow.return_value = datetime.utcnow() +\
-                jwt_settings.JWT_REFRESH_EXPIRATION_DELTA +\
-                timedelta(seconds=1)
-
+        with refresh_expired():
             response = self.execute({
                 'token': self.token,
             })
