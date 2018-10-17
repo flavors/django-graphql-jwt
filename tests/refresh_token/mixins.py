@@ -54,13 +54,14 @@ class RefreshMixin(RefreshTokenMutationsMixin, RefreshTokenMixin):
         data = response.data['refreshToken']
         token = data['token']
         refresh_token = get_refresh_token(data['refreshToken'])
+        payload = get_payload(token)
 
         self.assertNotEqual(token, self.token)
+        self.assertGreater(payload['exp'], self.payload['exp'])
+
         self.assertNotEqual(refresh_token.token, self.refresh_token.token)
         self.assertEqual(refresh_token.user, self.user)
-
-        payload = get_payload(token)
-        self.assertGreater(payload['exp'], self.payload['exp'])
+        self.assertGreater(refresh_token.created, self.refresh_token.created)
 
     def test_refresh_token_expired(self):
         with refresh_expired():
