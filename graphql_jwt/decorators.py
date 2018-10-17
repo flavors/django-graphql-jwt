@@ -66,7 +66,7 @@ def token_auth(f):
             user, payload = values
             payload.token = get_token(user, info.context)
 
-            if jwt_settings.JWT_LONG_RUNNING_REFRESH:
+            if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
                 payload.refresh_token = create_refresh_token(user).token
 
             return payload
