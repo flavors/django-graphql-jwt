@@ -12,7 +12,9 @@ from ..testcases import UserTestCase
 
 
 def skipif_django_version(version):
-    return pytest.mark.skipif(django.get_version() < version)
+    return pytest.mark.skipif(
+        django.get_version() < version,
+        reason='Django < {} is not supported'.format(version))
 
 
 class AdminTestCase(UserTestCase):
