@@ -10,7 +10,7 @@ from ..utils import get_payload
 from .shortcuts import get_refresh_token
 
 
-class LongRunningRefreshTokenMixin(object):
+class RefreshTokenMixin(object):
 
     class Fields:
         refresh_token = graphene.String(required=True)
@@ -24,9 +24,9 @@ class LongRunningRefreshTokenMixin(object):
 
         token = get_token(refresh_token.user, info.context)
         payload = get_payload(token, info.context)
-        refresh_token = refresh_token.rotate().token
+        refreshed_token = refresh_token.rotate().token
 
-        return cls(token=token, payload=payload, refresh_token=refresh_token)
+        return cls(token=token, payload=payload, refresh_token=refreshed_token)
 
 
 class RevokeMixin(object):

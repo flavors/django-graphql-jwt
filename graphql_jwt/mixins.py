@@ -1,9 +1,10 @@
 from django.utils.translation import ugettext as _
 
 import graphene
+from graphene.types.generic import GenericScalar
 
 from . import exceptions
-from .refresh_token.mixins import LongRunningRefreshTokenMixin
+from .refresh_token.mixins import RefreshTokenMixin
 from .settings import jwt_settings
 from .shortcuts import get_token
 from .utils import get_payload, get_user_by_payload
@@ -60,7 +61,6 @@ class KeepAliveRefreshMixin(object):
         return cls(token=token, payload=payload)
 
 
-class RefreshMixin((LongRunningRefreshTokenMixin
 class RefreshMixin((RefreshTokenMixin
                     if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN
                     else KeepAliveRefreshMixin),
