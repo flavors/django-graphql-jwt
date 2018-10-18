@@ -26,16 +26,19 @@ class TokenAuthMixin(object):
 
     def test_token_auth(self):
         response = self.execute({
-            'username': self.user.get_username(),
+            self.user.USERNAME_FIELD: self.user.get_username(),
             'password': 'dolphins',
         })
 
         payload = get_payload(response.data['tokenAuth']['token'])
-        self.assertEqual(self.user.get_username(), payload['username'])
+
+        self.assertEqual(
+            self.user.get_username(),
+            payload[self.user.USERNAME_FIELD])
 
     def test_token_auth_invalid_credentials(self):
         response = self.execute({
-            'username': self.user.get_username(),
+            self.user.USERNAME_FIELD: self.user.get_username(),
             'password': 'wrong',
         })
 
@@ -50,7 +53,10 @@ class VerifyMixin(object):
         })
 
         payload = response.data['verifyToken']['payload']
-        self.assertEqual(self.user.get_username(), payload['username'])
+
+        self.assertEqual(
+            self.user.get_username(),
+            payload[self.user.USERNAME_FIELD])
 
     def test_verify_invalid_token(self):
         response = self.execute({
@@ -72,7 +78,10 @@ class RefreshMixin(object):
         token = data['token']
 
         self.assertNotEqual(token, self.token)
-        self.assertEqual(data['payload']['username'], self.user.get_username())
+
+        self.assertEqual(
+            data['payload'][self.user.USERNAME_FIELD],
+            self.user.get_username())
 
         payload = get_payload(token)
 

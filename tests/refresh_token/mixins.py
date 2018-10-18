@@ -24,7 +24,7 @@ class TokenAuthMixin(RefreshTokenMutationsMixin):
     @override_jwt_settings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     def test_token_auth(self):
         response = self.execute({
-            'username': self.user.get_username(),
+            self.user.USERNAME_FIELD: self.user.get_username(),
             'password': 'dolphins',
         })
 
@@ -32,7 +32,10 @@ class TokenAuthMixin(RefreshTokenMutationsMixin):
         payload = get_payload(data['token'])
         refresh_token = get_refresh_token(data['refreshToken'])
 
-        self.assertEqual(self.user.get_username(), payload['username'])
+        self.assertEqual(
+            self.user.get_username(),
+            payload[self.user.USERNAME_FIELD])
+
         self.assertEqual(refresh_token.user, self.user)
 
 
