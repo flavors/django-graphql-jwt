@@ -6,7 +6,6 @@ from graphene.types.generic import GenericScalar
 from . import exceptions
 from .refresh_token.mixins import RefreshTokenMixin
 from .settings import jwt_settings
-from .shortcuts import get_token
 from .utils import get_payload, get_user_by_payload
 
 
@@ -57,7 +56,11 @@ class KeepAliveRefreshMixin(object):
         if jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, info.context):
             raise exceptions.JSONWebTokenError(_('Refresh has expired'))
 
-        token = get_token(user, info.context, origIat=orig_iat)
+        payload = jwt_settings.JWT_PAYLOAD_HANDLER(user, info.context)
+        payload['origIat'] = orig_iat
+
+        token = jwt_settings.JWT_ENCODE_HANDLER(payload, info.context)
+
         return cls(token=token, payload=payload)
 
 

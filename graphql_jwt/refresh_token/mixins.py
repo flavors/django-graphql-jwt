@@ -5,8 +5,7 @@ from django.utils.translation import ugettext as _
 import graphene
 
 from .. import exceptions
-from ..shortcuts import get_token
-from ..utils import get_payload
+from ..settings import jwt_settings
 from .shortcuts import get_refresh_token
 
 
@@ -22,8 +21,11 @@ class RefreshTokenMixin(object):
         if refresh_token.is_expired(info.context):
             raise exceptions.JSONWebTokenError(_('Refresh token is expired'))
 
-        token = get_token(refresh_token.user, info.context)
-        payload = get_payload(token, info.context)
+        payload = jwt_settings.JWT_PAYLOAD_HANDLER(
+            refresh_token.user,
+            info.context)
+
+        token = jwt_settings.JWT_ENCODE_HANDLER(payload, info.context)
         refreshed_token = refresh_token.rotate().token
 
         return cls(token=token, payload=payload, refresh_token=refreshed_token)
