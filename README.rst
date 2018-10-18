@@ -97,16 +97,6 @@ The mutation uses your User's model `USERNAME_FIELD`_, which by default is ``use
 `Configure your refresh token scenario <https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration>`__ and set to ``True`` the `JWT_VERIFY_EXPIRATION setting <#settings>`__.
 
 
-.. code:: graphql
-
-    mutation RefreshToken($token: String!) {
-      refreshToken(token: $token) {
-        token
-        payload
-      }
-    }
-
-
 Authentication in GraphQL queries
 ---------------------------------
 
