@@ -1,7 +1,11 @@
+from django.contrib.auth import get_user_model
+
 import graphene
+from graphene.types.generic import GenericScalar
 
 from . import mixins
 from .decorators import token_auth
+from .refresh_token.mutations import Revoke
 from .utils import get_payload
 
 __all__ = [
@@ -9,6 +13,7 @@ __all__ = [
     'ObtainJSONWebToken',
     'Verify',
     'Refresh',
+    'Revoke',
 ]
 
 
@@ -19,9 +24,12 @@ class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
         abstract = True
 
     @classmethod
-    def __init_subclass_with_meta__(cls, **options):
-        options.setdefault('arguments', cls.get_authentication_input())
-        super(JSONWebTokenMutation, cls).__init_subclass_with_meta__(**options)
+    def Field(cls, *args, **kwargs):
+        cls._meta.arguments.update({
+            get_user_model().USERNAME_FIELD: graphene.String(required=True),
+            'password': graphene.String(required=True),
+        })
+        return super(JSONWebTokenMutation, cls).Field(*args, **kwargs)
 
     @classmethod
     @token_auth
@@ -33,24 +41,21 @@ class ObtainJSONWebToken(mixins.ResolveMixin, JSONWebTokenMutation):
     """Obtain JSON Web Token mutation"""
 
 
-class JSONWebTokenMixin(object):
+class Verify(graphene.Mutation):
+    payload = GenericScalar()
 
     class Arguments:
         token = graphene.String(required=True)
-
-
-class Verify(JSONWebTokenMixin,
-             mixins.VerifyMixin,
-             graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, token, **kwargs):
         return cls(payload=get_payload(token, info.context))
 
 
-class Refresh(JSONWebTokenMixin,
-              mixins.RefreshMixin,
-              graphene.Mutation):
+class Refresh(mixins.RefreshMixin, graphene.Mutation):
+
+    class Arguments(mixins.RefreshMixin.Fields):
+        """Refresh Arguments"""
 
     @classmethod
     def mutate(cls, *arg, **kwargs):

@@ -9,8 +9,6 @@ from django.utils import six
 DEFAULTS = {
     'JWT_ALGORITHM': 'HS256',
     'JWT_AUDIENCE': None,
-    'JWT_AUTH_HEADER': 'HTTP_AUTHORIZATION',
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_ISSUER': None,
     'JWT_LEEWAY': 0,
     'JWT_SECRET_KEY': settings.SECRET_KEY,
@@ -19,12 +17,18 @@ DEFAULTS = {
     'JWT_EXPIRATION_DELTA': timedelta(seconds=60 * 5),
     'JWT_ALLOW_REFRESH': True,
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+    'JWT_LONG_RUNNING_REFRESH_TOKEN': False,
+    'JWT_REFRESH_TOKEN_MODEL': 'refresh_token.RefreshToken',
+    'JWT_REFRESH_TOKEN_LENGTH': 20,
+    'JWT_AUTH_HEADER': 'HTTP_AUTHORIZATION',
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_ENCODE_HANDLER': 'graphql_jwt.utils.jwt_encode',
     'JWT_DECODE_HANDLER': 'graphql_jwt.utils.jwt_decode',
     'JWT_PAYLOAD_HANDLER': 'graphql_jwt.utils.jwt_payload',
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': (
         lambda payload: payload.get(get_user_model().USERNAME_FIELD)
     ),
+    'JWT_REFRESH_EXPIRED_HANDLER': 'graphql_jwt.utils.refresh_has_expired',
 }
 
 IMPORT_STRINGS = (
@@ -32,6 +36,7 @@ IMPORT_STRINGS = (
     'JWT_DECODE_HANDLER',
     'JWT_PAYLOAD_HANDLER',
     'JWT_PAYLOAD_GET_USERNAME_HANDLER',
+    'JWT_REFRESH_EXPIRED_HANDLER',
 )
 
 

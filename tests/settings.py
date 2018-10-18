@@ -1,6 +1,8 @@
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
 ]
 
 DATABASES = {

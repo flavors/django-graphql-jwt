@@ -24,7 +24,7 @@ class MiddlewareTests(TestCase):
                 self.token),
         }
 
-        request = self.factory.get('/', **headers)
+        request = self.request_factory.get('/', **headers)
         self.middleware(request)
 
         self.get_response_mock.assert_called_once_with(request)
@@ -37,7 +37,7 @@ class MiddlewareTests(TestCase):
                 self.token),
         }
 
-        request = self.factory.get('/', **headers)
+        request = self.request_factory.get('/', **headers)
         self.middleware(request)
 
         self.get_response_mock.assert_called_once_with(request)
@@ -48,7 +48,7 @@ class MiddlewareTests(TestCase):
                 jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
-        request = self.factory.get('/', **headers)
+        request = self.request_factory.get('/', **headers)
         response = self.middleware(request)
         content = json.loads(response.content.decode('utf-8'))
 
@@ -56,7 +56,7 @@ class MiddlewareTests(TestCase):
         self.get_response_mock.assert_not_called()
 
     def test_header_not_found(self):
-        request = self.factory.get('/')
+        request = self.request_factory.get('/')
         self.middleware(request)
 
         self.get_response_mock.assert_called_once_with(request)
@@ -68,7 +68,7 @@ class MiddlewareTests(TestCase):
                 self.token),
         }
 
-        request = self.factory.get('/', **headers)
+        request = self.request_factory.get('/', **headers)
         request.user = self.user
         self.middleware(request)
 

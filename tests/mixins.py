@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from datetime import datetime, timedelta
 
 from graphql_jwt.settings import jwt_settings
@@ -8,27 +9,43 @@ from .compat import mock
 from .decorators import override_jwt_settings
 
 
-class ObtainJSONWebTokenTestsMixin(object):
+@contextmanager
+def back_to_the_future(**kwargs):
+    with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:
+        datetime_mock.utcnow.return_value =\
+            datetime.utcnow() + timedelta(**kwargs)
+        yield datetime_mock
+
+
+def refresh_expired():
+    expires = jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+    return back_to_the_future(seconds=1 + expires)
+
+
+class TokenAuthMixin(object):
 
     def test_token_auth(self):
         response = self.execute({
-            'username': self.user.get_username(),
+            self.user.USERNAME_FIELD: self.user.get_username(),
             'password': 'dolphins',
         })
 
         payload = get_payload(response.data['tokenAuth']['token'])
-        self.assertEqual(self.user.get_username(), payload['username'])
+
+        self.assertEqual(
+            self.user.get_username(),
+            payload[self.user.USERNAME_FIELD])
 
     def test_token_auth_invalid_credentials(self):
         response = self.execute({
-            'username': self.user.get_username(),
+            self.user.USERNAME_FIELD: self.user.get_username(),
             'password': 'wrong',
         })
 
         self.assertTrue(response.errors)
 
 
-class VerifyTestsMixin(object):
+class VerifyMixin(object):
 
     def test_verify(self):
         response = self.execute({
@@ -36,7 +53,10 @@ class VerifyTestsMixin(object):
         })
 
         payload = response.data['verifyToken']['payload']
-        self.assertEqual(self.user.get_username(), payload['username'])
+
+        self.assertEqual(
+            self.user.get_username(),
+            payload[self.user.USERNAME_FIELD])
 
     def test_verify_invalid_token(self):
         response = self.execute({
@@ -46,13 +66,10 @@ class VerifyTestsMixin(object):
         self.assertTrue(response.errors)
 
 
-class RefreshTestsMixin(object):
+class RefreshMixin(object):
 
     def test_refresh(self):
-        with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:
-            datetime_mock.utcnow.return_value =\
-                datetime.utcnow() + timedelta(seconds=1)
-
+        with back_to_the_future(seconds=1):
             response = self.execute({
                 'token': self.token,
             })
@@ -60,18 +77,19 @@ class RefreshTestsMixin(object):
         data = response.data['refreshToken']
         token = data['token']
 
-        self.assertNotEqual(self.token, token)
-        self.assertEqual(self.user.get_username(), data['payload']['username'])
+        self.assertNotEqual(token, self.token)
+
+        self.assertEqual(
+            data['payload'][self.user.USERNAME_FIELD],
+            self.user.get_username())
 
         payload = get_payload(token)
-        self.assertEqual(self.payload['origIat'], payload['origIat'])
+
+        self.assertEqual(payload['origIat'], self.payload['origIat'])
+        self.assertGreater(payload['exp'], self.payload['exp'])
 
     def test_refresh_expired(self):
-        with mock.patch('graphql_jwt.mixins.datetime') as datetime_mock:
-            datetime_mock.utcnow.return_value = datetime.utcnow() +\
-                jwt_settings.JWT_REFRESH_EXPIRATION_DELTA +\
-                timedelta(seconds=1)
-
+        with refresh_expired():
             response = self.execute({
                 'token': self.token,
             })

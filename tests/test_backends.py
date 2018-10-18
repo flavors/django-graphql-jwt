@@ -7,6 +7,10 @@ from .testcases import TestCase
 
 class BackendsTests(TestCase):
 
+    def setUp(self):
+        super(BackendsTests, self).setUp()
+        self.backend = JSONWebTokenBackend()
+
     def test_authenticate(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
@@ -14,8 +18,8 @@ class BackendsTests(TestCase):
                 self.token),
         }
 
-        request = self.factory.get('/', **headers)
-        user = JSONWebTokenBackend().authenticate(request=request)
+        request = self.request_factory.get('/', **headers)
+        user = self.backend.authenticate(request=request)
 
         self.assertEqual(user, self.user)
 
@@ -25,21 +29,21 @@ class BackendsTests(TestCase):
                 jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
-        request = self.factory.get('/', **headers)
+        request = self.request_factory.get('/', **headers)
 
         with self.assertRaises(JSONWebTokenError):
-            JSONWebTokenBackend().authenticate(request=request)
+            self.backend.authenticate(request=request)
 
     def test_authenticate_null_request(self):
-        user = JSONWebTokenBackend().authenticate(request=None)
+        user = self.backend.authenticate(request=None)
         self.assertIsNone(user)
 
     def test_authenticate_missing_token(self):
-        request = self.factory.get('/')
-        user = JSONWebTokenBackend().authenticate(request=request)
+        request = self.request_factory.get('/')
+        user = self.backend.authenticate(request=request)
 
         self.assertIsNone(user)
 
     def test_get_user(self):
-        user = JSONWebTokenBackend().get_user(self.user.get_username())
+        user = self.backend.get_user(self.user.get_username())
         self.assertEqual(user, self.user)

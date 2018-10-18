@@ -1,20 +1,27 @@
-from calendar import timegm
-from datetime import datetime
-
-from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 
 import graphene
 from graphene.types.generic import GenericScalar
 
 from . import exceptions
+from .refresh_token.mixins import RefreshTokenMixin
 from .settings import jwt_settings
 from .shortcuts import get_token
 from .utils import get_payload, get_user_by_payload
 
 
-class ObtainJSONWebTokenMixin(object):
+class JSONWebTokenMixin(object):
     token = graphene.String()
+
+    @classmethod
+    def Field(cls, *args, **kwargs):
+        if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
+            cls._meta.fields['refresh_token'] = graphene.Field(graphene.String)
+
+        return super(JSONWebTokenMixin, cls).Field(*args, **kwargs)
+
+
+class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
 
     @classmethod
     def __init_subclass_with_meta__(cls, name=None, **options):
@@ -25,13 +32,6 @@ class ObtainJSONWebTokenMixin(object):
         super(ObtainJSONWebTokenMixin, cls)\
             .__init_subclass_with_meta__(name=name, **options)
 
-    @classmethod
-    def get_authentication_input(cls):
-        return {
-            get_user_model().USERNAME_FIELD: graphene.String(required=True),
-            'password': graphene.String(required=True),
-        }
-
 
 class ResolveMixin(object):
 
@@ -40,13 +40,10 @@ class ResolveMixin(object):
         return cls()
 
 
-class VerifyMixin(object):
-    payload = GenericScalar()
+class KeepAliveRefreshMixin(object):
 
-
-class RefreshMixin(object):
-    token = graphene.String()
-    payload = GenericScalar()
+    class Fields:
+        token = graphene.String(required=True)
 
     @classmethod
     def refresh(cls, root, info, token, **kwargs):
@@ -54,15 +51,19 @@ class RefreshMixin(object):
         user = get_user_by_payload(payload)
         orig_iat = payload.get('origIat')
 
-        if orig_iat:
-            utcnow = timegm(datetime.utcnow().utctimetuple())
-            expiration = orig_iat +\
-                jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
-
-            if utcnow > expiration:
-                raise exceptions.JSONWebTokenError(_('Refresh has expired'))
-        else:
+        if not orig_iat:
             raise exceptions.JSONWebTokenError(_('origIat field is required'))
 
-        token = get_token(user, origIat=orig_iat)
+        if jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, info.context):
+            raise exceptions.JSONWebTokenError(_('Refresh has expired'))
+
+        token = get_token(user, info.context, origIat=orig_iat)
         return cls(token=token, payload=payload)
+
+
+class RefreshMixin((RefreshTokenMixin
+                    if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN
+                    else KeepAliveRefreshMixin),
+                   JSONWebTokenMixin):
+
+    payload = GenericScalar()

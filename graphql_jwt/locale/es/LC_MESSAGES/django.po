@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-16 23:54+0700\n"
+"POT-Creation-Date: 2018-10-18 02:57+0700\n"
 "PO-Revision-Date: 2018-01-05 16:20+0000\n"
 "Last-Translator: mongkok <domake.io@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decorators.py:81
+#: decorators.py:86
 msgid "Please, enter valid credentials"
 msgstr "Por favor, introduce unas credenciales válidas"
 
@@ -27,13 +27,70 @@ msgstr "Por favor, introduce unas credenciales válidas"
 msgid "You do not have permission to perform this action"
 msgstr "Usted no tiene permiso para realizar esta acción"
 
-#: mixins.py:63
+#: mixins.py:55
+msgid "origIat field is required"
+msgstr "El campo origIat es requerido"
+
+#: mixins.py:58
 msgid "Refresh has expired"
 msgstr "El refresco ha expirado"
 
-#: mixins.py:65
-msgid "origIat field is required"
-msgstr "El campo origIat es requerido"
+#: refresh_token/admin/__init__.py:20
+#, python-format
+msgid "Revoke selected %(verbose_name_plural)s"
+msgstr "Revocar %(verbose_name_plural)s seleccionado/s"
+
+#: refresh_token/admin/__init__.py:26
+msgid "is expired"
+msgstr "expirado"
+
+#: refresh_token/admin/filters.py:14
+msgid "Yes"
+msgstr "Sí"
+
+#: refresh_token/admin/filters.py:15
+msgid "No"
+msgstr "No"
+
+#: refresh_token/admin/filters.py:20
+msgid "Expired"
+msgstr "Expirado"
+
+#: refresh_token/admin/filters.py:32
+msgid "Revoked"
+msgstr "Revocado"
+
+#: refresh_token/apps.py:7 refresh_token/models.py:35
+msgid "Refresh token"
+msgstr "Token de refresco"
+
+#: refresh_token/mixins.py:23
+msgid "Refresh token is expired"
+msgstr "El token de refresco está expirado"
+
+#: refresh_token/models.py:24
+msgid "user"
+msgstr "usuario"
+
+#: refresh_token/models.py:26
+msgid "token"
+msgstr ""
+
+#: refresh_token/models.py:28
+msgid "created"
+msgstr "creado"
+
+#: refresh_token/models.py:29
+msgid "revoked"
+msgstr "revocado"
+
+#: refresh_token/models.py:36
+msgid "Refresh tokens"
+msgstr "Tokens de refresco"
+
+#: refresh_token/shortcuts.py:18
+msgid "Invalid refresh token"
+msgstr "Token de refresco inválido"
 
 #: utils.py:71
 msgid "Signature has expired"

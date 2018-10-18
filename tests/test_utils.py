@@ -1,22 +1,15 @@
 from datetime import timedelta
 
-from django.contrib.auth import get_user_model
-from django.test import RequestFactory
-
 from graphql_jwt import utils
 from graphql_jwt.exceptions import JSONWebTokenError
 from graphql_jwt.settings import jwt_settings
 
 from .compat import mock
 from .decorators import override_jwt_settings
-from .testcases import UserTestCase
+from .testcases import TestCase
 
 
-class UtilsTests(UserTestCase):
-
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(username='test')
-        self.factory = RequestFactory()
+class UtilsTests(TestCase):
 
     @mock.patch('django.contrib.auth.models.User.get_username',
                 return_value=mock.Mock(pk='test'))
@@ -41,10 +34,10 @@ class UtilsTests(UserTestCase):
             jwt_settings.JWT_AUTH_HEADER: 'INVALID token',
         }
 
-        request = self.factory.get('/', **headers)
-        header = utils.get_authorization_header(request)
+        request = self.request_factory.get('/', **headers)
+        authorization_header = utils.get_authorization_header(request)
 
-        self.assertIsNone(header)
+        self.assertIsNone(authorization_header)
 
     @override_jwt_settings(JWT_AUTH_HEADER='HTTP_AUTHORIZATION_TOKEN')
     def test_custom_authorization_header(self):
@@ -53,10 +46,10 @@ class UtilsTests(UserTestCase):
                 jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
-        request = self.factory.get('/', **headers)
-        header = utils.get_authorization_header(request)
+        request = self.request_factory.get('/', **headers)
+        authorization_header = utils.get_authorization_header(request)
 
-        self.assertEqual(header, 'token')
+        self.assertEqual(authorization_header, 'token')
 
     @override_jwt_settings(
         JWT_VERIFY_EXPIRATION=True,
