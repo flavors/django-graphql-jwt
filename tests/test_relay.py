@@ -1,18 +1,10 @@
-from functools import wraps
-
 import graphene
 
 import graphql_jwt
 
 from . import mixins
+from .decorators import input_variables
 from .testcases import SchemaTestCase
-
-
-def input_variables(f):
-    @wraps(f)
-    def wrapper(self, variables):
-        return f(self, {'input': variables})
-    return wrapper
 
 
 class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):

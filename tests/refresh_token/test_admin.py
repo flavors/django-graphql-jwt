@@ -10,11 +10,8 @@ from graphql_jwt.shortcuts import create_refresh_token
 
 from ..testcases import UserTestCase
 
+from ..decorators import skipif_django_version
 
-def skipif_django_version(version):
-    return pytest.mark.skipif(
-        django.get_version() < version,
-        reason='Django < {} is not supported'.format(version))
 
 
 class AdminTestCase(UserTestCase):

@@ -4,7 +4,7 @@ import graphql_jwt
 from graphql_jwt.refresh_token.mixins import RefreshTokenMixin
 
 from . import mixins
-from ..test_relay import input_variables
+from ..decorators import input_variables
 from ..testcases import SchemaTestCase
 
 
