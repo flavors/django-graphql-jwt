@@ -16,16 +16,14 @@ class RefreshTokenMixin(object):
 
     @classmethod
     def refresh(cls, root, info, refresh_token, **kwargs):
+        context = info.context
         refresh_token = get_refresh_token(refresh_token)
 
-        if refresh_token.is_expired(info.context):
+        if refresh_token.is_expired(context):
             raise exceptions.JSONWebTokenError(_('Refresh token is expired'))
 
-        payload = jwt_settings.JWT_PAYLOAD_HANDLER(
-            refresh_token.user,
-            info.context)
-
-        token = jwt_settings.JWT_ENCODE_HANDLER(payload, info.context)
+        payload = jwt_settings.JWT_PAYLOAD_HANDLER(refresh_token.user, context)
+        token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
         refreshed_token = refresh_token.rotate().token
 
         return cls(token=token, payload=payload, refresh_token=refreshed_token)

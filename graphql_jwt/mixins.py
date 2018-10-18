@@ -46,21 +46,21 @@ class KeepAliveRefreshMixin(object):
 
     @classmethod
     def refresh(cls, root, info, token, **kwargs):
-        payload = get_payload(token, info.context)
+        context = info.context
+        payload = get_payload(token, context)
         user = get_user_by_payload(payload)
         orig_iat = payload.get('origIat')
 
         if not orig_iat:
             raise exceptions.JSONWebTokenError(_('origIat field is required'))
 
-        if jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, info.context):
+        if jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, context):
             raise exceptions.JSONWebTokenError(_('Refresh has expired'))
 
-        payload = jwt_settings.JWT_PAYLOAD_HANDLER(user, info.context)
+        payload = jwt_settings.JWT_PAYLOAD_HANDLER(user, context)
         payload['origIat'] = orig_iat
 
-        token = jwt_settings.JWT_ENCODE_HANDLER(payload, info.context)
-
+        token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
         return cls(token=token, payload=payload)
 
 
