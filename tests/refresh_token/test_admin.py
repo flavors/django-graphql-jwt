@@ -1,25 +1,17 @@
-import django
 from django.contrib.admin import site
-from django.test import RequestFactory
-
-import pytest
 
 from graphql_jwt.refresh_token import admin
 from graphql_jwt.refresh_token.shortcuts import get_refresh_token_model
 from graphql_jwt.shortcuts import create_refresh_token
 
-from ..testcases import UserTestCase
-
 from ..decorators import skipif_django_version
+from ..testcases import TestCase
 
 
-
-class AdminTestCase(UserTestCase):
+class AdminTestCase(TestCase):
 
     def setUp(self):
         super(AdminTestCase, self).setUp()
-
-        self.request_factory = RequestFactory()
         RefreshToken = get_refresh_token_model()
         self.refresh_token = create_refresh_token(self.user)
         self.refresh_token_admin = admin.RefreshTokenAdmin(RefreshToken, site)
@@ -28,7 +20,7 @@ class AdminTestCase(UserTestCase):
 class AdminTests(AdminTestCase):
 
     def test_revoke(self):
-        request = self.request_factory.get('/')
+        request = self.factory.get('/')
         qs = self.refresh_token_admin.get_queryset(request)
 
         self.refresh_token_admin.revoke(request, qs)
@@ -45,7 +37,7 @@ class AdminTests(AdminTestCase):
 class FiltersTests(AdminTestCase):
 
     def filter_queryset(self, **kwargs):
-        request = self.request_factory.get('/', kwargs)
+        request = self.factory.get('/', kwargs)
         request.user = self.user
         changelist = self.refresh_token_admin.get_changelist_instance(request)
         return changelist.get_queryset(request)
