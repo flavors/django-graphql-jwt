@@ -34,7 +34,7 @@ class UtilsTests(TestCase):
             jwt_settings.JWT_AUTH_HEADER: 'INVALID token',
         }
 
-        request = self.factory.get('/', **headers)
+        request = self.request_factory.get('/', **headers)
         authorization_header = utils.get_authorization_header(request)
 
         self.assertIsNone(authorization_header)
@@ -46,7 +46,7 @@ class UtilsTests(TestCase):
                 jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
-        request = self.factory.get('/', **headers)
+        request = self.request_factory.get('/', **headers)
         authorization_header = utils.get_authorization_header(request)
 
         self.assertEqual(authorization_header, 'token')

@@ -20,7 +20,7 @@ class AdminTestCase(TestCase):
 class AdminTests(AdminTestCase):
 
     def test_revoke(self):
-        request = self.factory.get('/')
+        request = self.request_factory.get('/')
         qs = self.refresh_token_admin.get_queryset(request)
 
         self.refresh_token_admin.revoke(request, qs)
@@ -37,7 +37,7 @@ class AdminTests(AdminTestCase):
 class FiltersTests(AdminTestCase):
 
     def filter_queryset(self, **kwargs):
-        request = self.factory.get('/', kwargs)
+        request = self.request_factory.get('/', kwargs)
         request.user = self.user
         changelist = self.refresh_token_admin.get_changelist_instance(request)
         return changelist.get_queryset(request)
