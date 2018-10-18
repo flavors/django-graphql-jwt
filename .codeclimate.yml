@@ -4,6 +4,7 @@ engines:
     enabled: true
     exclude_paths:
     - "graphql_jwt/relay.py"
+    - "graphql_jwt/refresh_token/relay.py"
     config:
       languages:
       - python
