@@ -92,11 +92,10 @@ The mutation uses your User's model `USERNAME_FIELD`_, which by default is ``use
     }
 
 
-- ``refreshToken`` to obtain a brand new *token* with renewed expiration time for **non-expired tokens**.
+- ``refreshToken`` to refresh the *token*.
 
-`Configure your refresh token scenario`_ and set the flag ``JWT_VERIFY_EXPIRATION=true``.
+`Configure your refresh token scenario <https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration>`__ and set to ``True`` the `JWT_VERIFY_EXPIRATION setting <#settings>`__.
 
-.. _Configure your refresh token scenario: https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration
 
 .. code:: graphql
 
@@ -315,6 +314,27 @@ JWT_REFRESH_EXPIRATION_DELTA
     Limit on token refresh
     Default: timedelta(days=7)
 
+JWT_LONG_RUNNING_REFRESH_TOKEN
+
+::
+
+    Enable long time running refresh token
+    Default: False
+
+JWT_REFRESH_TOKEN_MODEL
+
+::
+
+    The model to use to represent a refresh token
+    Default: 'refresh_token.RefreshToken'
+
+JWT_REFRESH_TOKEN_LENGTH
+
+::
+
+    Refresh token length
+    Default: 20
+
 JWT_AUTH_HEADER
 
 ::
@@ -328,13 +348,6 @@ JWT_AUTH_HEADER_PREFIX
 
     Authorization prefix
     Default: 'JWT'
-
-JWT_PAYLOAD_HANDLER
-
-::
-
-    A custom function `f(user, context)` to generate the token payload
-    Default: 'graphql_jwt.utils.jwt_payload'
 
 JWT_ENCODE_HANDLER
 
@@ -350,12 +363,26 @@ JWT_DECODE_HANDLER
     A custom function `f(token, context)` to decode the token
     Default: 'graphql_jwt.utils.jwt_decode'
 
+JWT_PAYLOAD_HANDLER
+
+::
+
+    A custom function `f(user, context)` to generate the token payload
+    Default: 'graphql_jwt.utils.jwt_payload'
+
 JWT_PAYLOAD_GET_USERNAME_HANDLER
 
 ::
 
     A custom function `f(payload)` to obtain the username
     Default: lambda payload: payload.get(get_user_model().USERNAME_FIELD)
+
+JWT_REFRESH_EXPIRED_HANDLER
+
+::
+
+    A custom function `f(orig_iat, context)` to determine if refresh has expired
+    Default: 'graphql_jwt.utils.refresh_has_expired'
 
 
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
