@@ -7,6 +7,14 @@ from .compat import mock
 
 
 @contextmanager
+def catch_signal(signal):
+    handler = mock.Mock()
+    signal.connect(handler)
+    yield handler
+    signal.disconnect(handler)
+
+
+@contextmanager
 def back_to_the_future(**kwargs):
     with mock.patch('graphql_jwt.utils.datetime') as datetime_mock:
         datetime_mock.utcnow.return_value =\
