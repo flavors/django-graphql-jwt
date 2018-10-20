@@ -3,8 +3,8 @@ import graphene
 from graphql_jwt.shortcuts import create_refresh_token, get_refresh_token
 from graphql_jwt.utils import get_payload
 
+from ..context_managers import back_to_the_future, refresh_expired
 from ..decorators import override_jwt_settings
-from ..mixins import back_to_the_future, refresh_expired
 
 
 class RefreshTokenMutationsMixin(object):
