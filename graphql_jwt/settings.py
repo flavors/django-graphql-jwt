@@ -19,7 +19,7 @@ DEFAULTS = {
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
     'JWT_LONG_RUNNING_REFRESH_TOKEN': False,
     'JWT_REFRESH_TOKEN_MODEL': 'refresh_token.RefreshToken',
-    'JWT_REFRESH_TOKEN_LENGTH': 20,
+    'JWT_REFRESH_TOKEN_N_BYTES': 20,
     'JWT_AUTH_HEADER': 'HTTP_AUTHORIZATION',
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_ENCODE_HANDLER': 'graphql_jwt.utils.jwt_encode',

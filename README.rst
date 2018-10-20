@@ -318,11 +318,11 @@ JWT_REFRESH_TOKEN_MODEL
     The model to use to represent a refresh token
     Default: 'refresh_token.RefreshToken'
 
-JWT_REFRESH_TOKEN_LENGTH
+JWT_REFRESH_TOKEN_N_BYTES
 
 ::
 
-    Refresh token length
+    Refresh token number of bytes
     Default: 20
 
 JWT_AUTH_HEADER

@@ -46,7 +46,7 @@ class AbstractRefreshToken(models.Model):
 
     def generate_token(self):
         return binascii.hexlify(
-            os.urandom(jwt_settings.JWT_REFRESH_TOKEN_LENGTH),
+            os.urandom(jwt_settings.JWT_REFRESH_TOKEN_N_BYTES),
         ).decode()
 
     def is_expired(self, context=None):
