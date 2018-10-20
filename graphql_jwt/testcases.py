@@ -11,6 +11,13 @@ from .shortcuts import get_token
 
 class SchemaRequestFactory(RequestFactory):
 
+    def __init__(self, **defaults):
+        super(SchemaRequestFactory, self).__init__(**defaults)
+        self._schema = graphene_settings.SCHEMA
+
+    def schema(self, **kwargs):
+        self._schema = graphene.Schema(**kwargs)
+
     def execute(self, context, query, variables):
         return self._schema.execute(
             query,
@@ -23,15 +30,11 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
     def __init__(self, **defaults):
         super(JSONWebTokenClient, self).__init__(**defaults)
         self._credentials = {}
-        self._schema = graphene_settings.SCHEMA
 
     def request(self, **request):
         request = WSGIRequest(self._base_environ(**request))
         request.user = authenticate(request)
         return request
-
-    def schema(self, **kwargs):
-        self._schema = graphene.Schema(**kwargs)
 
     def credentials(self, **kwargs):
         self._credentials = kwargs
