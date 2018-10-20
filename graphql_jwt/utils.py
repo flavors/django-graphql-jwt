@@ -98,10 +98,6 @@ def get_user_by_payload(payload):
 
 
 def refresh_has_expired(orig_iat, context=None):
-    utcnow = timegm(datetime.utcnow().utctimetuple())
-    expiration = orig_iat +\
-        jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
-
-    if utcnow > expiration:
-        return True
-    return False
+    return timegm(datetime.utcnow().utctimetuple()) > (
+        orig_iat + jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+    )
