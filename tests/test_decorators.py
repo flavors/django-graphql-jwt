@@ -129,5 +129,5 @@ class TokenAuthTests(DecoratorsTestCase):
             password='dolphins',
             username=self.user.get_username())
 
-        self.assertTrue(is_thenable(result))
+        self.assertIsNotNone(is_thenable(result))
         self.assertNotIn(jwt_settings.JWT_AUTH_HEADER, info_mock.context.META)

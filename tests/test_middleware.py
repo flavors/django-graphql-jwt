@@ -52,7 +52,7 @@ class MiddlewareTests(TestCase):
         response = self.middleware(request)
         content = json.loads(response.content.decode('utf-8'))
 
-        self.assertTrue(content['errors'])
+        self.assertIsNotNone(content['errors'])
         self.get_response_mock.assert_not_called()
 
     def test_header_not_found(self):

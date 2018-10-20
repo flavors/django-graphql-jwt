@@ -42,7 +42,7 @@ class TokenAuthMixin(object):
             'password': 'wrong',
         })
 
-        self.assertTrue(response.errors)
+        self.assertIsNotNone(response.errors)
 
 
 class VerifyMixin(object):
@@ -63,7 +63,7 @@ class VerifyMixin(object):
             'token': 'invalid',
         })
 
-        self.assertTrue(response.errors)
+        self.assertIsNotNone(response.errors)
 
 
 class RefreshMixin(object):
@@ -94,7 +94,7 @@ class RefreshMixin(object):
                 'token': self.token,
             })
 
-        self.assertTrue(response.errors)
+        self.assertIsNotNone(response.errors)
 
     @override_jwt_settings(JWT_ALLOW_REFRESH=False)
     def test_refresh_error(self):
@@ -103,4 +103,4 @@ class RefreshMixin(object):
             'token': token,
         })
 
-        self.assertTrue(response.errors)
+        self.assertIsNotNone(response.errors)

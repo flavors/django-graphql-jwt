@@ -72,7 +72,7 @@ class RefreshMixin(RefreshTokenMutationsMixin, RefreshTokenMixin):
                 'refreshToken': self.refresh_token.token,
             })
 
-        self.assertTrue(response.errors)
+        self.assertIsNotNone(response.errors)
 
 
 class RevokeMixin(RefreshTokenMixin):
@@ -85,4 +85,4 @@ class RevokeMixin(RefreshTokenMixin):
         self.refresh_token.refresh_from_db()
 
         self.assertIsNotNone(self.refresh_token.revoked)
-        self.assertTrue(response.data['revokeToken']['revoked'])
+        self.assertIsNotNone(response.data['revokeToken']['revoked'])
