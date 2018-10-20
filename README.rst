@@ -379,7 +379,7 @@ JWT_REFRESH_EXPIRED_HANDLER
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
 .. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss
 .. _JWT_LEEWAY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=leeway#expiration-time-claim-exp
-.. _JWT_SECRET_KEY: http://pyjwt.readthedocs.io/en/latest/algorithms.html?highlight=secret+key#asymmetric-public-key-algorithms
+.. _JWT_SECRET_KEY: https://pyjwt.readthedocs.io/en/latest/usage.html?highlight=secret%20key#usage-examples
 .. _JWT_VERIFY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify#reading-the-claimset-without-validation
 .. _JWT_VERIFY_EXPIRATION: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify_exp#expiration-time-claim-exp
 
