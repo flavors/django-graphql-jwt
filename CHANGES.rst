@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.14
+------
+
+* Added long running refresh tokens
+* Renamed orig_iat to origIat
+* Added request argument to get_user_by_token
+
 0.1.13
 ------
 
