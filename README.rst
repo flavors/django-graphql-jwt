@@ -374,12 +374,12 @@ JWT_REFRESH_EXPIRED_HANDLER
     A custom function `f(orig_iat, context)` to determine if refresh has expired
     Default: 'graphql_jwt.utils.refresh_has_expired'
 
-JWT_IS_AUTHENTICATED_HANDLER
+JWT_ALLOW_ANY_HANDLER
 
 ::
 
     A custom function `f(info, field)` to determine the authentication per-field
-    Default: 'graphql_jwt.middleware.is_authenticated'
+    Default: 'graphql_jwt.middleware.allow_any'
 
 
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html

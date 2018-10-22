@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from graphene_django.settings import graphene_settings
 
 from graphql_jwt.exceptions import JSONWebTokenError
-from graphql_jwt.middleware import JSONWebTokenMiddleware, is_authenticated
+from graphql_jwt.middleware import JSONWebTokenMiddleware, allow_any
 from graphql_jwt.mutations import JSONWebTokenMutation
 from graphql_jwt.settings import jwt_settings
 
@@ -88,9 +88,9 @@ class DjangoMiddlewareTests(TestCase):
         authenticate_mock.assert_not_called()
 
 
-def is_authenticated_settings(is_authenticated):
+def allow_any_settings(allow_any):
     return override_jwt_settings(
-        JWT_IS_AUTHENTICATED_HANDLER=lambda info, field: is_authenticated,
+        JWT_ALLOW_ANY_HANDLER=lambda info, field: allow_any,
     )
 
 
@@ -115,7 +115,7 @@ class GrapheneMiddlewareTests(TestCase):
 
         graphene_settings.MIDDLEWARE = [JSONWebTokenMiddleware]
 
-    @is_authenticated_settings(True)
+    @allow_any_settings(False)
     def test_authenticate(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
@@ -132,7 +132,7 @@ class GrapheneMiddlewareTests(TestCase):
         info_mock.schema.get_query_type().fields.get.assert_called_with('test')
         self.assertEqual(info_mock.context.user, self.user)
 
-    @is_authenticated_settings(True)
+    @allow_any_settings(False)
     @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_not_authenticate(self, authenticate_mock):
         headers = {
@@ -151,7 +151,7 @@ class GrapheneMiddlewareTests(TestCase):
         authenticate_mock.assert_called_with(request=info_mock.context)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
-    @is_authenticated_settings(True)
+    @allow_any_settings(False)
     def test_invalid_token(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER: '{} invalid'.format(
@@ -167,7 +167,7 @@ class GrapheneMiddlewareTests(TestCase):
         next_mock.assert_not_called()
         info_mock.schema.get_query_type().fields.get.assert_called_with('test')
 
-    @is_authenticated_settings(True)
+    @allow_any_settings(False)
     @mock.patch('graphql_jwt.middleware.authenticate')
     def test_already_authenticated(self, authenticate_mock):
         headers = {
@@ -185,8 +185,8 @@ class GrapheneMiddlewareTests(TestCase):
         info_mock.assert_not_called()
         authenticate_mock.assert_not_called()
 
-    @is_authenticated_settings(False)
-    def test_is_not_authenticated(self):
+    @allow_any_settings(True)
+    def test_allow_any(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
@@ -203,21 +203,21 @@ class GrapheneMiddlewareTests(TestCase):
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
 
-class IsAuthenticatedTests(TestCase):
+class AllowAnyTests(TestCase):
 
     def field(self, cls):
         return mock.Mock(type=mock.Mock(graphene_type=cls))
 
-    def test_not_authenticated(self):
-        authenticated = is_authenticated(
+    def test_allow_any(self):
+        allowed = allow_any(
             self.info(self.user),
             self.field(JSONWebTokenMutation))
 
-        self.assertFalse(authenticated)
+        self.assertTrue(allowed)
 
-    def test_authenticated(self):
-        authenticated = is_authenticated(
+    def test_not_allow_any(self):
+        allowed = allow_any(
             self.info(self.user),
             self.field(TestCase))
 
-        self.assertTrue(authenticated)
+        self.assertFalse(allowed)

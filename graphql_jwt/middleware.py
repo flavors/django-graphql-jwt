@@ -14,8 +14,8 @@ from .settings import jwt_settings
 from .utils import get_authorization_header
 
 
-def is_authenticated(info, field, **kwargs):
-    return not issubclass(field.type.graphene_type, (
+def allow_any(info, field, **kwargs):
+    return issubclass(field.type.graphene_type, (
         mixins.JSONWebTokenMixin,
         mixins.VerifyMixin,
         refresh_token_mixins.RevokeMixin))
@@ -64,9 +64,9 @@ class JSONWebTokenMiddleware(MiddlewareMixin):
                 'get_{}_type'.format(info.operation.operation),
             )().fields.get(info.path[0])
 
-            is_authenticated = jwt_settings.JWT_IS_AUTHENTICATED_HANDLER
+            if (field is None or not
+                    jwt_settings.JWT_ALLOW_ANY_HANDLER(info, field, **kwargs)):
 
-            if field is None or is_authenticated(info, field, **kwargs):
                 user = authenticate(request=context)
 
                 if user is not None:
