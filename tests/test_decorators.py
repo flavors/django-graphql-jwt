@@ -1,23 +1,14 @@
-from django.contrib.auth import models
+from django.contrib.auth.models import AnonymousUser, Permission
 
 from promise import Promise, is_thenable
 
 from graphql_jwt import decorators, exceptions
 from graphql_jwt.settings import jwt_settings
 
-from .compat import mock
 from .testcases import TestCase
 
 
-class DecoratorsTestCase(TestCase):
-
-    def info(self, user, **kwargs):
-        request = self.request_factory.post('/', **kwargs)
-        request.user = user
-        return mock.Mock(context=request)
-
-
-class UserPassesTests(DecoratorsTestCase):
+class UserPassesTests(TestCase):
 
     def test_user_passes_test(self):
 
@@ -38,7 +29,7 @@ class UserPassesTests(DecoratorsTestCase):
             wrapped(self.info(self.user))
 
 
-class LoginRequiredTests(DecoratorsTestCase):
+class LoginRequiredTests(TestCase):
 
     def test_login_required(self):
 
@@ -56,10 +47,10 @@ class LoginRequiredTests(DecoratorsTestCase):
             """Decorated function"""
 
         with self.assertRaises(exceptions.PermissionDenied):
-            wrapped(self.info(models.AnonymousUser()))
+            wrapped(self.info(AnonymousUser()))
 
 
-class StaffMemberRequiredTests(DecoratorsTestCase):
+class StaffMemberRequiredTests(TestCase):
 
     def test_staff_member_required(self):
 
@@ -82,7 +73,7 @@ class StaffMemberRequiredTests(DecoratorsTestCase):
             wrapped(self.info(self.user))
 
 
-class PermissionRequiredTests(DecoratorsTestCase):
+class PermissionRequiredTests(TestCase):
 
     def test_permission_required(self):
 
@@ -90,7 +81,7 @@ class PermissionRequiredTests(DecoratorsTestCase):
         def wrapped(info):
             """Decorated function"""
 
-        perm = models.Permission.objects.get(codename='add_user')
+        perm = Permission.objects.get(codename='add_user')
         self.user.user_permissions.add(perm)
 
         result = wrapped(self.info(self.user))
@@ -106,7 +97,7 @@ class PermissionRequiredTests(DecoratorsTestCase):
             wrapped(self.info(self.user))
 
 
-class TokenAuthTests(DecoratorsTestCase):
+class TokenAuthTests(TestCase):
 
     def test_already_authenticated(self):
 
@@ -120,7 +111,7 @@ class TokenAuthTests(DecoratorsTestCase):
                 self.token),
         }
 
-        info_mock = self.info(models.AnonymousUser(), **headers)
+        info_mock = self.info(AnonymousUser(), **headers)
 
         result = wrapped(
             self,
