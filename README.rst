@@ -378,7 +378,7 @@ JWT_ALLOW_ANY_HANDLER
 
 ::
 
-    A custom function `f(info, field)` to determine the authentication per-field
+    A custom function `f(info, field, **kwargs)` to determine the authentication per-field
     Default: 'graphql_jwt.middleware.allow_any'
 
 
