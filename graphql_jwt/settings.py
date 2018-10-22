@@ -29,6 +29,7 @@ DEFAULTS = {
         lambda payload: payload.get(get_user_model().USERNAME_FIELD)
     ),
     'JWT_REFRESH_EXPIRED_HANDLER': 'graphql_jwt.utils.refresh_has_expired',
+    'JWT_IS_AUTHENTICATED_HANDLER': 'graphql_jwt.middleware.is_authenticated',
 }
 
 IMPORT_STRINGS = (
@@ -37,6 +38,7 @@ IMPORT_STRINGS = (
     'JWT_PAYLOAD_HANDLER',
     'JWT_PAYLOAD_GET_USERNAME_HANDLER',
     'JWT_REFRESH_EXPIRED_HANDLER',
+    'JWT_IS_AUTHENTICATED_HANDLER',
 )
 
 
