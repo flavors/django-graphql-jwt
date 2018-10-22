@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 
 import jwt
 
-from .exceptions import JSONWebTokenError
+from . import exceptions
 from .settings import jwt_settings
 
 
@@ -68,11 +68,11 @@ def get_payload(token, context=None):
     try:
         payload = jwt_settings.JWT_DECODE_HANDLER(token, context)
     except jwt.ExpiredSignature:
-        raise JSONWebTokenError(_('Signature has expired'))
+        raise exceptions.JSONWebTokenExpired()
     except jwt.DecodeError:
-        raise JSONWebTokenError(_('Error decoding signature'))
+        raise exceptions.JSONWebTokenError(_('Error decoding signature'))
     except jwt.InvalidTokenError:
-        raise JSONWebTokenError(_('Invalid token'))
+        raise exceptions.JSONWebTokenError(_('Invalid token'))
     return payload
 
 
@@ -88,12 +88,12 @@ def get_user_by_payload(payload):
     username = jwt_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER(payload)
 
     if not username:
-        raise JSONWebTokenError(_('Invalid payload'))
+        raise exceptions.JSONWebTokenError(_('Invalid payload'))
 
     user = get_user_by_natural_key(username)
 
     if user is not None and not user.is_active:
-        raise JSONWebTokenError(_('User is disabled'))
+        raise exceptions.JSONWebTokenError(_('User is disabled'))
     return user
 
 
