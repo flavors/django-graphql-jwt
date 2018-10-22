@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 
 import graphene
-from graphene.types.generic import GenericScalar
 
 from . import mixins
 from .decorators import token_auth
@@ -41,8 +40,7 @@ class ObtainJSONWebToken(mixins.ResolveMixin, JSONWebTokenMutation):
     """Obtain JSON Web Token mutation"""
 
 
-class Verify(graphene.Mutation):
-    payload = GenericScalar()
+class Verify(mixins.VerifyMixin, graphene.Mutation):
 
     class Arguments:
         token = graphene.String(required=True)

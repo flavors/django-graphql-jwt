@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-22 21:58+0700\n"
+"POT-Creation-Date: 2018-10-23 03:21+0700\n"
 "PO-Revision-Date: 2018-10-21 02:00+0700\n"
 "Last-Translator: mongkok <domake.io@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -31,11 +31,11 @@ msgstr "Usted no tiene permiso para realizar esta acción"
 msgid "Signature has expired"
 msgstr "La firma ha expirado"
 
-#: mixins.py:55
+#: mixins.py:59
 msgid "origIat field is required"
 msgstr "El campo origIat es requerido"
 
-#: mixins.py:58
+#: mixins.py:62
 msgid "Refresh has expired"
 msgstr "El refresco ha expirado"
 
