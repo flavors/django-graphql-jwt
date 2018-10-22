@@ -88,12 +88,6 @@ class DjangoMiddlewareTests(TestCase):
         authenticate_mock.assert_not_called()
 
 
-def allow_any_settings(allowed):
-    return override_jwt_settings(
-        JWT_ALLOW_ANY_HANDLER=lambda info, field: allowed,
-    )
-
-
 class GrapheneMiddlewareTests(TestCase):
 
     def setUp(self):
@@ -115,7 +109,7 @@ class GrapheneMiddlewareTests(TestCase):
 
         graphene_settings.MIDDLEWARE = [JSONWebTokenMiddleware]
 
-    @allow_any_settings(False)
+    @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_authenticate(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
@@ -132,7 +126,7 @@ class GrapheneMiddlewareTests(TestCase):
         info_mock.schema.get_query_type().fields.get.assert_called_with('test')
         self.assertEqual(info_mock.context.user, self.user)
 
-    @allow_any_settings(False)
+    @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_not_authenticate(self, authenticate_mock):
         headers = {
@@ -151,7 +145,7 @@ class GrapheneMiddlewareTests(TestCase):
         authenticate_mock.assert_called_with(request=info_mock.context)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
-    @allow_any_settings(False)
+    @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_invalid_token(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER: '{} invalid'.format(
@@ -167,7 +161,7 @@ class GrapheneMiddlewareTests(TestCase):
         next_mock.assert_not_called()
         info_mock.schema.get_query_type().fields.get.assert_called_with('test')
 
-    @allow_any_settings(False)
+    @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     @mock.patch('graphql_jwt.middleware.authenticate')
     def test_already_authenticated(self, authenticate_mock):
         headers = {
@@ -185,7 +179,7 @@ class GrapheneMiddlewareTests(TestCase):
         info_mock.assert_not_called()
         authenticate_mock.assert_not_called()
 
-    @allow_any_settings(True)
+    @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: True)
     def test_allow_any(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
