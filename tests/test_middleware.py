@@ -88,9 +88,9 @@ class DjangoMiddlewareTests(TestCase):
         authenticate_mock.assert_not_called()
 
 
-def allow_any_settings(allow_any):
+def allow_any_settings(allowed):
     return override_jwt_settings(
-        JWT_ALLOW_ANY_HANDLER=lambda info, field: allow_any,
+        JWT_ALLOW_ANY_HANDLER=lambda info, field: allowed,
     )
 
 
