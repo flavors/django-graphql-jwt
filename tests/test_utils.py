@@ -8,27 +8,42 @@ from .decorators import override_jwt_settings
 from .testcases import TestCase
 
 
-class UtilsTests(TestCase):
+class JWTPayloadTests(TestCase):
 
     @mock.patch('django.contrib.auth.models.User.get_username',
                 return_value=mock.Mock(pk='test'))
-    def test_payload_foreign_key_pk(self, *args):
+    def test_foreign_key_pk(self, *args):
         payload = utils.jwt_payload(self.user)
         username = jwt_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER(payload)
 
         self.assertEqual(username, 'test')
 
     @override_jwt_settings(JWT_AUDIENCE='test')
-    def test_payload_audience(self):
+    def test_audience(self):
         payload = utils.jwt_payload(self.user)
         self.assertEqual(payload['aud'], 'test')
 
     @override_jwt_settings(JWT_ISSUER='test')
-    def test_payload_issuer(self):
+    def test_issuer(self):
         payload = utils.jwt_payload(self.user)
         self.assertEqual(payload['iss'], 'test')
 
-    def test_invalid_authorization_header_prefix(self):
+
+class GetAuthorizationHeaderTests(TestCase):
+
+    def test_get_header(self):
+        headers = {
+            jwt_settings.JWT_AUTH_HEADER: '{} {}'.format(
+                jwt_settings.JWT_AUTH_HEADER_PREFIX,
+                self.token),
+        }
+
+        request = self.request_factory.get('/', **headers)
+        authorization_header = utils.get_authorization_header(request)
+
+        self.assertEqual(authorization_header, self.token)
+
+    def test_invalid_header_prefix(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER: 'INVALID token',
         }
@@ -38,29 +53,47 @@ class UtilsTests(TestCase):
 
         self.assertIsNone(authorization_header)
 
-    @override_jwt_settings(JWT_AUTH_HEADER='HTTP_AUTHORIZATION_TOKEN')
-    def test_custom_authorization_header(self):
-        headers = {
-            'HTTP_AUTHORIZATION_TOKEN': '{} token'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX),
+
+class GetCredentialsTests(TestCase):
+
+    @override_jwt_settings(JWT_ALLOW_FIELD_AUTH=True)
+    def test_field_allowed(self):
+        kwargs = {
+            jwt_settings.JWT_AUTH_FIELD_NAME: self.token,
         }
 
-        request = self.request_factory.get('/', **headers)
-        authorization_header = utils.get_authorization_header(request)
+        request = self.request_factory.get('/')
+        authorization_field = utils.get_credentials(request, **kwargs)
 
-        self.assertEqual(authorization_header, 'token')
+        self.assertEqual(authorization_field, self.token)
+
+    @override_jwt_settings(JWT_ALLOW_FIELD_AUTH=True)
+    def test_relay_input(self):
+        kwargs = {
+            'input': {
+                jwt_settings.JWT_AUTH_FIELD_NAME: self.token,
+            },
+        }
+
+        request = self.request_factory.get('/')
+        authorization_field = utils.get_credentials(request, **kwargs)
+
+        self.assertEqual(authorization_field, self.token)
+
+
+class GetPayloadTests(TestCase):
 
     @override_jwt_settings(
         JWT_VERIFY_EXPIRATION=True,
         JWT_EXPIRATION_DELTA=timedelta(seconds=-1))
-    def test_payload_expired_signature(self):
+    def test_expired_signature(self):
         payload = utils.jwt_payload(self.user)
         token = utils.jwt_encode(payload)
 
         with self.assertRaises(exceptions.JSONWebTokenExpired):
             utils.get_payload(token)
 
-    def test_payload_decode_audience_missing(self):
+    def test_decode_audience_missing(self):
         payload = utils.jwt_payload(self.user)
         token = utils.jwt_encode(payload)
 
@@ -68,13 +101,19 @@ class UtilsTests(TestCase):
             with self.assertRaises(exceptions.JSONWebTokenError):
                 utils.get_payload(token)
 
-    def test_payload_decode_error(self):
+    def test_decode_error(self):
         with self.assertRaises(exceptions.JSONWebTokenError):
             utils.get_payload('invalid')
 
-    def test_user_by_natural_key_not_exists(self):
+
+class GetUserByNaturalKeyTests(TestCase):
+
+    def test_user_does_not_exists(self):
         user = utils.get_user_by_natural_key(0)
         self.assertIsNone(user)
+
+
+class GetUserByPayloadTests(TestCase):
 
     def test_user_by_invalid_payload(self):
         with self.assertRaises(exceptions.JSONWebTokenError):

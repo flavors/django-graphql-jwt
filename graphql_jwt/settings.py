@@ -22,6 +22,8 @@ DEFAULTS = {
     'JWT_REFRESH_TOKEN_N_BYTES': 20,
     'JWT_AUTH_HEADER': 'HTTP_AUTHORIZATION',
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_ALLOW_FIELD_AUTH': False,
+    'JWT_AUTH_FIELD_NAME': 'token',
     'JWT_ENCODE_HANDLER': 'graphql_jwt.utils.jwt_encode',
     'JWT_DECODE_HANDLER': 'graphql_jwt.utils.jwt_decode',
     'JWT_PAYLOAD_HANDLER': 'graphql_jwt.utils.jwt_payload',

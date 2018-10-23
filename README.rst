@@ -339,6 +339,20 @@ JWT_AUTH_HEADER_PREFIX
     Authorization prefix
     Default: 'JWT'
 
+JWT_ALLOW_FIELD_AUTH
+
+::
+
+    Allow per-field authentication system
+    Default: False
+
+JWT_AUTH_FIELD_NAME
+
+::
+
+    Field name for per-field authentication system
+    Default: 'token'
+
 JWT_ENCODE_HANDLER
 
 ::
@@ -378,7 +392,7 @@ JWT_ALLOW_ANY_HANDLER
 
 ::
 
-    A custom function `f(info, field, **kwargs)` to determine the authentication per-field
+    A custom function `f(info, field, **kwargs)` to determine the non-authentication per-field
     Default: 'graphql_jwt.middleware.allow_any'
 
 

@@ -11,7 +11,7 @@ from . import mixins
 from .exceptions import JSONWebTokenError
 from .refresh_token import mixins as refresh_token_mixins
 from .settings import jwt_settings
-from .utils import get_authorization_header
+from .utils import get_authorization_header, get_credentials
 
 
 def allow_any(info, field, **kwargs):
@@ -56,7 +56,7 @@ class JSONWebTokenMiddleware(MiddlewareMixin):
     def resolve(self, next, root, info, **kwargs):
         context = info.context
 
-        if (get_authorization_header(context) is not None and
+        if (get_credentials(context, **kwargs) is not None and
                 (not hasattr(context, 'user') or context.user.is_anonymous)):
 
             field = getattr(
@@ -67,7 +67,7 @@ class JSONWebTokenMiddleware(MiddlewareMixin):
             if (field is None or not
                     jwt_settings.JWT_ALLOW_ANY_HANDLER(info, field, **kwargs)):
 
-                user = authenticate(request=context)
+                user = authenticate(request=context, **kwargs)
 
                 if user is not None:
                     context.user = context._cached_user = user
