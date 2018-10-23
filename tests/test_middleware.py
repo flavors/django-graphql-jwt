@@ -4,6 +4,7 @@ import warnings
 from django.contrib.auth.models import AnonymousUser
 from django.http import JsonResponse
 
+import graphene
 from graphene_django.settings import graphene_settings
 
 from graphql_jwt.exceptions import JSONWebTokenError
@@ -201,6 +202,13 @@ class AllowAnyTests(TestCase):
 
     def field(self, cls):
         return mock.Mock(type=mock.Mock(graphene_type=cls))
+
+    def test_scalar_type(self):
+        allowed = allow_any(
+            self.info(self.user),
+            graphene.Boolean().Field())
+
+        self.assertFalse(allowed)
 
     def test_allow_any(self):
         allowed = allow_any(
