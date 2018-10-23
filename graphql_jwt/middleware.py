@@ -15,7 +15,12 @@ from .utils import get_authorization_header, get_credentials
 
 
 def allow_any(info, field, **kwargs):
-    return issubclass(field.type.graphene_type, (
+    graphene_type = getattr(field.type, 'graphene_type', None)
+
+    if graphene_type is None:
+        return False
+
+    return issubclass(graphene_type, (
         mixins.JSONWebTokenMixin,
         mixins.VerifyMixin,
         refresh_token_mixins.RevokeMixin))
