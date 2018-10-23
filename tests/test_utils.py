@@ -80,6 +80,13 @@ class GetCredentialsTests(TestCase):
 
         self.assertEqual(authorization_field, self.token)
 
+    @override_jwt_settings(JWT_ALLOW_FIELD_AUTH=True)
+    def test_missing_field(self):
+        request = self.request_factory.get('/')
+        authorization_field = utils.get_credentials(request)
+
+        self.assertIsNone(authorization_field)
+
 
 class GetPayloadTests(TestCase):
 
