@@ -17,13 +17,13 @@ from .utils import get_authorization_header, get_credentials
 def allow_any(info, field, **kwargs):
     graphene_type = getattr(field.type, 'graphene_type', None)
 
-    if graphene_type is None:
-        return False
-
-    return issubclass(graphene_type, (
+    allowed_classes = (
         mixins.JSONWebTokenMixin,
         mixins.VerifyMixin,
-        refresh_token_mixins.RevokeMixin))
+        refresh_token_mixins.RevokeMixin,
+    )
+    return (graphene_type is not None and
+            issubclass(graphene_type, allowed_classes))
 
 
 class JSONWebTokenMiddleware(MiddlewareMixin):
