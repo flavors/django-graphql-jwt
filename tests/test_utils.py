@@ -56,36 +56,36 @@ class GetAuthorizationHeaderTests(TestCase):
 
 class GetCredentialsTests(TestCase):
 
-    @override_jwt_settings(JWT_ALLOW_FIELD_AUTH=True)
-    def test_field_allowed(self):
+    @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
+    def test_argument_allowed(self):
         kwargs = {
-            jwt_settings.JWT_AUTH_FIELD_NAME: self.token,
+            jwt_settings.JWT_ARGUMENT_NAME: self.token,
         }
 
         request = self.request_factory.get('/')
-        authorization_field = utils.get_credentials(request, **kwargs)
+        credentials = utils.get_credentials(request, **kwargs)
 
-        self.assertEqual(authorization_field, self.token)
+        self.assertEqual(credentials, self.token)
 
-    @override_jwt_settings(JWT_ALLOW_FIELD_AUTH=True)
-    def test_relay_input(self):
+    @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
+    def test_input_argument(self):
         kwargs = {
             'input': {
-                jwt_settings.JWT_AUTH_FIELD_NAME: self.token,
+                jwt_settings.JWT_ARGUMENT_NAME: self.token,
             },
         }
 
         request = self.request_factory.get('/')
-        authorization_field = utils.get_credentials(request, **kwargs)
+        credentials = utils.get_credentials(request, **kwargs)
 
-        self.assertEqual(authorization_field, self.token)
+        self.assertEqual(credentials, self.token)
 
-    @override_jwt_settings(JWT_ALLOW_FIELD_AUTH=True)
-    def test_missing_field(self):
+    @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
+    def test_missing_argument(self):
         request = self.request_factory.get('/')
-        authorization_field = utils.get_credentials(request)
+        credentials = utils.get_credentials(request)
 
-        self.assertIsNone(authorization_field)
+        self.assertIsNone(credentials)
 
 
 class GetPayloadTests(TestCase):

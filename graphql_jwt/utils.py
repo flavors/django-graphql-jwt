@@ -65,13 +65,13 @@ def get_authorization_header(request):
 
 
 def get_credentials(request, **kwargs):
-    if jwt_settings.JWT_ALLOW_FIELD_AUTH:
+    if jwt_settings.JWT_ALLOW_ARGUMENT:
         input_fields = kwargs.get('input')
 
         if isinstance(input_fields, dict):
             kwargs = input_fields
 
-        token = kwargs.get(jwt_settings.JWT_AUTH_FIELD_NAME)
+        token = kwargs.get(jwt_settings.JWT_ARGUMENT_NAME)
 
         if token is not None:
             return token

@@ -339,18 +339,18 @@ JWT_AUTH_HEADER_PREFIX
     Authorization prefix
     Default: 'JWT'
 
-JWT_ALLOW_FIELD_AUTH
+JWT_ALLOW_ARGUMENT
 
 ::
 
-    Allow per-field authentication system
+    Allow per-argument authentication system
     Default: False
 
-JWT_AUTH_FIELD_NAME
+JWT_ARGUMENT_NAME
 
 ::
 
-    Field name for per-field authentication system
+    Argument name for per-argument authentication system
     Default: 'token'
 
 JWT_ENCODE_HANDLER
