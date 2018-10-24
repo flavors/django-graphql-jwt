@@ -7,23 +7,16 @@ from django.utils.deprecation import MiddlewareMixin
 
 from graphene_django.settings import graphene_settings
 
-from . import mixins
 from .exceptions import JSONWebTokenError
-from .refresh_token import mixins as refresh_token_mixins
 from .settings import jwt_settings
 from .utils import get_authorization_header, get_credentials
 
 
 def allow_any(info, field, **kwargs):
     graphene_type = getattr(field.type, 'graphene_type', None)
-
-    allowed_classes = (
-        mixins.JSONWebTokenMixin,
-        mixins.VerifyMixin,
-        refresh_token_mixins.RevokeMixin,
-    )
-    return (graphene_type is not None and
-            issubclass(graphene_type, allowed_classes))
+    return graphene_type is not None and issubclass(
+        graphene_type,
+        tuple(jwt_settings.JWT_ALLOW_ANY_CLASSES))
 
 
 class JSONWebTokenMiddleware(MiddlewareMixin):

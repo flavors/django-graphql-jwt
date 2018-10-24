@@ -395,6 +395,17 @@ JWT_ALLOW_ANY_HANDLER
     A custom function `f(info, field, **kwargs)` to determine the non-authentication per-field
     Default: 'graphql_jwt.middleware.allow_any'
 
+JWT_ALLOW_ANY_CLASSES
+
+::
+
+    A list or tuple of Graphene classes that do not need authentication
+    Default: (
+        'graphql_jwt.mixins.JSONWebTokenMixin',
+        'graphql_jwt.mixins.VerifyMixin',
+        'graphql_jwt.refresh_token.mixins.RevokeMixin',
+    )
+
 
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
