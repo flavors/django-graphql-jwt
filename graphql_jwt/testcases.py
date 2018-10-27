@@ -18,11 +18,8 @@ class SchemaRequestFactory(RequestFactory):
     def schema(self, **kwargs):
         self._schema = graphene.Schema(**kwargs)
 
-    def execute(self, context, query, variables):
-        return self._schema.execute(
-            query,
-            context=context,
-            variables=variables)
+    def execute(self, query, **options):
+        return self._schema.execute(query, **options)
 
 
 class JSONWebTokenClient(SchemaRequestFactory, Client):
@@ -42,8 +39,10 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
     def execute(self, query, variables=None, **extra):
         extra.update(self._credentials)
         context = self.post('/', **extra)
-        return super(JSONWebTokenClient, self)\
-            .execute(context, query, variables)
+        return super(JSONWebTokenClient, self).execute(
+            query,
+            context=context,
+            variables=variables)
 
     def authenticate(self, user):
         self._credentials = {

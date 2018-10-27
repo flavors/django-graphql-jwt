@@ -10,7 +10,7 @@ Dependencies
 Installation
 ------------
 
-Install last stable version from Pypi::
+Install last stable version v\ |version| from Pypi::
 
     pip install django-graphql-jwt
 
