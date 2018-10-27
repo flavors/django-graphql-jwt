@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-21 02:02+0700\n"
+"POT-Creation-Date: 2018-10-25 00:37+0700\n"
 "PO-Revision-Date: 2018-10-21 02:02+0700\n"
 "Last-Translator: mongkok <domake.io@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -44,7 +44,7 @@ msgstr "Expirado"
 msgid "Revoked"
 msgstr "Revocado"
 
-#: refresh_token/apps.py:7 refresh_token/models.py:35
+#: refresh_token/apps.py:7
 msgid "Refresh token"
 msgstr "Token de refresco"
 
@@ -68,9 +68,13 @@ msgstr "creado"
 msgid "revoked"
 msgstr "revocado"
 
+#: refresh_token/models.py:35
+msgid "refresh token"
+msgstr "token de refresco"
+
 #: refresh_token/models.py:36
-msgid "Refresh tokens"
-msgstr "Tokens de refresco"
+msgid "refresh tokens"
+msgstr "tokens de refresco"
 
 #: refresh_token/shortcuts.py:18
 msgid "Invalid refresh token"
