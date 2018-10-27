@@ -19,6 +19,7 @@ import sys
 
 import django
 
+
 ROOT_DIR = pathlib.Path(__file__).resolve().parent
 
 sys.path.insert(0, str(ROOT_DIR))
@@ -34,7 +35,10 @@ import graphql_jwt  # NOQA
 
 project = 'Django GraphQL JWT'
 author = 'mongkok'
-copyright = f'{datetime.datetime.today().year}, {author}'
+
+copyright = '{year}, {author}'.format(
+    year=datetime.datetime.today().year,
+    author=author)
 
 # The short X.Y version
 version = graphql_jwt.__version__
@@ -89,9 +93,11 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
+
 # Sphinx setup
 def setup(app):
     app.add_stylesheet('style.css')
+
 
 # -- Options for HTML output -------------------------------------------------
 
