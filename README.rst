@@ -1,43 +1,34 @@
 Django GraphQL JWT
 ==================
 
-|Pypi| |Wheel| |Build Status| |Codecov| |Code Climate|
+|Pypi| |Build Status| |Codecov| |Code Climate|
 
 
-`JSON Web Token`_ authentication for `Django GraphQL`_
-
-.. _JSON Web Token: https://jwt.io/
-.. _Django GraphQL: https://github.com/graphql-python/graphene-django
-
-
-Dependencies
-------------
-
-* Django ≥ 1.11
+`JSON Web Token <https://jwt.io/>`_ authentication for `Django GraphQL <https://github.com/graphql-python/graphene-django>`_
 
 
 Installation
 ------------
 
-Install last stable version from Pypi.
+Install last stable version from Pypi:
 
-.. code:: sh
+::
 
     pip install django-graphql-jwt
 
 
-Include the ``JSONWebTokenMiddleware`` middleware in your *GRAPHENE* settings:
+Add ``JSONWebTokenMiddleware`` middleware to your *GRAPHENE* settings:
 
 .. code:: python
 
     GRAPHENE = {
-        'SCHEMA': '...schema.schema',
+        'SCHEMA': 'mysite.myschema.schema',
         'MIDDLEWARE': [
             'graphql_jwt.middleware.JSONWebTokenMiddleware',
         ],
     }
 
-Include the ``JSONWebTokenBackend`` backend in your *AUTHENTICATION_BACKENDS* settings:
+Add ``JSONWebTokenBackend`` backend to your *AUTHENTICATION_BACKENDS*:
 
 .. code:: python
 
@@ -50,7 +41,7 @@ Include the ``JSONWebTokenBackend`` backend in your *AUTHENTICATION_BACKENDS* se
 Schema
 ------
 
-Add mutations to the root schema.
+Add *django-graphql-jwt* mutations to the root schema:
 
 .. code:: python
 
@@ -63,382 +54,28 @@ Add mutations to the root schema.
         verify_token = graphql_jwt.Verify.Field()
         refresh_token = graphql_jwt.Refresh.Field()
 
+
     schema = graphene.Schema(mutation=Mutations)
 
 
-- ``tokenAuth`` to authenticate the user and obtain the JSON Web Token.
-
-The mutation uses your User's model `USERNAME_FIELD`_, which by default is ``username``.
-
-.. _USERNAME_FIELD: https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#django.contrib.auth.models.CustomUser
-
-.. code:: graphql
-
-    mutation TokenAuth($username: String!, $password: String!) {
-      tokenAuth(username: $username, password: $password) {
-        token
-      }
-    }
-
-
-- ``verifyToken`` to confirm that the *token* is valid.
-
-.. code:: graphql
-
-    mutation VerifyToken($token: String!) {
-      verifyToken(token: $token) {
-        payload
-      }
-    }
-
-
-- ``refreshToken`` to refresh the *token*.
-
-`Configure your refresh token scenario <https://github.com/flavors/django-graphql-jwt/wiki/Token-expiration>`__ and set to ``True`` the `JWT_VERIFY_EXPIRATION setting <#settings>`__.
-
-
-Authentication in GraphQL queries
----------------------------------
-
-Now in order to access protected API you must include the ``Authorization: JWT <token>`` header.
-
-*Django-graphql-jwt* uses middleware to hook the authenticated user into request object. The simple, raw way to limit access to data is to check ``info.context.user.is_authenticated``:
-
-.. code:: python
-
-    import graphene
-
-
-    class Query(graphene.ObjectType):
-        viewer = graphene.Field(UserType)
-
-        def resolve_viewer(self, info, **kwargs):
-            user = info.context.user
-            if not user.is_authenticated:
-                raise Exception('Authentication credentials were not provided')
-            return user
-
-
-As a shortcut, you can use the ``login_required()`` decorator for your *resolvers* and *mutations*:
-
-See the `documentation <https://github.com/flavors/django-graphql-jwt/wiki/Auth-decorators>`__ for the full list of decorators.
-
-.. code:: python
-
-    import graphene
-    from graphql_jwt.decorators import login_required
-
-
-    class Query(graphene.ObjectType):
-        viewer = graphene.Field(UserType)
-
-        @login_required
-        def resolve_viewer(self, info, **kwargs):
-            return info.context.user
-
-
-Relay
------
-
-Complete support for `Relay`_.
-
-.. _Relay: https://facebook.github.io/relay/
-
-.. code:: python
-
-    import graphene
-    import graphql_jwt
-
-
-    class Mutations(graphene.ObjectType):
-        token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
-        verify_token = graphql_jwt.relay.Verify.Field()
-        refresh_token = graphql_jwt.relay.Refresh.Field()
-
-
-Relay mutations only accepts one argument named *input*, read the `documentation <https://github.com/flavors/django-graphql-jwt/wiki/Relay-queries>`__ for more info.
-
-
-Customizing
------------
-
-If you want to customize the ``ObtainJSONWebToken`` behavior, you'll need to customize the ``resolve()`` method on a subclass of ``JSONWebTokenMutation`` or ``.relay.JSONWebTokenMutation``.
-
-.. code:: python
-
-    import graphene
-    import graphql_jwt
-
-
-    class ObtainJSONWebToken(graphql_jwt.JSONWebTokenMutation):
-        user = graphene.Field(UserType)
-
-        @classmethod
-        def resolve(cls, root, info):
-            return cls(user=info.context.user)
-
-Authenticate the user and obtain the *token* and the *user id*.
-
-.. code:: graphql
-
-    mutation TokenAuth($username: String!, $password: String!) {
-      tokenAuth(username: $username, password: $password) {
-        token
-        user {
-          id
-        }
-      }
-    }
-
-
-Writing tests
+Documentation
 -------------
 
-This package includes a subclass of `unittest.TestCase <https://docs.python.org/3/library/unittest.html#unittest.TestCase>`__ and improve support for making GraphQL queries using JSON Web Token authentication.
-
-.. code:: python
-
-    from django.contrib.auth import get_user_model
-
-    from graphql_jwt.testcases import JSONWebTokenTestCase
-
-
-    class UsersTests(JSONWebTokenTestCase):
-
-        def setUp(self):
-            self.user = get_user_model().objects.create(username='test')
-            self.client.authenticate(self.user)
-
-        def test_get_user(self):
-            query = '''
-            query GetUser($username: String!) {
-              user(username: $username) {
-                id
-              }
-            }'''
-            self.client.execute(query, variables={'username': self.user.username})
-
-
-Settings
---------
-
-*Django-graphql-jwt* reads your configuration from a single **Django setting** named ``GRAPHQL_JWT``
-
-.. code:: python
-
-    GRAPHQL_JWT = {
-        'JWT_VERIFY_EXPIRATION': True,
-        'JWT_EXPIRATION_DELTA': timedelta(minutes=10),
-    }
-
-
-Here's a **list of settings** available in *Django-graphql-jwt* and their default values.
-
-`JWT_ALGORITHM`_
-
-::
-
-    Algorithm for cryptographic signing
-    Default: 'HS256'
-
-`JWT_AUDIENCE`_
-
-::
-
-    Identifies the recipients that the JWT is intended for
-    Default: None
-
-`JWT_ISSUER`_
-
-::
-
-    Identifies the principal that issued the JWT
-    Default: None
-
-`JWT_LEEWAY`_
-
-::
-
-    Validate an expiration time which is in the past but not very far
-    Default: timedelta(seconds=0)
-
-`JWT_SECRET_KEY`_
-
-::
-
-    The secret key used to sign the JWT
-    Default: settings.SECRET_KEY
-
-`JWT_VERIFY`_
-
-::
-
-    Secret key verification
-    Default: True
-
-`JWT_VERIFY_EXPIRATION`_
-
-::
-
-    Expiration time verification
-    Default: False
-
-JWT_EXPIRATION_DELTA
-
-::
-
-    Timedelta added to utcnow() to set the expiration time
-    Default: timedelta(minutes=5)
-
-JWT_ALLOW_REFRESH
-
-::
-
-    Enable token refresh
-    Default: True
-
-JWT_REFRESH_EXPIRATION_DELTA
-
-::
-
-    Limit on token refresh
-    Default: timedelta(days=7)
-
-JWT_LONG_RUNNING_REFRESH_TOKEN
-
-::
-
-    Enable long time running refresh token
-    Default: False
-
-JWT_REFRESH_TOKEN_MODEL
-
-::
-
-    The model to use to represent a refresh token
-    Default: 'refresh_token.RefreshToken'
-
-JWT_REFRESH_TOKEN_N_BYTES
-
-::
-
-    Refresh token number of bytes
-    Default: 20
-
-JWT_AUTH_HEADER
-
-::
-
-    Authorization header name
-    Default: 'HTTP_AUTHORIZATION'
-
-JWT_AUTH_HEADER_PREFIX
-
-::
-
-    Authorization prefix
-    Default: 'JWT'
-
-JWT_ALLOW_ARGUMENT
-
-::
-
-    Allow per-argument authentication system
-    Default: False
-
-JWT_ARGUMENT_NAME
-
-::
-
-    Argument name for per-argument authentication system
-    Default: 'token'
-
-JWT_ENCODE_HANDLER
-
-::
-
-    A custom function `f(payload, context)` to encode the token
-    Default: 'graphql_jwt.utils.jwt_encode'
-
-JWT_DECODE_HANDLER
-
-::
-
-    A custom function `f(token, context)` to decode the token
-    Default: 'graphql_jwt.utils.jwt_decode'
-
-JWT_PAYLOAD_HANDLER
-
-::
-
-    A custom function `f(user, context)` to generate the token payload
-    Default: 'graphql_jwt.utils.jwt_payload'
-
-JWT_PAYLOAD_GET_USERNAME_HANDLER
-
-::
-
-    A custom function `f(payload)` to obtain the username
-    Default: lambda payload: payload.get(get_user_model().USERNAME_FIELD)
-
-JWT_REFRESH_EXPIRED_HANDLER
-
-::
-
-    A custom function `f(orig_iat, context)` to determine if refresh has expired
-    Default: 'graphql_jwt.utils.refresh_has_expired'
-
-JWT_ALLOW_ANY_HANDLER
-
-::
-
-    A custom function `f(info, field, **kwargs)` to determine the non-authentication per-field
-    Default: 'graphql_jwt.middleware.allow_any'
-
-JWT_ALLOW_ANY_CLASSES
-
-::
-
-    A list or tuple of Graphene classes that do not need authentication
-    Default: (
-        'graphql_jwt.mixins.JSONWebTokenMixin',
-        'graphql_jwt.mixins.VerifyMixin',
-        'graphql_jwt.refresh_token.mixins.RevokeMixin',
-    )
-
-
-.. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
-.. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
-.. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss
-.. _JWT_LEEWAY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=leeway#expiration-time-claim-exp
-.. _JWT_SECRET_KEY: https://pyjwt.readthedocs.io/en/latest/usage.html?highlight=secret%20key#usage-examples
-.. _JWT_VERIFY: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify#reading-the-claimset-without-validation
-.. _JWT_VERIFY_EXPIRATION: http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify_exp#expiration-time-claim-exp
-
-----
-
-Credits and thanks.
-
-* `@jpadilla`_ / `django-rest-framework-jwt`_
-* `@jonatasbaldin`_ / `howtographql`_
-
-.. _@jpadilla: https://github.com/jpadilla
-.. _django-rest-framework-jwt: https://github.com/GetBlimp/django-rest-framework-jwt
-.. _@jonatasbaldin: https://github.com/jonatasbaldin
-.. _howtographql: https://github.com/howtographql/graphql-python
+Fantastic documentation is available at https://django-graphql-jwt.domake.io.
 
 
 .. |Pypi| image:: https://img.shields.io/pypi/v/django-graphql-jwt.svg
    :target: https://pypi.python.org/pypi/django-graphql-jwt
-
-.. |Wheel| image:: https://img.shields.io/pypi/wheel/django-graphql-jwt.svg
-   :target: https://pypi.python.org/pypi/django-graphql-jwt
+   :alt: Pypi
 
 .. |Build Status| image:: https://travis-ci.org/flavors/django-graphql-jwt.svg?branch=master
    :target: https://travis-ci.org/flavors/django-graphql-jwt
+   :alt: Build Status
 
 .. |Codecov| image:: https://img.shields.io/codecov/c/github/flavors/django-graphql-jwt.svg
    :target: https://codecov.io/gh/flavors/django-graphql-jwt
+   :alt: Codecov
 
 .. |Code Climate| image:: https://api.codeclimate.com/v1/badges/c79a185d546f7e34fdd6/maintainability
    :target: https://codeclimate.com/github/flavors/django-graphql-jwt
+   :alt: Codeclimate
