@@ -5,6 +5,7 @@ Changelog
 -----
 
 * Added Graphene middleware
+* Added Per-argument authentication
 * Added JSONWebTokenExpired exception
 * Added documentation
 * Renamed JWT_AUTH_HEADER to JWT_AUTH_HEADER_NAME
