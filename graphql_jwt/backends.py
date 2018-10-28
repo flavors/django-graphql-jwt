@@ -1,14 +1,14 @@
 from .shortcuts import get_user_by_token
-from .utils import get_authorization_header, get_user_by_natural_key
+from .utils import get_credentials, get_user_by_natural_key
 
 
 class JSONWebTokenBackend(object):
 
-    def authenticate(self, request=None, **credentials):
+    def authenticate(self, request=None, **kwargs):
         if request is None:
             return None
 
-        token = get_authorization_header(request)
+        token = get_credentials(request, **kwargs)
 
         if token is not None:
             return get_user_by_token(token, request)

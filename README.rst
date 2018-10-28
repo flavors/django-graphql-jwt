@@ -26,16 +26,16 @@ Install last stable version from Pypi.
     pip install django-graphql-jwt
 
 
-Include the ``JSONWebTokenMiddleware`` middleware in your *MIDDLEWARE* settings:
+Include the ``JSONWebTokenMiddleware`` middleware in your *GRAPHENE* settings:
 
 .. code:: python
 
-    MIDDLEWARE = [
-        ...
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'graphql_jwt.middleware.JSONWebTokenMiddleware',
-        ...
-    ]
+    GRAPHENE = {
+        'SCHEMA': '...schema.schema',
+        'MIDDLEWARE': [
+            'graphql_jwt.middleware.JSONWebTokenMiddleware',
+        ],
+    }
 
 Include the ``JSONWebTokenBackend`` backend in your *AUTHENTICATION_BACKENDS* settings:
 
@@ -339,6 +339,20 @@ JWT_AUTH_HEADER_PREFIX
     Authorization prefix
     Default: 'JWT'
 
+JWT_ALLOW_ARGUMENT
+
+::
+
+    Allow per-argument authentication system
+    Default: False
+
+JWT_ARGUMENT_NAME
+
+::
+
+    Argument name for per-argument authentication system
+    Default: 'token'
+
 JWT_ENCODE_HANDLER
 
 ::
@@ -373,6 +387,24 @@ JWT_REFRESH_EXPIRED_HANDLER
 
     A custom function `f(orig_iat, context)` to determine if refresh has expired
     Default: 'graphql_jwt.utils.refresh_has_expired'
+
+JWT_ALLOW_ANY_HANDLER
+
+::
+
+    A custom function `f(info, field, **kwargs)` to determine the non-authentication per-field
+    Default: 'graphql_jwt.middleware.allow_any'
+
+JWT_ALLOW_ANY_CLASSES
+
+::
+
+    A list or tuple of Graphene classes that do not need authentication
+    Default: (
+        'graphql_jwt.mixins.JSONWebTokenMixin',
+        'graphql_jwt.mixins.VerifyMixin',
+        'graphql_jwt.refresh_token.mixins.RevokeMixin',
+    )
 
 
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
