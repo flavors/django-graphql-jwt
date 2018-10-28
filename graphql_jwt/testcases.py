@@ -48,13 +48,13 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
 
     def authenticate(self, user):
         self._credentials = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 get_token(user)),
         }
 
     def logout(self):
-        self._credentials.pop(jwt_settings.JWT_AUTH_HEADER, None)
+        self._credentials.pop(jwt_settings.JWT_AUTH_HEADER_NAME, None)
 
 
 class JSONWebTokenTestCase(testcases.TestCase):

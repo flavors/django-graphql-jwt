@@ -106,7 +106,7 @@ class TokenAuthTests(TestCase):
             return Promise()
 
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -121,4 +121,7 @@ class TokenAuthTests(TestCase):
             username=self.user.get_username())
 
         self.assertIsNotNone(is_thenable(result))
-        self.assertNotIn(jwt_settings.JWT_AUTH_HEADER, info_mock.context.META)
+
+        self.assertNotIn(
+            jwt_settings.JWT_AUTH_HEADER_NAME,
+            info_mock.context.META)

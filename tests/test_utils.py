@@ -33,7 +33,7 @@ class GetAuthorizationHeaderTests(TestCase):
 
     def test_get_header(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{} {}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -45,7 +45,7 @@ class GetAuthorizationHeaderTests(TestCase):
 
     def test_invalid_header_prefix(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: 'INVALID token',
+            jwt_settings.JWT_AUTH_HEADER_NAME: 'INVALID token',
         }
 
         request = self.request_factory.get('/', **headers)

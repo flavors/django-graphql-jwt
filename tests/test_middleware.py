@@ -27,7 +27,7 @@ class DjangoMiddlewareTests(TestCase):
 
     def test_authenticate(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -41,7 +41,7 @@ class DjangoMiddlewareTests(TestCase):
     @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_not_authenticate(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -55,7 +55,7 @@ class DjangoMiddlewareTests(TestCase):
 
     def test_invalid_token(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{} invalid'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{} invalid'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
@@ -76,7 +76,7 @@ class DjangoMiddlewareTests(TestCase):
     @mock.patch('graphql_jwt.middleware.authenticate')
     def test_already_authenticated(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -113,7 +113,7 @@ class GrapheneMiddlewareTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_authenticate(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -131,7 +131,7 @@ class GrapheneMiddlewareTests(TestCase):
     @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_not_authenticate(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -149,7 +149,7 @@ class GrapheneMiddlewareTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_invalid_token(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{} invalid'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{} invalid'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX),
         }
 
@@ -166,7 +166,7 @@ class GrapheneMiddlewareTests(TestCase):
     @mock.patch('graphql_jwt.middleware.authenticate')
     def test_already_authenticated(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }
@@ -183,7 +183,7 @@ class GrapheneMiddlewareTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: True)
     def test_allow_any(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER: '{0} {1}'.format(
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
                 self.token),
         }

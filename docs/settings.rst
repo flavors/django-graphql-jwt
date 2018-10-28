@@ -193,8 +193,8 @@ JWT_ALLOW_ANY_CLASSES
 HTTP header
 -----------
 
-JWT_AUTH_HEADER
-~~~~~~~~~~~~~~~
+JWT_AUTH_HEADER_NAME
+~~~~~~~~~~~~~~~~~~~~
 
   Authorization header name
 
