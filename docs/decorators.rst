@@ -53,7 +53,9 @@ As a shortcut, you can use the convenient ``user_passes_test()`` decorator which
 
 Decorator to check whether a user has a particular permission.
 
-Just like the ``has_perm()`` method, permission names take the form ``<app label>.<permission codename>``.
+Just like the ``has_perm()`` method, permission names take the form::
+
+    <app-label>.<permission-codename>
 
 The decorator may also take an iterable of permissions, in which case the user must have all of the permissions in order to access the resolver or mutation::
 

@@ -53,7 +53,7 @@ Add mutations to the root schema::
 Queries
 -------
 
-* ``tokenAuth`` to authenticate the user and obtain the **JSON Web Token**.
+* ``tokenAuth`` to authenticate the user and obtain a **JSON Web Token**.
 
   The mutation uses your User's model `USERNAME_FIELD <https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#django.contrib.auth.models.CustomUser>`_, which by default is ``username``:
 
@@ -77,6 +77,6 @@ Queries
       }
 
 
-* ``refreshToken`` to refresh your *token*, using the ``refreshToken`` you already got during authorization:
+* ``refreshToken`` to obtain a brand new *token* with renewed expiration time for **non-expired tokens**:
 
   :doc:`Configure your refresh token <refresh_token>` scenario and set to ``True`` the :doc:`JWT_VERIFY_EXPIRATION<settings>` setting.

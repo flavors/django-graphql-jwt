@@ -1,7 +1,7 @@
 Refresh token
 =============
 
-This package supports two refresh methods.
+This package supports two refresh methods:
 
 * `Single token refresh <#single-token-refresh>`__ (by default)
 * `Long running refresh tokens <#long-running-refresh-tokens>`__ (`django-graphql-jwt` ≥ 0.1.14)
@@ -73,7 +73,7 @@ Long running refresh tokens
 
 Refresh tokens stored on database.
 
-Add ``graphql_jwt.refresh_token`` to your *INSTALLED\_APPS* settings::
+Add ``graphql_jwt.refresh_token`` to your *INSTALLED\_APPS*::
 
     INSTALLED_APPS = [
         ...
@@ -115,7 +115,7 @@ Add mutations to the root schema::
 Queries
 ~~~~~~~
 
-* ``tokenAuth`` to authenticate the user and obtain the **JSON Web Token** and **Refresh Token**:
+* ``tokenAuth`` to authenticate the user and obtain a **JSON Web Token** and **Refresh Token**:
 
   ::
 

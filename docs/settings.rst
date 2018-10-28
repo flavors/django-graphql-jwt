@@ -204,7 +204,7 @@ JWT_AUTH_HEADER_NAME
 JWT_AUTH_HEADER_PREFIX
 ~~~~~~~~~~~~~~~~~~~~~~
 
-  Authorization prefix
+  Authorization header prefix
 
   Default: ``'JWT'``
 

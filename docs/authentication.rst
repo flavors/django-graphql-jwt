@@ -22,7 +22,14 @@ As a shortcut, you can use :doc:`decorators<decorators>` for your *resolvers* an
 HTTP header
 -----------
 
-Now in order to access protected API you must include the ``Authorization: JWT <token>`` HTTP header.
+Now in order to access protected API you must include the ``Authorization`` HTTP header.
+
+.. code-block:: http
+
+    POST / HTTP/1.1
+    Host: domake.io
+    Authorization: JWT <token>
+    Content-Type: application/json;
 
 
 Per-argument
@@ -30,7 +37,7 @@ Per-argument
 
 Another option to send the *token* is using an argument within the *GraphQL* query, being able to send a batch of queries authenticated with different credentials.
 
-*Django-graphql-jwt*  looks for the *token* in the list of arguments sent and if it does not find it, it looks for the token in the HTTP header.
+*Django-graphql-jwt*  looks for the *token* in the list of arguments sent and if it does not exists, it looks for the token in the HTTP header.
 
 Settings
 ~~~~~~~~
