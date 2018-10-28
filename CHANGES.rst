@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.2.0
+-----
+
+* Added Graphene middleware
+* Added JSONWebTokenExpired exception
+* Added documentation
+* Renamed JWT_AUTH_HEADER to JWT_AUTH_HEADER_NAME
+
 0.1.14
 ------
 
@@ -22,7 +30,7 @@ Changelog
 0.1.11
 ------
 
-* CRITICAL: Removed environment settings variables
+* Removed environment settings variables
 * Added JWT_AUTH_HEADER setting
 * Added JWT_PAYLOAD_GET_USERNAME_HANDLER setting
 * Fixed TokenAuth mutation when user is already authenticated
@@ -63,8 +71,8 @@ Changelog
 0.1.4
 -----
 
-* CRITICAL: Renamed JWTMiddleware to JSONWebTokenMiddleware
-* CRITICAL: Renamed JWTBackend to JSONWebTokenBackend
+* Renamed JWTMiddleware to JSONWebTokenMiddleware
+* Renamed JWTBackend to JSONWebTokenBackend
 * ObtainJSONWebToken mutation
 * Customizing, JSONWebTokenMutation abstract class
 
