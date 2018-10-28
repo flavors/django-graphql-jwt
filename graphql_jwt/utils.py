@@ -64,6 +64,21 @@ def get_authorization_header(request):
     return auth[1]
 
 
+def get_credentials(request, **kwargs):
+    if jwt_settings.JWT_ALLOW_ARGUMENT:
+        input_fields = kwargs.get('input')
+
+        if isinstance(input_fields, dict):
+            kwargs = input_fields
+
+        token = kwargs.get(jwt_settings.JWT_ARGUMENT_NAME)
+
+        if token is not None:
+            return token
+
+    return get_authorization_header(request)
+
+
 def get_payload(token, context=None):
     try:
         payload = jwt_settings.JWT_DECODE_HANDLER(token, context)

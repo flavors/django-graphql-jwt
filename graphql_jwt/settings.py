@@ -22,6 +22,8 @@ DEFAULTS = {
     'JWT_REFRESH_TOKEN_N_BYTES': 20,
     'JWT_AUTH_HEADER': 'HTTP_AUTHORIZATION',
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_ALLOW_ARGUMENT': False,
+    'JWT_ARGUMENT_NAME': 'token',
     'JWT_ENCODE_HANDLER': 'graphql_jwt.utils.jwt_encode',
     'JWT_DECODE_HANDLER': 'graphql_jwt.utils.jwt_decode',
     'JWT_PAYLOAD_HANDLER': 'graphql_jwt.utils.jwt_payload',
@@ -29,6 +31,12 @@ DEFAULTS = {
         lambda payload: payload.get(get_user_model().USERNAME_FIELD)
     ),
     'JWT_REFRESH_EXPIRED_HANDLER': 'graphql_jwt.utils.refresh_has_expired',
+    'JWT_ALLOW_ANY_HANDLER': 'graphql_jwt.middleware.allow_any',
+    'JWT_ALLOW_ANY_CLASSES': (
+        'graphql_jwt.mixins.JSONWebTokenMixin',
+        'graphql_jwt.mixins.VerifyMixin',
+        'graphql_jwt.refresh_token.mixins.RevokeMixin',
+    ),
 }
 
 IMPORT_STRINGS = (
@@ -37,12 +45,16 @@ IMPORT_STRINGS = (
     'JWT_PAYLOAD_HANDLER',
     'JWT_PAYLOAD_GET_USERNAME_HANDLER',
     'JWT_REFRESH_EXPIRED_HANDLER',
+    'JWT_ALLOW_ANY_HANDLER',
+    'JWT_ALLOW_ANY_CLASSES',
 )
 
 
 def perform_import(value, setting_name):
-    if value is not None and isinstance(value, six.string_types):
+    if isinstance(value, six.string_types):
         return import_from_string(value, setting_name)
+    if isinstance(value, (list, tuple)):
+        return [import_from_string(item, setting_name) for item in value]
     return value
 
 

@@ -1,10 +1,11 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth.models import AnonymousUser
 from django.core.handlers.wsgi import WSGIRequest
 from django.test import Client, RequestFactory, testcases
 
 import graphene
 from graphene_django.settings import graphene_settings
 
+from .middleware import JSONWebTokenMiddleware
 from .settings import jwt_settings
 from .shortcuts import get_token
 
@@ -19,6 +20,7 @@ class SchemaRequestFactory(RequestFactory):
         self._schema = graphene.Schema(**kwargs)
 
     def execute(self, query, **options):
+        options.setdefault('middleware', [JSONWebTokenMiddleware()])
         return self._schema.execute(query, **options)
 
 
@@ -30,7 +32,7 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
 
     def request(self, **request):
         request = WSGIRequest(self._base_environ(**request))
-        request.user = authenticate(request)
+        request.user = AnonymousUser()
         return request
 
     def credentials(self, **kwargs):

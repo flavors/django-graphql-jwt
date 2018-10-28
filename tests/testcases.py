@@ -7,6 +7,8 @@ from graphene.types.generic import GenericScalar
 from graphql_jwt.testcases import JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
+from .compat import mock
+
 
 class UserTestCase(testcases.TestCase):
 
@@ -24,6 +26,11 @@ class TestCase(UserTestCase):
         self.payload = jwt_payload(self.user)
         self.token = jwt_encode(self.payload)
         self.request_factory = RequestFactory()
+
+    def info(self, user, **headers):
+        request = self.request_factory.post('/', **headers)
+        request.user = user
+        return mock.Mock(context=request)
 
 
 class SchemaTestCase(TestCase, JSONWebTokenTestCase):

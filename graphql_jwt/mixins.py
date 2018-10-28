@@ -32,6 +32,10 @@ class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
             .__init_subclass_with_meta__(name=name, **options)
 
 
+class VerifyMixin(object):
+    payload = GenericScalar()
+
+
 class ResolveMixin(object):
 
     @classmethod
