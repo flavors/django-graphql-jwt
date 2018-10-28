@@ -20,7 +20,7 @@ class SchemaRequestFactory(RequestFactory):
         self._schema = graphene.Schema(**kwargs)
 
     def execute(self, query, **options):
-        options.setdefault('middleware', JSONWebTokenMiddleware()])
+        options.setdefault('middleware', [JSONWebTokenMiddleware()])
         return self._schema.execute(query, **options)
 
 
