@@ -173,7 +173,7 @@ JWT_ALLOW_ANY_HANDLER
 
     A custom function to determine the non-authentication **per-field**
 
-    TODO: graphql_jwt.middleware.allow_any
+    .. autofunction:: graphql_jwt.middleware.allow_any
 
 
 JWT_ALLOW_ANY_CLASSES
