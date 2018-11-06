@@ -73,6 +73,29 @@ class StaffMemberRequiredTests(TestCase):
             wrapped(self.info(self.user))
 
 
+class SuperuserRequiredTests(TestCase):
+
+    def test_superuser_required(self):
+
+        @decorators.superuser_required
+        def wrapped(info):
+            """Decorated function"""
+
+        self.user.is_superuser = True
+        result = wrapped(self.info(self.user))
+
+        self.assertIsNone(result)
+
+    def test_permission_denied(self):
+
+        @decorators.superuser_required
+        def wrapped(info):
+            """Decorated function"""
+
+        with self.assertRaises(exceptions.PermissionDenied):
+            wrapped(self.info(self.user))
+
+
 class PermissionRequiredTests(TestCase):
 
     def test_permission_required(self):
