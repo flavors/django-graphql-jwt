@@ -96,3 +96,30 @@ Otherwise, the ``PermissionDenied`` exception will be raised::
         @staff_member_required
         def resolve_users(self, info, **kwargs):
             return get_user_model().objects.all()
+
+
+@superuser_required
+-------------------
+
+  .. autodata:: graphql_jwt.decorators.superuser_required
+
+A resolver or mutation decorated with this function will having the following behavior:
+
+If the user is active (``User.is_active=True``) and is superuser (``User.is_superuser=True``), execute the function normally.
+
+Otherwise, the ``PermissionDenied`` exception will be raised::
+
+    import graphene
+    from graphql_jwt.decorators import superuser_required
+
+
+    class CreateUser(graphene.Mutation):
+
+        class Arguments:
+            user = UserInput()
+
+        @classmethod
+        @superuser_required
+        def mutate(cls, root, info, user_id):
+            ...
+
