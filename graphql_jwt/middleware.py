@@ -17,11 +17,19 @@ __all__ = [
 ]
 
 
-def allow_any(info, field, **kwargs):
+def allow_any(info, **kwargs):
+    field = getattr(
+        info.schema,
+        'get_{}_type'.format(info.operation.operation),
+    )().fields.get(info.field_name)
+
+    if field is None:
+        return False
+
     graphene_type = getattr(field.type, 'graphene_type', None)
-    return graphene_type is not None and issubclass(
-        graphene_type,
-        tuple(jwt_settings.JWT_ALLOW_ANY_CLASSES))
+
+    return graphene_type is not None and\
+        issubclass(graphene_type, tuple(jwt_settings.JWT_ALLOW_ANY_CLASSES))
 
 
 class DjangoMiddleware(MiddlewareMixin):
@@ -59,20 +67,27 @@ class DjangoMiddleware(MiddlewareMixin):
 
 class JSONWebTokenMiddleware(DjangoMiddleware):
 
+    def __init__(self, get_response=None):
+        self.cached_allow_any = set()
+        super(JSONWebTokenMiddleware, self).__init__(get_response)
+
+    def authenticate_context(self, info, **kwargs):
+        root_path = info.path[0]
+
+        if root_path not in self.cached_allow_any:
+            if jwt_settings.JWT_ALLOW_ANY_HANDLER(info, **kwargs):
+                self.cached_allow_any.add(root_path)
+            else:
+                return True
+        return False
+
     def resolve(self, next, root, info, **kwargs):
         context = info.context
 
         if (get_credentials(context, **kwargs) is not None and
                 (not hasattr(context, 'user') or context.user.is_anonymous)):
 
-            field = getattr(
-                info.schema,
-                'get_{}_type'.format(info.operation.operation),
-            )().fields.get(info.path[0])
-
-            if (field is None or not
-                    jwt_settings.JWT_ALLOW_ANY_HANDLER(info, field, **kwargs)):
-
+            if self.authenticate_context(info, **kwargs):
                 user = authenticate(request=context, **kwargs)
 
                 if user is not None:
