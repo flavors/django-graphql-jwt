@@ -189,6 +189,14 @@ class AuthenticateByHeaderTests(TestCase):
         info_mock.assert_not_called()
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
+    def test_authenticate_context(self):
+        info_mock = self.info()
+
+        self.middleware.cached_allow_any.add('test')
+        authenticate_context = self.middleware.authenticate_context(info_mock)
+
+        self.assertFalse(authenticate_context)
+
 
 class AuthenticateByArgumentTests(TestCase):
 
@@ -258,6 +266,19 @@ class AuthenticateByArgumentTests(TestCase):
         next_mock.assert_called_with(None, info_mock)
         info_mock.assert_not_called()
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
+
+    @override_jwt_settings(
+        JWT_ALLOW_ARGUMENT=True,
+        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    def test_context_has_not_attr_user(self):
+        next_mock = mock.Mock()
+        info_mock = self.info()
+
+        self.middleware.resolve(next_mock, None, info_mock)
+
+        next_mock.assert_called_with(None, info_mock)
+        info_mock.assert_not_called()
+        self.assertFalse(hasattr(info_mock.context, 'user'))
 
 
 class AllowAnyTests(TestCase):
