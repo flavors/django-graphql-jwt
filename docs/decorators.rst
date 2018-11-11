@@ -62,13 +62,13 @@ The decorator may also take an iterable of permissions, in which case the user m
     import graphene
     from graphql_jwt.decorators import permission_required
 
-    class DeleteUser(graphene.Mutation):
+    class UpdateUser(graphene.Mutation):
 
         class Arguments:
             user_id = graphene.Int()
 
         @classmethod
-        @permission_required('auth.delete_user')
+        @permission_required('auth.change_user')
         def mutate(cls, root, info, user_id):
             ...
 
@@ -113,13 +113,12 @@ Otherwise, the ``PermissionDenied`` exception will be raised::
     from graphql_jwt.decorators import superuser_required
 
 
-    class CreateUser(graphene.Mutation):
+    class DeleteUser(graphene.Mutation):
 
         class Arguments:
-            user = UserInput()
+            user_id = graphene.Int()
 
         @classmethod
         @superuser_required
         def mutate(cls, root, info, user_id):
             ...
-
