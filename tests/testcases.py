@@ -1,9 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, testcases
 
-import graphene
-from graphene.types.generic import GenericScalar
-
 from graphql_jwt.testcases import JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
@@ -34,12 +31,19 @@ class TestCase(UserTestCase):
 
 
 class SchemaTestCase(TestCase, JSONWebTokenTestCase):
-
-    class Query(graphene.ObjectType):
-        test = GenericScalar()
-
-    Mutations = None
+    Query = None
+    Mutation = None
 
     def setUp(self):
         super(SchemaTestCase, self).setUp()
-        self.client.schema(query=self.Query, mutation=self.Mutations)
+        self.client.schema(query=self.Query, mutation=self.Mutation)
+
+    def execute(self, variables=None):
+        assert self.query, ('`query` property not specified')
+        return self.client.execute(self.query, variables)
+
+
+class RelaySchemaTestCase(SchemaTestCase):
+
+    def execute(self, variables=None):
+        return super(RelaySchemaTestCase, self).execute({'input': variables})

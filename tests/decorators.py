@@ -1,5 +1,3 @@
-from functools import wraps
-
 import django
 from django.test import override_settings
 
@@ -16,10 +14,3 @@ def skipif_django_version(version):
     return pytest.mark.skipif(
         django.get_version() < version,
         reason='Django < {} is not supported'.format(version))
-
-
-def input_variables(f):
-    @wraps(f)
-    def wrapper(self, variables):
-        return f(self, {'input': variables})
-    return wrapper

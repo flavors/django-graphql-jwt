@@ -3,60 +3,44 @@ import graphene
 import graphql_jwt
 
 from . import mixins
-from .decorators import input_variables
-from .testcases import SchemaTestCase
+from .testcases import RelaySchemaTestCase
 
 
-class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
+class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
+    query = '''
+    mutation TokenAuth($input: ObtainJSONWebTokenInput!) {
+      tokenAuth(input: $input) {
+        token
+        clientMutationId
+      }
+    }'''
 
-    class Mutations(graphene.ObjectType):
+    class Mutation(graphene.ObjectType):
         token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
 
-    @input_variables
-    def execute(self, variables):
-        query = '''
-        mutation TokenAuth($input: ObtainJSONWebTokenInput!) {
-          tokenAuth(input: $input) {
-            token
-            clientMutationId
-          }
-        }'''
 
-        return self.client.execute(query, variables=variables)
+class VerifyTests(mixins.VerifyMixin, RelaySchemaTestCase):
+    query = '''
+    mutation VerifyToken($input: VerifyInput!) {
+      verifyToken(input: $input) {
+        payload
+        clientMutationId
+      }
+    }'''
 
-
-class VerifyTests(mixins.VerifyMixin, SchemaTestCase):
-
-    class Mutations(graphene.ObjectType):
+    class Mutation(graphene.ObjectType):
         verify_token = graphql_jwt.relay.Verify.Field()
 
-    @input_variables
-    def execute(self, variables):
-        query = '''
-        mutation VerifyToken($input: VerifyInput!) {
-          verifyToken(input: $input) {
-            payload
-            clientMutationId
-          }
-        }'''
 
-        return self.client.execute(query, variables=variables)
+class RefreshTests(mixins.RefreshMixin, RelaySchemaTestCase):
+    query = '''
+    mutation RefreshToken($input: RefreshInput!) {
+      refreshToken(input: $input) {
+        token
+        payload
+        clientMutationId
+      }
+    }'''
 
-
-class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
-
-    class Mutations(graphene.ObjectType):
+    class Mutation(graphene.ObjectType):
         refresh_token = graphql_jwt.relay.Refresh.Field()
-
-    @input_variables
-    def execute(self, variables):
-        query = '''
-        mutation RefreshToken($input: RefreshInput!) {
-          refreshToken(input: $input) {
-            token
-            payload
-            clientMutationId
-          }
-        }'''
-
-        return self.client.execute(query, variables=variables)
