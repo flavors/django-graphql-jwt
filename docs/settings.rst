@@ -181,13 +181,7 @@ JWT_ALLOW_ANY_CLASSES
 
   A list or tuple of Graphene classes that do not need authentication
   
-  Default::
-
-    (
-        'graphql_jwt.mixins.JSONWebTokenMixin',
-        'graphql_jwt.mixins.VerifyMixin',
-        'graphql_jwt.refresh_token.mixins.RevokeMixin',
-    )
+  Default: ``()``
 
 
 HTTP header

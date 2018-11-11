@@ -32,11 +32,7 @@ DEFAULTS = {
     ),
     'JWT_REFRESH_EXPIRED_HANDLER': 'graphql_jwt.utils.refresh_has_expired',
     'JWT_ALLOW_ANY_HANDLER': 'graphql_jwt.middleware.allow_any',
-    'JWT_ALLOW_ANY_CLASSES': (
-        'graphql_jwt.mixins.JSONWebTokenMixin',
-        'graphql_jwt.mixins.VerifyMixin',
-        'graphql_jwt.refresh_token.mixins.RevokeMixin',
-    ),
+    'JWT_ALLOW_ANY_CLASSES': (),
 }
 
 IMPORT_STRINGS = (
@@ -81,6 +77,13 @@ class JWTSettings(object):
             raise AttributeError('Invalid setting: `{}`'.format(attr))
 
         value = self.user_settings.get(attr, self.defaults[attr])
+
+        if attr == 'JWT_ALLOW_ANY_CLASSES':
+            value = list(value) + [
+                'graphql_jwt.mixins.JSONWebTokenMixin',
+                'graphql_jwt.mixins.VerifyMixin',
+                'graphql_jwt.refresh_token.mixins.RevokeMixin',
+            ]
 
         if attr in self.import_strings:
             value = perform_import(value, attr)
