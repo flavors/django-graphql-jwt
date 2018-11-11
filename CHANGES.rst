@@ -5,9 +5,10 @@ Changelog
 -----
 
 * Added Graphene middleware
+* Added JWT_ALLOW_ANY_HANDLER setting
 * Added Per-argument authentication
 * Added JSONWebTokenExpired exception
-* Added documentation
+* Included Sphinx documentation
 * Renamed JWT_AUTH_HEADER to JWT_AUTH_HEADER_NAME
 
 0.1.14
