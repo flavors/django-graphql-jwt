@@ -15,17 +15,17 @@ class ClearTokensTests(UserTestCase):
         self.refresh_token = create_refresh_token(self.user)
 
         if sys.version_info[0] < 3:
-            self.out = io.BytesIO()
+            self.f = io.BytesIO()
         else:
-            self.out = io.StringIO()
+            self.f = io.StringIO()
 
     def test_clear_revoked_tokens(self):
         self.refresh_token.revoke()
-        call_command('cleartokens', stdout=self.out)
+        call_command('cleartokens', stdout=self.f)
 
-        self.assertIn('deleted 1 token', self.out.getvalue())
+        self.assertIn('deleted 1 token', self.f.getvalue())
 
     def test_clear_expired_tokens(self):
-        call_command('cleartokens', expired=True, stdout=self.out)
+        call_command('cleartokens', expired=True, stdout=self.f)
 
-        self.assertIn('deleted 0 tokens', self.out.getvalue())
+        self.assertIn('deleted 0 tokens', self.f.getvalue())
