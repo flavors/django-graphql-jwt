@@ -7,19 +7,19 @@ from ..context_managers import back_to_the_future, refresh_expired
 from ..decorators import override_jwt_settings
 
 
-class RefreshTokenMutationsMixin(object):
+class RefreshTokenMutationMixin(object):
 
     @override_jwt_settings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     def setUp(self):
-        self.Mutations = type('jwt', (graphene.ObjectType,), {
+        self.Mutation = type('jwt', (graphene.ObjectType,), {
             name: mutation.Field() for name, mutation in
             self.refresh_token_mutations.items()
         })
 
-        super(RefreshTokenMutationsMixin, self).setUp()
+        super(RefreshTokenMutationMixin, self).setUp()
 
 
-class TokenAuthMixin(RefreshTokenMutationsMixin):
+class TokenAuthMixin(RefreshTokenMutationMixin):
 
     @override_jwt_settings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     def test_token_auth(self):
@@ -46,7 +46,7 @@ class RefreshTokenMixin(object):
         self.refresh_token = create_refresh_token(self.user)
 
 
-class RefreshMixin(RefreshTokenMutationsMixin, RefreshTokenMixin):
+class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
 
     def test_refresh_token(self):
         with back_to_the_future(seconds=1):

@@ -11,7 +11,7 @@ Add mutations to the root schema::
     import graphql_jwt
 
 
-    class Mutations(graphene.ObjectType):
+    class Mutation(graphene.ObjectType):
         token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
         verify_token = graphql_jwt.relay.Verify.Field()
         refresh_token = graphql_jwt.relay.Refresh.Field()
@@ -20,7 +20,7 @@ Add mutations to the root schema::
         revoke_token = graphql_jwt.relay.Revoke.Field()
 
 
-    schema = graphene.Schema(mutation=Mutations)
+    schema = graphene.Schema(mutation=Mutation)
 
 
 Queries

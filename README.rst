@@ -49,13 +49,13 @@ Add *django-graphql-jwt* mutations to the root schema:
     import graphql_jwt
 
 
-    class Mutations(graphene.ObjectType):
+    class Mutation(graphene.ObjectType):
         token_auth = graphql_jwt.ObtainJSONWebToken.Field()
         verify_token = graphql_jwt.Verify.Field()
         refresh_token = graphql_jwt.Refresh.Field()
 
 
-    schema = graphene.Schema(mutation=Mutations)
+    schema = graphene.Schema(mutation=Mutation)
 
 
 Documentation
