@@ -28,7 +28,7 @@ sys.path.insert(0, str(ROOT_DIR.parent))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.settings'
 django.setup()
 
-import graphql_jwt  # NOQA
+import graphql_jwt  # NOQA I001, E402
 
 
 # -- Project information -----------------------------------------------------

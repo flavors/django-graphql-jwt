@@ -22,7 +22,7 @@ As a shortcut, you can use :doc:`decorators<decorators>` for your *resolvers* an
 HTTP header
 -----------
 
-Now in order to access protected API you must include the ``Authorization`` HTTP header.
+Now in order to access protected API you must include the ``Authorization`` HTTP header:
 
 .. code-block:: http
 
@@ -61,7 +61,7 @@ Add the *token* argument in any of your fields using the same name defined in ``
 
 
     class Query(graphene.ObjectType):
-        graphene.Field(UserType, token=graphene.String(required=True))
+        viewer = graphene.Field(UserType, token=graphene.String(required=True))
 
         @login_required
         def resolve_viewer(self, info, **kwargs):
@@ -75,7 +75,7 @@ Send the token as another variable within the query:
 
 ::
 
-    mutation GetViewer($token: String!) {
+    query GetViewer($token: String!) {
       viewer(token: $token) {
         id
         username

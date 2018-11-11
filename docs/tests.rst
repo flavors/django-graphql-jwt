@@ -28,4 +28,4 @@ This package includes a subclass of `unittest.TestCase <https://docs.python.org/
               'username': self.user.username,
             }
 
-            self.client.execute(query, variables=variables)
+            self.client.execute(query, variables)

@@ -3,11 +3,7 @@ body, .body, .highlight pre {
     background-attachment: fixed;
 }
 
-div.sphinxsidebar a.current {
-    color: #E535AB;
-}
-
-#django-graphql-jwt ul {
+div.sphinxsidebar a.current, #django-graphql-jwt ul {
     color: #E535AB;
 }
 
