@@ -287,25 +287,25 @@ class AllowAnyTests(TestCase):
         allowed = allow_any(info_mock)
 
         self.assertTrue(allowed)
-        info_mock.schema.get_query_type.assert_called_once()
+        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_not_allow_any(self):
         info_mock = self.info_with_type_mock(self.user, TestCase)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once()
+        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_unknown_field(self):
         info_mock = self.info_with_field_mock(self.user)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once()
+        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_unknown_type(self):
         info_mock = self.info_with_type_mock(self.user)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once()
+        info_mock.schema.get_query_type.assert_called_once_with()
