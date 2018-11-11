@@ -77,7 +77,22 @@ Send the token as another variable within the query:
 
     query GetViewer($token: String!) {
       viewer(token: $token) {
-        id
+        username
+        email
+      }
+    }
+
+
+Authenticate using **multiple credentials**:
+
+::
+
+    query GetUsers($tokenA: String!, $tokenB: String!) {
+      viewerA: viewer(token: $tokenA) {
+        username
+        email
+      }
+      viewerB: viewer(token: $tokenB) {
         username
         email
       }

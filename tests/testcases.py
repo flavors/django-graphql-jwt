@@ -24,10 +24,13 @@ class TestCase(UserTestCase):
         self.token = jwt_encode(self.payload)
         self.request_factory = RequestFactory()
 
-    def info(self, user, **headers):
+    def info(self, user=None, **headers):
         request = self.request_factory.post('/', **headers)
-        request.user = user
-        return mock.Mock(context=request)
+
+        if user is not None:
+            request.user = user
+
+        return mock.Mock(context=request, path=['test'])
 
 
 class SchemaTestCase(TestCase, JSONWebTokenTestCase):

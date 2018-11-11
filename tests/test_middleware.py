@@ -4,12 +4,10 @@ import warnings
 from django.contrib.auth.models import AnonymousUser
 from django.http import JsonResponse
 
-import graphene
 from graphene_django.settings import graphene_settings
 
 from graphql_jwt.exceptions import JSONWebTokenError
 from graphql_jwt.middleware import JSONWebTokenMiddleware, allow_any
-from graphql_jwt.mutations import JSONWebTokenMutation
 from graphql_jwt.settings import jwt_settings
 
 from .compat import mock
@@ -89,17 +87,11 @@ class DjangoMiddlewareTests(TestCase):
         authenticate_mock.assert_not_called()
 
 
-class GrapheneMiddlewareTests(TestCase):
+class AuthenticateByHeaderTests(TestCase):
 
     def setUp(self):
-        super(GrapheneMiddlewareTests, self).setUp()
+        super(AuthenticateByHeaderTests, self).setUp()
         self.middleware = JSONWebTokenMiddleware()
-
-    def info(self, user, **headers):
-        info_mock = super(GrapheneMiddlewareTests, self).info(user, **headers)
-        info_mock.path = ['test']
-        type(info_mock.operation).operation = 'query'
-        return info_mock
 
     def test_deprecation_warning(self):
         graphene_settings.MIDDLEWARE = []
@@ -124,7 +116,7 @@ class GrapheneMiddlewareTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.schema.get_query_type().fields.get.assert_called_with('test')
+        info_mock.assert_not_called()
         self.assertEqual(info_mock.context.user, self.user)
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
@@ -142,7 +134,7 @@ class GrapheneMiddlewareTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.schema.get_query_type().fields.get.assert_called_with('test')
+        info_mock.assert_not_called()
         authenticate_mock.assert_called_with(request=info_mock.context)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
@@ -160,7 +152,7 @@ class GrapheneMiddlewareTests(TestCase):
             self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_not_called()
-        info_mock.schema.get_query_type().fields.get.assert_called_with('test')
+        info_mock.assert_not_called()
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     @mock.patch('graphql_jwt.middleware.authenticate')
@@ -197,29 +189,144 @@ class GrapheneMiddlewareTests(TestCase):
         info_mock.assert_not_called()
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
+    def test_authenticate_context(self):
+        info_mock = self.info()
+
+        self.middleware.cached_allow_any.add('test')
+        authenticate_context = self.middleware.authenticate_context(info_mock)
+
+        self.assertFalse(authenticate_context)
+
+
+class AuthenticateByArgumentTests(TestCase):
+
+    @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
+    def setUp(self):
+        super(AuthenticateByArgumentTests, self).setUp()
+        self.middleware = JSONWebTokenMiddleware()
+
+    @override_jwt_settings(
+        JWT_ALLOW_ARGUMENT=True,
+        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    def test_authenticate(self):
+        kwargs = {
+            jwt_settings.JWT_ARGUMENT_NAME: self.token,
+        }
+
+        next_mock = mock.Mock()
+        info_mock = self.info(AnonymousUser())
+
+        self.middleware.resolve(next_mock, None, info_mock, **kwargs)
+
+        next_mock.assert_called_with(None, info_mock, **kwargs)
+        info_mock.assert_not_called()
+        self.assertEqual(info_mock.context.user, self.user)
+
+        user = self.middleware.cached_authentication[tuple(info_mock.path)]
+        self.assertEqual(user, self.user)
+
+    @override_jwt_settings(
+        JWT_ALLOW_ARGUMENT=True,
+        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    def test_authenticate_parent(self):
+        next_mock = mock.Mock()
+        info_mock = self.info(AnonymousUser())
+        info_mock.path = ['0', '1']
+
+        self.middleware.cached_authentication.insert(['0'], self.user)
+        self.middleware.resolve(next_mock, None, info_mock)
+
+        next_mock.assert_called_with(None, info_mock)
+        info_mock.assert_not_called()
+        self.assertEqual(info_mock.context.user, self.user)
+
+    @override_jwt_settings(
+        JWT_ALLOW_ARGUMENT=True,
+        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    def test_clear_authentication(self):
+        next_mock = mock.Mock()
+        info_mock = self.info(self.user)
+
+        self.middleware.resolve(next_mock, None, info_mock)
+
+        next_mock.assert_called_with(None, info_mock)
+        info_mock.assert_not_called()
+        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+
+    @override_jwt_settings(
+        JWT_ALLOW_ARGUMENT=True,
+        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    def test_clear_session_authentication(self):
+        next_mock = mock.Mock()
+        info_mock = self.info(self.user)
+        info_mock.context.session = self.client.session
+
+        self.middleware.resolve(next_mock, None, info_mock)
+
+        next_mock.assert_called_with(None, info_mock)
+        info_mock.assert_not_called()
+        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+
+    @override_jwt_settings(
+        JWT_ALLOW_ARGUMENT=True,
+        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    def test_context_has_not_attr_user(self):
+        next_mock = mock.Mock()
+        info_mock = self.info()
+
+        self.middleware.resolve(next_mock, None, info_mock)
+
+        next_mock.assert_called_with(None, info_mock)
+        info_mock.assert_not_called()
+        self.assertFalse(hasattr(info_mock.context, 'user'))
+
 
 class AllowAnyTests(TestCase):
 
-    def field(self, cls):
-        return mock.Mock(type=mock.Mock(graphene_type=cls))
+    def info(self, user, **headers):
+        info_mock = super(AllowAnyTests, self).info(user, **headers)
+        info_mock.field_name = 'test_field'
+        info_mock.operation.operation = 'query'
+        return info_mock
 
-    def test_scalar_type(self):
-        allowed = allow_any(
-            self.info(self.user),
-            graphene.Boolean().Field())
+    def info_with_field_mock(self, user, field=None):
+        info_mock = self.info(user)
+        field_mock = mock.Mock(fields={
+            'test_field': field,
+        })
 
-        self.assertFalse(allowed)
+        info_mock.schema.get_query_type.return_value = field_mock
+        return info_mock
 
+    def info_with_type_mock(self, user, type=None):
+        type_mock = mock.Mock(type=mock.Mock(graphene_type=type))
+        return self.info_with_field_mock(user, type_mock)
+
+    @override_jwt_settings(JWT_ALLOW_ANY_CLASSES=['tests.testcases.TestCase'])
     def test_allow_any(self):
-        allowed = allow_any(
-            self.info(self.user),
-            self.field(JSONWebTokenMutation))
+        info_mock = self.info_with_type_mock(self.user, TestCase)
+        allowed = allow_any(info_mock)
 
         self.assertTrue(allowed)
+        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_not_allow_any(self):
-        allowed = allow_any(
-            self.info(self.user),
-            self.field(TestCase))
+        info_mock = self.info_with_type_mock(self.user, TestCase)
+        allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
+        info_mock.schema.get_query_type.assert_called_once_with()
+
+    def test_unknown_field(self):
+        info_mock = self.info_with_field_mock(self.user)
+        allowed = allow_any(info_mock)
+
+        self.assertFalse(allowed)
+        info_mock.schema.get_query_type.assert_called_once_with()
+
+    def test_unknown_type(self):
+        info_mock = self.info_with_type_mock(self.user)
+        allowed = allow_any(info_mock)
+
+        self.assertFalse(allowed)
+        info_mock.schema.get_query_type.assert_called_once_with()
