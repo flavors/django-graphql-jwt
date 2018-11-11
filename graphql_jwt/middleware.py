@@ -11,6 +11,11 @@ from .exceptions import JSONWebTokenError
 from .settings import jwt_settings
 from .utils import get_authorization_header, get_credentials
 
+__all__ = [
+    'allow_any',
+    'JSONWebTokenMiddleware',
+]
+
 
 def allow_any(info, field, **kwargs):
     graphene_type = getattr(field.type, 'graphene_type', None)
@@ -19,7 +24,7 @@ def allow_any(info, field, **kwargs):
         tuple(jwt_settings.JWT_ALLOW_ANY_CLASSES))
 
 
-class JSONWebTokenMiddleware(MiddlewareMixin):
+class DjangoMiddleware(MiddlewareMixin):
 
     def __init__(self, get_response=None):
         if JSONWebTokenMiddleware not in graphene_settings.MIDDLEWARE:
@@ -50,6 +55,9 @@ class JSONWebTokenMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         patch_vary_headers(response, ('Authorization',))
         return response
+
+
+class JSONWebTokenMiddleware(DjangoMiddleware):
 
     def resolve(self, next, root, info, **kwargs):
         context = info.context
