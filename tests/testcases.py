@@ -27,7 +27,7 @@ class TestCase(UserTestCase):
     def info(self, user, **headers):
         request = self.request_factory.post('/', **headers)
         request.user = user
-        return mock.Mock(context=request)
+        return mock.Mock(context=request, path=['test'])
 
 
 class SchemaTestCase(TestCase, JSONWebTokenTestCase):
