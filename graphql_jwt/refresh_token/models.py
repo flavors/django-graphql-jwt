@@ -41,8 +41,9 @@ class AbstractRefreshToken(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.token:
-            self.token = self.generate_token()
-        return super(AbstractRefreshToken, self).save(*args, **kwargs)
+            self.token = self._cached_token = self.generate_token()
+
+        super(AbstractRefreshToken, self).save(*args, **kwargs)
 
     def generate_token(self):
         return binascii.hexlify(
