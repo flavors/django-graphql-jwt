@@ -17,7 +17,7 @@ class RefreshTokenMixin(object):
     @classmethod
     def refresh(cls, root, info, refresh_token, **kwargs):
         context = info.context
-        refresh_token = get_refresh_token(refresh_token)
+        refresh_token = get_refresh_token(refresh_token, info.context)
 
         if refresh_token.is_expired(context):
             raise exceptions.JSONWebTokenError(_('Refresh token is expired'))
