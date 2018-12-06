@@ -38,14 +38,4 @@ Django GraphQL JWT
    tests
    settings
    changelog
-
-
-**Credits and thanks**
-
-* `@jpadilla`_ / `django-rest-framework-jwt`_
-* `@jonatasbaldin`_ / `howtographql`_
-
-.. _@jpadilla: https://github.com/jpadilla
-.. _django-rest-framework-jwt: https://github.com/GetBlimp/django-rest-framework-jwt
-.. _@jonatasbaldin: https://github.com/jonatasbaldin
-.. _howtographql: https://github.com/howtographql/graphql-python
+   contributors
