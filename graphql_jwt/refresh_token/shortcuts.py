@@ -1,14 +1,15 @@
 from django.utils.translation import ugettext as _
 
 from ..exceptions import JSONWebTokenError
-from .utils import get_refresh_token_by_model, get_refresh_token_model
+from ..settings import jwt_settings
+from .utils import get_refresh_token_model
 
 
 def get_refresh_token(token, context=None):
     RefreshToken = get_refresh_token_model()
 
     try:
-        return get_refresh_token_by_model(
+        return jwt_settings.JWT_GET_REFRESH_TOKEN_HANDLER(
             refresh_token_model=RefreshToken,
             token=token,
             context=context)
