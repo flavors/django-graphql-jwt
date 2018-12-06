@@ -23,6 +23,15 @@ class DjangoMiddlewareTests(TestCase):
         self.get_response_mock = mock.Mock(return_value=JsonResponse({}))
         self.middleware = JSONWebTokenMiddleware(self.get_response_mock)
 
+    def test_deprecation_warning(self):
+        graphene_settings.MIDDLEWARE = []
+
+        with warnings.catch_warnings(record=True) as warning_list:
+            JSONWebTokenMiddleware()
+            self.assertTrue(warning_list)
+
+        graphene_settings.MIDDLEWARE = [JSONWebTokenMiddleware]
+
     def test_authenticate(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
@@ -92,15 +101,6 @@ class AuthenticateByHeaderTests(TestCase):
     def setUp(self):
         super(AuthenticateByHeaderTests, self).setUp()
         self.middleware = JSONWebTokenMiddleware()
-
-    def test_deprecation_warning(self):
-        graphene_settings.MIDDLEWARE = []
-
-        with warnings.catch_warnings(record=True) as warning_list:
-            JSONWebTokenMiddleware()
-            self.assertTrue(warning_list)
-
-        graphene_settings.MIDDLEWARE = [JSONWebTokenMiddleware]
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_authenticate(self):
