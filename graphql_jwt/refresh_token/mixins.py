@@ -34,7 +34,6 @@ class RevokeMixin(object):
 
     @classmethod
     def revoke(cls, root, info, refresh_token, **kwargs):
-        refresh_token = get_refresh_token(refresh_token)
+        refresh_token = get_refresh_token(refresh_token, info.context)
         refresh_token.revoke()
-
         return cls(revoked=timegm(refresh_token.revoked.timetuple()))
