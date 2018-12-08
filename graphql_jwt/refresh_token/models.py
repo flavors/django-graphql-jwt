@@ -41,13 +41,19 @@ class AbstractRefreshToken(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.token:
-            self.token = self.generate_token()
-        return super(AbstractRefreshToken, self).save(*args, **kwargs)
+            self.token = self._cached_token = self.generate_token()
+
+        super(AbstractRefreshToken, self).save(*args, **kwargs)
 
     def generate_token(self):
         return binascii.hexlify(
             os.urandom(jwt_settings.JWT_REFRESH_TOKEN_N_BYTES),
         ).decode()
+
+    def get_token(self):
+        if hasattr(self, '_cached_token'):
+            return self._cached_token
+        return self.token
 
     def is_expired(self, context=None):
         orig_iat = timegm(self.created.timetuple())

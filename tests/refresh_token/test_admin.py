@@ -1,7 +1,7 @@
 from django.contrib.admin import site
 
 from graphql_jwt.refresh_token import admin
-from graphql_jwt.refresh_token.shortcuts import get_refresh_token_model
+from graphql_jwt.refresh_token.utils import get_refresh_token_model
 from graphql_jwt.shortcuts import create_refresh_token
 
 from ..decorators import skipif_django_version

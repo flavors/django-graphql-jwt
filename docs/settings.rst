@@ -165,6 +165,14 @@ JWT_REFRESH_EXPIRED_HANDLER
   .. autofunction:: graphql_jwt.utils.refresh_has_expired
 
 
+JWT_GET_REFRESH_TOKEN_HANDLER
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  A custom function to retrieve a long time refresh token instance
+
+  .. autofunction:: graphql_jwt.refresh_token.utils.get_refresh_token_by_model
+
+
 Permissions
 -----------
 

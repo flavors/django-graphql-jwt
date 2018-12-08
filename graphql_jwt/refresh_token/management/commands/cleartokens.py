@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.db.models import Q
 from django.template.defaultfilters import pluralize
 
-from ...shortcuts import get_refresh_token_model
+from ...utils import get_refresh_token_model
 
 
 class Command(BaseCommand):
