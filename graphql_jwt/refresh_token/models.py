@@ -50,6 +50,11 @@ class AbstractRefreshToken(models.Model):
             os.urandom(jwt_settings.JWT_REFRESH_TOKEN_N_BYTES),
         ).decode()
 
+    def get_token(self):
+        if hasattr(self, '_cached_token'):
+            return self._cached_token
+        return self.token
+
     def is_expired(self, context=None):
         orig_iat = timegm(self.created.timetuple())
         return jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, context)
