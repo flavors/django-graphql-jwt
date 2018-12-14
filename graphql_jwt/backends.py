@@ -1,7 +1,7 @@
 from .refresh_token.blacklist import is_in_blacklist
 from .settings import jwt_settings
 from .shortcuts import get_user_by_token
-from .utils import get_credentials, get_user_by_natural_key, get_payload
+from .utils import get_credentials, get_payload, get_user_by_natural_key
 
 
 class JSONWebTokenBackend(object):

@@ -71,7 +71,7 @@ def token_auth(f):
                 payload.token = get_token(
                     user,
                     info.context,
-                    refresh_token=payload.refresh_token
+                    refresh_token=payload.refresh_token,
                 )
             else:
                 payload.token = get_token(user, info.context)
