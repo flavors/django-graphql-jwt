@@ -23,8 +23,9 @@ class RefreshTokenMixin(object):
             raise exceptions.JSONWebTokenError(_('Refresh token is expired'))
 
         payload = jwt_settings.JWT_PAYLOAD_HANDLER(refresh_token.user, context)
-        token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
         refreshed_token = refresh_token.rotate().get_token()
+        payload["refresh_token"] = refreshed_token
+        token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
         return cls(token=token, payload=payload, refresh_token=refreshed_token)
 
 

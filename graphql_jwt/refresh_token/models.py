@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from . import managers, signals
 from ..settings import jwt_settings
 from .shortcuts import create_refresh_token
+from .blacklist import set_blacklist
 
 
 @python_2_unicode_compatible
@@ -62,6 +63,7 @@ class AbstractRefreshToken(models.Model):
     def revoke(self):
         self.revoked = timezone.now()
         self.save(update_fields=['revoked'])
+        set_blacklist(self)
 
         signals.refresh_token_revoked.send(
             sender=AbstractRefreshToken,
