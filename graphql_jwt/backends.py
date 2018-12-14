@@ -1,8 +1,7 @@
+from .refresh_token.blacklist import is_in_blacklist
 from .settings import jwt_settings
 from .shortcuts import get_user_by_token
-from .utils import get_credentials, get_user_by_natural_key
-from .refresh_token.blacklist import is_in_blacklist
-from .utils import get_payload
+from .utils import get_credentials, get_user_by_natural_key, get_payload
 
 
 class JSONWebTokenBackend(object):
@@ -15,7 +14,7 @@ class JSONWebTokenBackend(object):
 
         if token is not None:
             if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-                refresh_token = get_payload(token)["refresh_token"]
+                refresh_token = get_payload(token)['refresh_token']
                 if is_in_blacklist(refresh_token):
                     return None
             return get_user_by_token(token, request)

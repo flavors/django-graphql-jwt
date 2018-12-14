@@ -4,11 +4,11 @@ import graphene
 
 from . import mixins
 from .decorators import token_auth
-from .refresh_token.mutations import Revoke
-from .refresh_token.blacklist import is_in_blacklist
-from .utils import get_payload
-from .settings import jwt_settings
 from .exceptions import JSONWebTokenError
+from .refresh_token.blacklist import is_in_blacklist
+from .refresh_token.mutations import Revoke
+from .settings import jwt_settings
+from .utils import get_payload
 
 __all__ = [
     'JSONWebTokenMutation',
@@ -51,8 +51,11 @@ class Verify(mixins.VerifyMixin, graphene.Mutation):
     @classmethod
     def mutate(cls, root, info, token, **kwargs):
         payload = get_payload(token, info.context)
-        if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN and is_in_blacklist(payload["refresh_token"]):
-            raise JSONWebTokenError("Invalid")
+        if (
+            jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN and
+            is_in_blacklist(payload['refresh_token'])
+        ):
+            raise JSONWebTokenError('Invalid')
         return cls(payload=payload)
 
 
