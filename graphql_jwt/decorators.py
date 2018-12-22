@@ -1,5 +1,6 @@
 from functools import wraps
 
+from defender import config
 from defender import utils
 
 from django.contrib.auth import authenticate, get_user_model
@@ -82,7 +83,9 @@ def token_auth(f):
         if jwt_settings.DJANGO_DEFENDER_BRUTE_FORCE_PROTECTION:
             if utils.is_already_locked(request=info.context, username=username):
                 raise exceptions.JSONWebTokenError(
-                    _(jwt_settings.DJANGO_DEFENDER_LOCK_MESSAGE)
+                    _('Your account is locked for {0} seconds.'.format(
+                        config.COOLOFF_TIME
+                    ))
                 )
 
         user = authenticate(request=info.context, username=username, password=password)

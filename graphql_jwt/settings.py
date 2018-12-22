@@ -6,8 +6,6 @@ from django.contrib.auth import get_user_model
 from django.test.signals import setting_changed
 from django.utils import six
 
-from defender import config
-
 DEFAULTS = {
     'JWT_ALGORITHM': 'HS256',
     'JWT_AUDIENCE': None,
@@ -39,9 +37,6 @@ DEFAULTS = {
     'JWT_ALLOW_ANY_CLASSES': (),
     'JWT_CRED_FAIL_MESSAGE': 'Please, enter valid credentials',
     'DJANGO_DEFENDER_BRUTE_FORCE_PROTECTION': False,
-    'DJANGO_DEFENDER_LOCK_MESSAGE': 'Your account is locked for {0} seconds.'.format(
-        config.COOLOFF_TIME
-    ),
 }
 
 IMPORT_STRINGS = (
