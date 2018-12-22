@@ -4,6 +4,7 @@ from defender import utils
 
 from django.contrib.auth import authenticate, get_user_model
 from django.utils import six
+from django.utils.translation import ugettext as _
 
 from promise import Promise, is_thenable
 
@@ -81,7 +82,7 @@ def token_auth(f):
         if jwt_settings.DJANGO_DEFENDER_BRUTE_FORCE_PROTECTION:
             if utils.is_already_locked(request=info.context, username=username):
                 raise exceptions.JSONWebTokenError(
-                    jwt_settings.DJANGO_DEFENDER_LOCK_MESSAGE
+                    _(jwt_settings.DJANGO_DEFENDER_LOCK_MESSAGE)
                 )
 
         user = authenticate(request=info.context, username=username, password=password)
@@ -101,7 +102,7 @@ def token_auth(f):
             )
 
         if not login_valid or user_blocked:
-            raise exceptions.JSONWebTokenError(jwt_settings.JWT_CRED_FAIL_MESSAGE)
+            raise exceptions.JSONWebTokenError(_(jwt_settings.JWT_CRED_FAIL_MESSAGE))
 
         if hasattr(info.context, 'user'):
             info.context.user = user
