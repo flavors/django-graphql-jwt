@@ -1,8 +1,9 @@
 from functools import wraps
 
+from defender import utils
+
 from django.contrib.auth import authenticate, get_user_model
 from django.utils import six
-from django.utils.translation import ugettext as _
 
 from promise import Promise, is_thenable
 
@@ -77,14 +78,30 @@ def token_auth(f):
         if get_authorization_header(info.context) is not None:
             del info.context.META[jwt_settings.JWT_AUTH_HEADER_NAME]
 
-        user = authenticate(
-            request=info.context,
-            username=username,
-            password=password)
+        if jwt_settings.DJANGO_DEFENDER_BRUTE_FORCE_PROTECTION:
+            if utils.is_already_locked(request=info.context, username=username):
+                raise exceptions.JSONWebTokenError(
+                    jwt_settings.DJANGO_DEFENDER_LOCK_MESSAGE
+                )
 
-        if user is None:
-            raise exceptions.JSONWebTokenError(
-                _('Please, enter valid credentials'))
+        user = authenticate(request=info.context, username=username, password=password)
+
+        login_valid = bool(user)
+        user_blocked = False
+
+        if jwt_settings.DJANGO_DEFENDER_BRUTE_FORCE_PROTECTION:
+            utils.add_login_attempt_to_db(
+                request=info.context, login_valid=login_valid, username=username
+            )
+
+            user_blocked = not utils.check_request(
+                request=info.context,
+                login_unsuccessful=not login_valid,
+                username=username,
+            )
+
+        if not login_valid or user_blocked:
+            raise exceptions.JSONWebTokenError(jwt_settings.JWT_CRED_FAIL_MESSAGE)
 
         if hasattr(info.context, 'user'):
             info.context.user = user

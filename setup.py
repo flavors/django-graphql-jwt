@@ -39,6 +39,8 @@ setup(
         'Django>=1.11',
         'graphene-django>=2.0.0',
         'PyJWT>=1.5.0',
+        'django-defender>=0.5.5',
+        'redis>=2.10.3,<3.0',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
