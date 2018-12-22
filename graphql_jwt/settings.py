@@ -34,13 +34,14 @@ DEFAULTS = {
         lambda payload: payload.get(get_user_model().USERNAME_FIELD)
     ),
     'JWT_REFRESH_EXPIRED_HANDLER': 'graphql_jwt.utils.refresh_has_expired',
-    'JWT_GET_REFRESH_TOKEN_HANDLER':
-    'graphql_jwt.refresh_token.utils.get_refresh_token_by_model',
+    'JWT_GET_REFRESH_TOKEN_HANDLER': 'graphql_jwt.refresh_token.utils.get_refresh_token_by_model',
     'JWT_ALLOW_ANY_HANDLER': 'graphql_jwt.middleware.allow_any',
     'JWT_ALLOW_ANY_CLASSES': (),
     'JWT_CRED_FAIL_MESSAGE': _('Please, enter valid credentials'),
     'DJANGO_DEFENDER_BRUTE_FORCE_PROTECTION': False,
-    'DJANGO_DEFENDER_LOCK_MESSAGE': f'Your account is locked for {config.COOLOFF_TIME} seconds.',
+    'DJANGO_DEFENDER_LOCK_MESSAGE': 'Your account is locked for {0} seconds.'.format(
+        config.COOLOFF_TIME
+    ),
 }
 
 IMPORT_STRINGS = (
@@ -70,12 +71,12 @@ def import_from_string(value, setting_name):
         return getattr(module, class_name)
     except (ImportError, AttributeError) as e:
         msg = 'Could not import `{}` for JWT setting `{}`. {}: {}.'.format(
-            value, setting_name, e.__class__.__name__, e)
+            value, setting_name, e.__class__.__name__, e
+        )
         raise ImportError(msg)
 
 
 class JWTSettings(object):
-
     def __init__(self, defaults, import_strings):
         self.defaults = defaults
         self.import_strings = import_strings
