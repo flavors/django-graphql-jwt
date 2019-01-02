@@ -1,6 +1,6 @@
 from functools import wraps
 
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import authenticate, get_user_model, user_logged_in
 from django.utils import six
 from django.utils.translation import ugettext as _
 
@@ -88,7 +88,8 @@ def token_auth(f):
 
         if hasattr(info.context, 'user'):
             info.context.user = user
-
+        user_logged_in.send(sender=user.__class__, request=info.context,
+                            user=user)
         result = f(cls, root, info, **kwargs)
         values = (user, result)
 
