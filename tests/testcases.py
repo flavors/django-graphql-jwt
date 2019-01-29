@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, testcases
 
+from graphql.execution.base import ResolveInfo
+
 from graphql_jwt.testcases import JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
@@ -30,7 +32,7 @@ class TestCase(UserTestCase):
         if user is not None:
             request.user = user
 
-        return mock.Mock(context=request, path=['test'])
+        return mock.Mock(context=request, path=['test'], spec=ResolveInfo)
 
 
 class SchemaTestCase(TestCase, JSONWebTokenTestCase):
