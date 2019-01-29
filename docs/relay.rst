@@ -4,7 +4,8 @@ Relay
 Complete support for `Relay <https://facebook.github.io/relay/>`_.
 
 Schema
--------
+------
+
 Add mutations to the root schema::
 
     import graphene

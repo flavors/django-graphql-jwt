@@ -1,3 +1,4 @@
+from datetime import datetime
 from functools import wraps
 
 from django.contrib.auth import authenticate, get_user_model
@@ -18,6 +19,7 @@ __all__ = [
     'staff_member_required',
     'permission_required',
     'token_auth',
+    'jwt_cookie',
 ]
 
 
@@ -62,6 +64,7 @@ def permission_required(perm):
 
 def token_auth(f):
     @wraps(f)
+    @setup_jwt_cookie
     def wrapper(cls, root, info, password, **kwargs):
         def on_resolve(values):
             user, payload = values
@@ -69,7 +72,6 @@ def token_auth(f):
 
             if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
                 payload.refresh_token = create_refresh_token(user).get_token()
-
             return payload
 
         username = kwargs.get(get_user_model().USERNAME_FIELD)
@@ -96,3 +98,33 @@ def token_auth(f):
             return Promise.resolve(values).then(on_resolve)
         return on_resolve(values)
     return wrapper
+
+
+def setup_jwt_cookie(f):
+    @wraps(f)
+    def wrapper(cls, root, info, *args, **kwargs):
+        result = f(cls, root, info, **kwargs)
+
+        if getattr(info.context, 'jwt_cookie', False):
+            info.context.jwt = result.token
+        return result
+    return wrapper
+
+
+def jwt_cookie(view_func):
+    @wraps(view_func)
+    def wrapped_view(request, *args, **kwargs):
+        request.jwt_cookie = True
+        response = view_func(request, *args, **kwargs)
+
+        if hasattr(request, 'jwt'):
+            expiration = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
+
+            response.set_cookie(
+                jwt_settings.JWT_COOKIE_KEY,
+                request.jwt,
+                expires=expiration,
+                httponly=True)
+
+        return response
+    return wrapped_view

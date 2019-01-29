@@ -35,6 +35,7 @@ Django GraphQL JWT
    refresh_token
    customizing
    relay
+   cookie_authentication
    tests
    settings
    changelog

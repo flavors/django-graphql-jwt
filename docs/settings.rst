@@ -230,6 +230,17 @@ JWT_ARGUMENT_NAME
   Default: ``'token'``
 
 
+Cookie authentication
+---------------------
+
+JWT_COOKIE_KEY
+~~~~~~~~~~~~~~
+
+  Cookie key when HTTP cookies are used as a valid transport for the token
+
+  Default: ``'JWT'``
+
+
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
 .. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss
