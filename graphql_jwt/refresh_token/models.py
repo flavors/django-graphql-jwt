@@ -32,8 +32,8 @@ class AbstractRefreshToken(models.Model):
 
     class Meta:
         abstract = True
-        verbose_name = _('Refresh token')
-        verbose_name_plural = _('Refresh tokens')
+        verbose_name = _('refresh token')
+        verbose_name_plural = _('refresh tokens')
         unique_together = ('token', 'revoked')
 
     def __str__(self):
