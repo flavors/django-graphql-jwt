@@ -1,8 +1,8 @@
 # Domake.io i18n
-# Copyright (C) mongkok 2018
+# Copyright (C) mongkok 2019
 # This file is distributed under the same license as the django-graphql-jwt package.
 # Translators:
-# mongkok <domake.io@gmail.com>, 2018.
+# mongkok <domake.io@gmail.com>, 2019.
 #
 #, fuzzy
 msgid ""
