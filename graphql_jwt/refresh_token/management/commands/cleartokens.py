@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, expired, *args, **options):
         qs = get_refresh_token_model().objects
         if expired:
-            qs = qs.expired()
+            qs = qs.expired().filter(expired=True)
 
         deleted, _ = qs.delete()
 
