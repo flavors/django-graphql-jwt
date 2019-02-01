@@ -9,6 +9,5 @@ class Command(BaseCommand):
     help = 'Build initial blacklist'
 
     def handle(self, *args, **options):
-        qs = get_refresh_token_model().objects.filter(revoked__isnull=False)
-        for refresh_token in qs.all():
+        for refresh_token in get_refresh_token_model().objects.filter(revoked__isnull=False):
             set_blacklist(refresh_token)

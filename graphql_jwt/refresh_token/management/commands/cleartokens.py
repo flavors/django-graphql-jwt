@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-from django.db.models import Q
 from django.template.defaultfilters import pluralize
 
 from ...utils import get_refresh_token_model
@@ -17,13 +16,10 @@ class Command(BaseCommand):
 
     def handle(self, expired, *args, **options):
         qs = get_refresh_token_model().objects
-        query = Q(revoked__isnull=False)
-
         if expired:
             qs = qs.expired()
-            query |= Q(expired=True)
 
-        deleted, _ = qs.filter(query).delete()
+        deleted, _ = qs.delete()
 
         msg = 'Successfully deleted {} token{}'.format(
             deleted,
