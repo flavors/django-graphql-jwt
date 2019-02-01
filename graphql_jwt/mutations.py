@@ -36,7 +36,7 @@ class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
     @classmethod
     @token_auth
     def mutate(cls, root, info, **kwargs):
-        return cls.resolve(root, info)
+        return cls.resolve(root, info, **kwargs)
 
 
 class ObtainJSONWebToken(mixins.ResolveMixin, JSONWebTokenMutation):

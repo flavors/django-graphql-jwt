@@ -39,7 +39,7 @@ class VerifyMixin(object):
 class ResolveMixin(object):
 
     @classmethod
-    def resolve(cls, root, info):
+    def resolve(cls, root, info, **kwargs):
         return cls()
 
 
