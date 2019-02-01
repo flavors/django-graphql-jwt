@@ -19,7 +19,7 @@ class Command(BaseCommand):
         if expired:
             qs = qs.expired().filter(expired=True)
 
-        deleted, _ = qs.delete()
+        deleted, _ = qs.all().delete()
 
         msg = 'Successfully deleted {} token{}'.format(
             deleted,
