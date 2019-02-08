@@ -103,7 +103,7 @@ class JSONWebTokenMiddleware(DjangoMiddleware):
                 context.user = user
 
             elif hasattr(context, 'user'):
-                if hasattr(context,  'session'):
+                if hasattr(context, 'session'):
                     context.user = get_user(context)
                 else:
                     context.user = AnonymousUser()
