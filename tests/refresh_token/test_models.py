@@ -51,10 +51,7 @@ class AbstractRefreshTokenTests(UserTestCase):
 
     def test_rotate(self):
         with catch_signal(signals.refresh_token_rotated) as handler:
-            refresh_token = self.refresh_token.rotate()
-
-        self.assertEqual(refresh_token.user, self.refresh_token.user)
-        self.assertNotEqual(refresh_token.token, self.refresh_token.token)
+            self.refresh_token.rotate()
 
         handler.assert_called_once_with(
             sender=AbstractRefreshToken,
