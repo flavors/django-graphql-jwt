@@ -5,8 +5,8 @@ When a token is requested and ``jwt_cookie`` decorator is set, the response will
 
     from django.urls import path
 
-    from graphql_extensions.views import GraphQLView
-    from graphql_jwt.decoratos import jwt_cookie
+    from graphene_django.views import GraphQLView
+    from graphql_jwt.decorators import jwt_cookie
 
     urlpatterns = [
         path('graphql/', jwt_cookie(GraphQLView.as_view())),
