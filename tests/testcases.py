@@ -6,7 +6,7 @@ from graphql.execution.base import ResolveInfo
 
 from graphql_jwt.decorators import jwt_cookie
 from graphql_jwt.settings import jwt_settings
-from graphql_jwt.testcases import JSONWebTokenTestCase, JSONWebTokenClient
+from graphql_jwt.testcases import JSONWebTokenClient, JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
 from .compat import mock
