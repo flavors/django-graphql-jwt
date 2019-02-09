@@ -40,7 +40,7 @@ class ViewerTests(CookieGraphQLViewTestCase):
         viewer = graphene.String()
 
         def resolve_viewer(self, info):
-            return info.context.user.username
+            return info.context.user.get_username()
 
     def test_viewer(self):
         self.authenticate()
