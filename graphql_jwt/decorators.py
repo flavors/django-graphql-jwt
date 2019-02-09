@@ -19,6 +19,7 @@ __all__ = [
     'staff_member_required',
     'permission_required',
     'token_auth',
+    'setup_jwt_cookie',
     'jwt_cookie',
 ]
 
