@@ -45,9 +45,10 @@ class DjangoMiddleware(MiddlewareMixin):
     def __init__(self, get_response=None):
         if JSONWebTokenMiddleware not in graphene_settings.MIDDLEWARE:
             warnings.warn(
-                'You do not have '
+                'Add '
                 '\'graphql_jwt.middleware.JSONWebTokenMiddleware\' '
-                'in your GRAPHENE[\'MIDDLEWARE\'] setting. '
+                'to your GRAPHENE[\'MIDDLEWARE\'] setting and remove it '
+                'from your Django middleware classes.'
                 'Please see the documentation for more information: '
                 '<https://github.com/flavors/django-graphql-jwt#installation>',
                 stacklevel=2)
@@ -103,7 +104,7 @@ class JSONWebTokenMiddleware(DjangoMiddleware):
                 context.user = user
 
             elif hasattr(context, 'user'):
-                if hasattr(context,  'session'):
+                if hasattr(context, 'session'):
                     context.user = get_user(context)
                 else:
                     context.user = AnonymousUser()

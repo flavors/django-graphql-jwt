@@ -1,3 +1,4 @@
+from django.utils.functional import lazy
 from django.utils.translation import ugettext as _
 
 from ..exceptions import JSONWebTokenError
@@ -20,3 +21,6 @@ def get_refresh_token(token, context=None):
 
 def create_refresh_token(user):
     return get_refresh_token_model().objects.create(user=user)
+
+
+refresh_token_lazy = lazy(lambda u: create_refresh_token(u).get_token(), str)

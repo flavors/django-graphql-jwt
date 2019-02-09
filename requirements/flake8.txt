@@ -1,4 +1,4 @@
-flake8>=3.5.0
+flake8>=3.7.0
 
 flake8-commas>=0.4.3
 flake8-comprehensions>=1.4.1

@@ -10,7 +10,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from . import managers, signals
 from ..settings import jwt_settings
-from .shortcuts import create_refresh_token
 
 
 @python_2_unicode_compatible
@@ -20,7 +19,7 @@ class AbstractRefreshToken(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='refresh_token',
+        related_name='refresh_tokens',
         verbose_name=_('user'))
 
     token = models.CharField(_('token'), max_length=255, editable=False)
@@ -68,13 +67,9 @@ class AbstractRefreshToken(models.Model):
             refresh_token=self)
 
     def rotate(self):
-        refresh_token = create_refresh_token(user=self.user)
-
         signals.refresh_token_rotated.send(
             sender=AbstractRefreshToken,
             refresh_token=self)
-
-        return refresh_token
 
 
 class RefreshToken(AbstractRefreshToken):

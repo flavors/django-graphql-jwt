@@ -116,7 +116,6 @@ class AuthenticateByHeaderTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.assert_not_called()
         self.assertEqual(info_mock.context.user, self.user)
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
@@ -134,7 +133,6 @@ class AuthenticateByHeaderTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.assert_not_called()
         authenticate_mock.assert_called_with(request=info_mock.context)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
@@ -152,7 +150,6 @@ class AuthenticateByHeaderTests(TestCase):
             self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_not_called()
-        info_mock.assert_not_called()
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     @mock.patch('graphql_jwt.middleware.authenticate')
@@ -169,7 +166,6 @@ class AuthenticateByHeaderTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.assert_not_called()
         authenticate_mock.assert_not_called()
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: True)
@@ -186,7 +182,6 @@ class AuthenticateByHeaderTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.assert_not_called()
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
     def test_authenticate_context(self):
@@ -219,7 +214,6 @@ class AuthenticateByArgumentTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock, **kwargs)
 
         next_mock.assert_called_with(None, info_mock, **kwargs)
-        info_mock.assert_not_called()
         self.assertEqual(info_mock.context.user, self.user)
 
         user = self.middleware.cached_authentication[tuple(info_mock.path)]
@@ -237,7 +231,6 @@ class AuthenticateByArgumentTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.assert_not_called()
         self.assertEqual(info_mock.context.user, self.user)
 
     @override_jwt_settings(
@@ -250,7 +243,6 @@ class AuthenticateByArgumentTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.assert_not_called()
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
     @override_jwt_settings(
@@ -264,7 +256,6 @@ class AuthenticateByArgumentTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.assert_not_called()
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
     @override_jwt_settings(
@@ -277,7 +268,6 @@ class AuthenticateByArgumentTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_with(None, info_mock)
-        info_mock.assert_not_called()
         self.assertFalse(hasattr(info_mock.context, 'user'))
 
 
