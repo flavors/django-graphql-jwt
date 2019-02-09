@@ -55,12 +55,12 @@ def jwt_decode(token, context=None):
         algorithms=[jwt_settings.JWT_ALGORITHM])
 
 
-def get_authorization_header(request):
+def get_http_authorization(request):
     auth = request.META.get(jwt_settings.JWT_AUTH_HEADER_NAME, '').split()
     prefix = jwt_settings.JWT_AUTH_HEADER_PREFIX
 
     if len(auth) != 2 or auth[0].lower() != prefix.lower():
-        return None
+        return request.COOKIES.get(jwt_settings.JWT_COOKIE_KEY)
     return auth[1]
 
 
@@ -77,7 +77,7 @@ def get_token_argument(request, **kwargs):
 
 def get_credentials(request, **kwargs):
     return (get_token_argument(request, **kwargs) or
-            get_authorization_header(request))
+            get_http_authorization(request))
 
 
 def get_payload(token, context=None):
