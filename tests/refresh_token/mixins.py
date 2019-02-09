@@ -32,10 +32,7 @@ class TokenAuthMixin(RefreshTokenMutationMixin):
         payload = get_payload(data['token'])
         refresh_token = get_refresh_token(data['refreshToken'])
 
-        self.assertEqual(
-            self.user.get_username(),
-            payload[self.user.USERNAME_FIELD])
-
+        self.assertUsernameIn(payload)
         self.assertEqual(refresh_token.user, self.user)
 
 
@@ -59,6 +56,7 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         refresh_token = get_refresh_token(data['refreshToken'])
         payload = get_payload(token)
 
+        self.assertUsernameIn(payload)
         self.assertNotEqual(token, self.token)
         self.assertGreater(payload['exp'], self.payload['exp'])
 

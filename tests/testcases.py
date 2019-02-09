@@ -52,6 +52,10 @@ class SchemaTestCase(TestCase, JSONWebTokenTestCase):
         assert self.query, ('`query` property not specified')
         return self.client.execute(self.query, variables)
 
+    def assertUsernameIn(self, payload):
+        username = payload[self.user.USERNAME_FIELD]
+        self.assertEqual(self.user.get_username(), username)
+
 
 class RelaySchemaTestCase(SchemaTestCase):
 

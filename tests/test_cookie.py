@@ -27,10 +27,7 @@ class TokenAuthTests(CookieGraphQLViewTestCase):
         payload = get_payload(token)
 
         self.assertEqual(token, response.data['tokenAuth']['token'])
-
-        self.assertEqual(
-            self.user.get_username(),
-            payload[self.user.USERNAME_FIELD])
+        self.assertUsernameIn(payload)
 
 
 class ViewerTests(CookieGraphQLViewTestCase):
