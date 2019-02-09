@@ -1,6 +1,7 @@
 import graphene
 
 import graphql_jwt
+from graphql_jwt.settings import jwt_settings
 from graphql_jwt.utils import get_payload
 
 from .testcases import CookieGraphQLViewTestCase
@@ -23,7 +24,7 @@ class TokenAuthTests(CookieGraphQLViewTestCase):
             'password': 'dolphins',
         })
 
-        token = response.cookies.get('JWT').value
+        token = response.cookies.get(jwt_settings.JWT_COOKIE_KEY).value
         payload = get_payload(token)
 
         self.assertEqual(token, response.data['tokenAuth']['token'])
