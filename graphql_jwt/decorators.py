@@ -12,7 +12,6 @@ from . import exceptions
 from .refresh_token.shortcuts import refresh_token_lazy
 from .settings import jwt_settings
 from .shortcuts import get_token
-from .utils import get_authorization_header
 
 __all__ = [
     'user_passes_test',
@@ -73,18 +72,16 @@ def token_auth(f):
 
             if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
                 payload.refresh_token = refresh_token_lazy(user)
-  
+
             return payload
 
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
-        if get_authorization_header(info.context) is not None:
-            del info.context.META[jwt_settings.JWT_AUTH_HEADER_NAME]
-
         user = authenticate(
             request=info.context,
             username=username,
-            password=password)
+            password=password,
+            skip_jwt_backend=True)
 
         if user is None:
             raise exceptions.JSONWebTokenError(
