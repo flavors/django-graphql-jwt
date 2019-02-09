@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, testcases
 
@@ -59,9 +61,10 @@ class RelaySchemaTestCase(SchemaTestCase):
 
 class CookieGraphQLViewClient(JSONWebTokenClient):
 
-    def post(self, path, **kwargs):
+    def post(self, path, data, **kwargs):
+        data = json.dumps(data)
         kwargs.setdefault('content_type', 'application/json')
-        return super(CookieGraphQLViewClient, self).post(path, **kwargs)
+        return self.generic('POST', path, data, **kwargs)
 
     def authenticate(self, token):
         self.cookies[jwt_settings.JWT_COOKIE_KEY] = token
