@@ -1,9 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, testcases
 
+from graphene_django.views import GraphQLView
 from graphql.execution.base import ResolveInfo
 
-from graphql_jwt.testcases import JSONWebTokenTestCase
+from graphql_jwt.decorators import jwt_cookie
+from graphql_jwt.settings import jwt_settings
+from graphql_jwt.testcases import JSONWebTokenTestCase, JSONWebTokenClient
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
 from .compat import mock
@@ -52,3 +55,32 @@ class RelaySchemaTestCase(SchemaTestCase):
 
     def execute(self, variables=None):
         return super(RelaySchemaTestCase, self).execute({'input': variables})
+
+
+class CookieGraphQLViewClient(JSONWebTokenClient):
+
+    def post(self, path, **kwargs):
+        kwargs.setdefault('content_type', 'application/json')
+        return super(CookieGraphQLViewClient, self).post(path, **kwargs)
+
+    def authenticate(self, token):
+        self.cookies[jwt_settings.JWT_COOKIE_KEY] = token
+
+    def execute(self, query, variables=None, **extra):
+        data = {
+            'query': query,
+            'variables': variables,
+        }
+
+        view = GraphQLView(schema=self._schema)
+        request = self.post('/', data=data, **extra)
+        response = jwt_cookie(view.dispatch)(request)
+        response.data = self._parse_json(response)['data']
+        return response
+
+
+class CookieGraphQLViewTestCase(SchemaTestCase):
+    client_class = CookieGraphQLViewClient
+
+    def authenticate(self):
+        self.client.authenticate(self.token)
