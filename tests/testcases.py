@@ -66,9 +66,8 @@ class RelaySchemaTestCase(SchemaTestCase):
 class CookieGraphQLViewClient(JSONWebTokenClient):
 
     def post(self, path, data, **kwargs):
-        data = json.dumps(data)
         kwargs.setdefault('content_type', 'application/json')
-        return self.generic('POST', path, data, **kwargs)
+        return self.generic('POST', path, json.dumps(data), **kwargs)
 
     def authenticate(self, token):
         self.cookies[jwt_settings.JWT_COOKIE_KEY] = token
