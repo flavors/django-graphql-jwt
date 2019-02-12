@@ -124,7 +124,8 @@ def jwt_cookie(view_func):
                 jwt_settings.JWT_COOKIE_NAME,
                 request.jwt,
                 expires=expiration,
-                httponly=True)
+                httponly=True,
+                secure=jwt_settings.JWT_COOKIE_SECURE)
 
         return response
     return wrapped_view

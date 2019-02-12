@@ -36,6 +36,7 @@ DEFAULTS = {
     'JWT_ALLOW_ANY_HANDLER': 'graphql_jwt.middleware.allow_any',
     'JWT_ALLOW_ANY_CLASSES': (),
     'JWT_COOKIE_NAME': 'JWT',
+    'JWT_COOKIE_SECURE': False,
 }
 
 IMPORT_STRINGS = (

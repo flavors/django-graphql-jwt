@@ -241,6 +241,14 @@ JWT_COOKIE_NAME
   Default: ``'JWT'``
 
 
+JWT_COOKIE_SECURE
+~~~~~~~~~~~~~~~~~
+
+  Whether to use a secure cookie for the JWT cookie. If this is set to True, the cookie will be marked as "secure", which means browsers may ensure that the cookie is only sent under an HTTPS connection.
+
+  Default: ``False``
+
+
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
 .. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss
