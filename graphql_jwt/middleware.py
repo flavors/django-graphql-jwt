@@ -12,7 +12,7 @@ from graphene_django.settings import graphene_settings
 from .exceptions import JSONWebTokenError
 from .path import PathDict
 from .settings import jwt_settings
-from .utils import get_authorization_header, get_token_argument
+from .utils import get_http_authorization, get_token_argument
 
 __all__ = [
     'allow_any',
@@ -35,9 +35,9 @@ def allow_any(info, **kwargs):
         issubclass(graphene_type, tuple(jwt_settings.JWT_ALLOW_ANY_CLASSES))
 
 
-def _authenticate_header(request):
+def _authenticate(request):
     is_anonymous = not hasattr(request, 'user') or request.user.is_anonymous
-    return is_anonymous and get_authorization_header(request) is not None
+    return is_anonymous and get_http_authorization(request) is not None
 
 
 class DjangoMiddleware(MiddlewareMixin):
@@ -56,7 +56,7 @@ class DjangoMiddleware(MiddlewareMixin):
         super(DjangoMiddleware, self).__init__(get_response)
 
     def process_request(self, request):
-        if _authenticate_header(request):
+        if _authenticate(request):
             try:
                 user = authenticate(request=request)
             except JSONWebTokenError as err:
@@ -109,7 +109,7 @@ class JSONWebTokenMiddleware(DjangoMiddleware):
                 else:
                     context.user = AnonymousUser()
 
-        if ((_authenticate_header(context) or token_argument is not None) and
+        if ((_authenticate(context) or token_argument is not None) and
                 self.authenticate_context(info, **kwargs)):
 
             user = authenticate(request=context, **kwargs)

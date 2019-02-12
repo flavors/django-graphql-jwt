@@ -29,9 +29,9 @@ class JWTPayloadTests(TestCase):
         self.assertEqual(payload['iss'], 'test')
 
 
-class GetAuthorizationHeaderTests(TestCase):
+class GetHTTPAuthorizationHeaderTests(TestCase):
 
-    def test_get_header(self):
+    def test_get_authorization_header(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
@@ -39,7 +39,7 @@ class GetAuthorizationHeaderTests(TestCase):
         }
 
         request = self.request_factory.get('/', **headers)
-        authorization_header = utils.get_authorization_header(request)
+        authorization_header = utils.get_http_authorization(request)
 
         self.assertEqual(authorization_header, self.token)
 
@@ -49,9 +49,22 @@ class GetAuthorizationHeaderTests(TestCase):
         }
 
         request = self.request_factory.get('/', **headers)
-        authorization_header = utils.get_authorization_header(request)
+        authorization_header = utils.get_http_authorization(request)
 
         self.assertIsNone(authorization_header)
+
+    def test_get_authorization_cookie(self):
+        headers = {
+            jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
+                jwt_settings.JWT_AUTH_HEADER_PREFIX,
+                self.token),
+        }
+
+        request = self.request_factory.get('/', **headers)
+        request.COOKIES[jwt_settings.JWT_COOKIE_NAME] = self.token
+        authorization_cookie = utils.get_http_authorization(request)
+
+        self.assertEqual(authorization_cookie, self.token)
 
 
 class GetCredentialsTests(TestCase):

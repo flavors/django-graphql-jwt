@@ -4,6 +4,7 @@ import graphene
 from graphene.types.generic import GenericScalar
 
 from . import exceptions
+from .decorators import setup_jwt_cookie
 from .refresh_token.mixins import RefreshTokenMixin
 from .settings import jwt_settings
 from .utils import get_payload, get_user_by_payload
@@ -49,6 +50,7 @@ class KeepAliveRefreshMixin(object):
         token = graphene.String(required=True)
 
     @classmethod
+    @setup_jwt_cookie
     def refresh(cls, root, info, token, **kwargs):
         context = info.context
         payload = get_payload(token, context)

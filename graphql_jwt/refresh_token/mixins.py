@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 import graphene
 
 from .. import exceptions
+from ..decorators import setup_jwt_cookie
 from ..settings import jwt_settings
 from .shortcuts import get_refresh_token, refresh_token_lazy
 
@@ -15,6 +16,7 @@ class RefreshTokenMixin(object):
         refresh_token = graphene.String(required=True)
 
     @classmethod
+    @setup_jwt_cookie
     def refresh(cls, root, info, refresh_token, **kwargs):
         context = info.context
         refresh_token = get_refresh_token(refresh_token, info.context)

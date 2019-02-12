@@ -230,6 +230,25 @@ JWT_ARGUMENT_NAME
   Default: ``'token'``
 
 
+Cookie authentication
+---------------------
+
+JWT_COOKIE_NAME
+~~~~~~~~~~~~~~~
+
+  The name of the cookie when HTTP cookies are used as a valid transport for the token
+
+  Default: ``'JWT'``
+
+
+JWT_COOKIE_SECURE
+~~~~~~~~~~~~~~~~~
+
+  Whether to use a secure cookie for the JWT cookie. If this is set to True, the cookie will be marked as "secure", which means browsers may ensure that the cookie is only sent under an HTTPS connection.
+
+  Default: ``False``
+
+
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
 .. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss

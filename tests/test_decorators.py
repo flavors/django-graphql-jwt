@@ -3,7 +3,6 @@ from django.contrib.auth.models import AnonymousUser, Permission
 from promise import Promise, is_thenable
 
 from graphql_jwt import decorators, exceptions
-from graphql_jwt.settings import jwt_settings
 
 from .testcases import TestCase
 
@@ -122,19 +121,13 @@ class PermissionRequiredTests(TestCase):
 
 class TokenAuthTests(TestCase):
 
-    def test_already_authenticated(self):
+    def test_is_thenable(self):
 
         @decorators.token_auth
         def wrapped(cls, root, info, **kwargs):
             return Promise()
 
-        headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
-        }
-
-        info_mock = self.info(AnonymousUser(), **headers)
+        info_mock = self.info(AnonymousUser())
 
         result = wrapped(
             self,
@@ -143,8 +136,4 @@ class TokenAuthTests(TestCase):
             password='dolphins',
             username=self.user.get_username())
 
-        self.assertIsNotNone(is_thenable(result))
-
-        self.assertNotIn(
-            jwt_settings.JWT_AUTH_HEADER_NAME,
-            info_mock.context.META)
+        self.assertTrue(is_thenable(result))
