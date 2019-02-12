@@ -70,7 +70,7 @@ class CookieGraphQLViewClient(JSONWebTokenClient):
         return self.generic('POST', path, json.dumps(data), **kwargs)
 
     def authenticate(self, token):
-        self.cookies[jwt_settings.JWT_COOKIE_KEY] = token
+        self.cookies[jwt_settings.JWT_COOKIE_NAME] = token
 
     def execute(self, query, variables=None, **extra):
         data = {

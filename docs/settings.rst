@@ -233,10 +233,10 @@ JWT_ARGUMENT_NAME
 Cookie authentication
 ---------------------
 
-JWT_COOKIE_KEY
-~~~~~~~~~~~~~~
+JWT_COOKIE_NAME
+~~~~~~~~~~~~~~~
 
-  Cookie key when HTTP cookies are used as a valid transport for the token
+  The name of the cookie when HTTP cookies are used as a valid transport for the token
 
   Default: ``'JWT'``
 

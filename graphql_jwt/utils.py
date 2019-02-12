@@ -60,7 +60,7 @@ def get_http_authorization(request):
     prefix = jwt_settings.JWT_AUTH_HEADER_PREFIX
 
     if len(auth) != 2 or auth[0].lower() != prefix.lower():
-        return request.COOKIES.get(jwt_settings.JWT_COOKIE_KEY)
+        return request.COOKIES.get(jwt_settings.JWT_COOKIE_NAME)
     return auth[1]
 
 

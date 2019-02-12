@@ -121,7 +121,7 @@ def jwt_cookie(view_func):
             expiration = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
 
             response.set_cookie(
-                jwt_settings.JWT_COOKIE_KEY,
+                jwt_settings.JWT_COOKIE_NAME,
                 request.jwt,
                 expires=expiration,
                 httponly=True)
