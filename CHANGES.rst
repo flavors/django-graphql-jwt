@@ -1,6 +1,21 @@
 Changelog
 =========
 
+0.2.1
+-----
+
+* Added JWT cookie authentication
+* Added refresh_token_lazy
+* Fixed RefreshToken related name
+* WARNING: Added kwargs argument to JSONWebTokenMutation.resolve()
+* Fixed @context decorator to determine the info argument
+* Added _cached_token to refresh token instances to allow hashed tokens
+* Added JWT_GET_REFRESH_TOKEN_HANDLER setting variable
+* Improved argument authentication using mulitple credentials
+* Added execute method to SchemaTestCase
+* Added graphql_jwt classes to JWT_ALLOW_ANY_CLASSES
+* Added @superuser_required decorator
+
 0.2.0
 -----
 
