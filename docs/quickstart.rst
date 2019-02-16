@@ -86,6 +86,6 @@ Queries
       }
 
 
-* ``refreshToken`` to obtain a brand new *token* with renewed expiration time for **non-expired tokens**:
+* ``refreshToken`` to obtain a brand new *token* with renewed expiration time:
 
   :doc:`Configure your refresh token <refresh_token>` scenario and set to ``True`` the :doc:`JWT_VERIFY_EXPIRATION<settings>` setting.
