@@ -3,8 +3,8 @@ import graphene
 import graphql_jwt
 from graphql_jwt.refresh_token.mixins import RefreshTokenMixin
 
-from . import mixins
 from ..testcases import RelaySchemaTestCase
+from . import mixins
 
 
 class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):

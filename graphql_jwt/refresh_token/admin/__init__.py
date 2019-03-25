@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from . import filters
 from .. import models
+from . import filters
 
 
 @admin.register(models.RefreshToken)

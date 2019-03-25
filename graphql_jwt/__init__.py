@@ -1,7 +1,6 @@
 from . import relay
 from .mutations import (
-    JSONWebTokenMutation, ObtainJSONWebToken,
-    Verify, Refresh, Revoke,
+    JSONWebTokenMutation, ObtainJSONWebToken, Refresh, Revoke, Verify,
 )
 
 __all__ = [

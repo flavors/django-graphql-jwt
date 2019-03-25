@@ -8,8 +8,8 @@ from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from . import managers, signals
 from ..settings import jwt_settings
+from . import managers, signals
 
 
 @python_2_unicode_compatible
