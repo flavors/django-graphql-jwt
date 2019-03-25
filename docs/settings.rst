@@ -95,6 +95,14 @@ JWT_PAYLOAD_GET_USERNAME_HANDLER
     lambda payload: payload.get(get_user_model().USERNAME_FIELD)
 
 
+JWT_GET_USER_BY_NATURAL_KEY_HANDLER
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  A custom function to get User object from username
+
+  .. autofunction:: graphql_jwt.utils.get_user_by_natural_key
+
+
 Token expiration
 ----------------
 

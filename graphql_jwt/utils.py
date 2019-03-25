@@ -92,10 +92,10 @@ def get_payload(token, context=None):
     return payload
 
 
-def get_user_by_natural_key(user_id):
+def get_user_by_natural_key(username):
     User = get_user_model()
     try:
-        return User.objects.get_by_natural_key(user_id)
+        return User.objects.get_by_natural_key(username)
     except User.DoesNotExist:
         return None
 
@@ -106,7 +106,7 @@ def get_user_by_payload(payload):
     if not username:
         raise exceptions.JSONWebTokenError(_('Invalid payload'))
 
-    user = get_user_by_natural_key(username)
+    user = jwt_settings.JWT_GET_USER_BY_NATURAL_KEY_HANDLER(username)
 
     if user is not None and not user.is_active:
         raise exceptions.JSONWebTokenError(_('User is disabled'))
