@@ -11,7 +11,7 @@ Changelog
 * Fixed @context decorator to determine the info argument
 * Added _cached_token to refresh token instances to allow hashed tokens
 * Added JWT_GET_REFRESH_TOKEN_HANDLER setting variable
-* Improved argument authentication using mulitple credentials
+* Improved argument authentication using multiple credentials
 * Added execute method to SchemaTestCase
 * Added graphql_jwt classes to JWT_ALLOW_ANY_CLASSES
 * Added @superuser_required decorator
