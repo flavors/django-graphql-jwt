@@ -24,7 +24,7 @@ __all__ = [
 def context(f):
     def decorator(func):
         def wrapper(*args, **kwargs):
-            info = args[f.__code__.co_varnames.index('info')]
+            info = next(arg for arg in args if isinstance(arg, ResolveInfo))
             return func(info.context, *args, **kwargs)
         return wrapper
     return decorator
@@ -35,7 +35,7 @@ def user_passes_test(test_func):
         @wraps(f)
         @context(f)
         def wrapper(context, *args, **kwargs):
-            if test_func(context.user):
+            if test_func(context.user, *args, **kwargs):
                 return f(*args, **kwargs)
             raise exceptions.PermissionDenied()
         return wrapper
