@@ -30,6 +30,8 @@ DEFAULTS = {
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': (
         lambda payload: payload.get(get_user_model().USERNAME_FIELD)
     ),
+    'JWT_GET_USER_BY_NATURAL_KEY_HANDLER':
+    'graphql_jwt.utils.get_user_by_natural_key',
     'JWT_REFRESH_EXPIRED_HANDLER': 'graphql_jwt.utils.refresh_has_expired',
     'JWT_GET_REFRESH_TOKEN_HANDLER':
     'graphql_jwt.refresh_token.utils.get_refresh_token_by_model',
@@ -44,6 +46,7 @@ IMPORT_STRINGS = (
     'JWT_DECODE_HANDLER',
     'JWT_PAYLOAD_HANDLER',
     'JWT_PAYLOAD_GET_USERNAME_HANDLER',
+    'JWT_GET_USER_BY_NATURAL_KEY_HANDLER',
     'JWT_REFRESH_EXPIRED_HANDLER',
     'JWT_GET_REFRESH_TOKEN_HANDLER',
     'JWT_ALLOW_ANY_HANDLER',
