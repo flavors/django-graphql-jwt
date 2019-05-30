@@ -6,6 +6,7 @@ from . import mixins
 from .decorators import token_auth
 from .refresh_token.mutations import Revoke
 from .utils import get_payload
+from .settings import jwt_settings
 
 __all__ = [
     'JSONWebTokenMutation',
@@ -24,10 +25,11 @@ class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
 
     @classmethod
     def Field(cls, *args, **kwargs):
-        cls._meta.arguments.update({
-            get_user_model().USERNAME_FIELD: graphene.String(required=True),
-            'password': graphene.String(required=True),
-        })
+        if jwt_settings.JWT_AUTH_TOKEN_WITH_PASSWORD:
+            cls._meta.arguments.update({
+                get_user_model().USERNAME_FIELD: graphene.String(required=True),
+                'password': graphene.String(required=True),
+            })
         return super(JSONWebTokenMutation, cls).Field(*args, **kwargs)
 
     @classmethod

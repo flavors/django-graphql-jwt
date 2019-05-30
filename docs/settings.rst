@@ -200,6 +200,13 @@ JWT_ALLOW_ANY_CLASSES
   Default: ``()``
 
 
+JWT_AUTH_TOKEN_WITH_PASSWORD
+~~~~~~~~~~~~~~~~~~~~~
+  Generate Authorization Token with password
+
+  Default: ``True``
+
+
 HTTP header
 -----------
 

@@ -66,7 +66,7 @@ def permission_required(perm):
 def token_auth(f):
     @wraps(f)
     @setup_jwt_cookie
-    def wrapper(cls, root, info, password, **kwargs):
+    def wrapper(cls, root, info, **kwargs):
         def on_resolve(values):
             user, payload = values
             payload.token = get_token(user, info.context)
@@ -81,8 +81,8 @@ def token_auth(f):
         user = authenticate(
             request=info.context,
             username=username,
-            password=password,
-            skip_jwt_backend=True)
+            skip_jwt_backend=True,
+            **kwargs)
 
         if user is None:
             raise exceptions.JSONWebTokenError(
