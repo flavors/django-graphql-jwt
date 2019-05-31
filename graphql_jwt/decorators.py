@@ -67,9 +67,12 @@ def token_auth(f):
     @wraps(f)
     @setup_jwt_cookie
     def wrapper(cls, root, info, password, **kwargs):
+        context = info.context
+        context._jwt_token_auth = True
+
         def on_resolve(values):
             user, payload = values
-            payload.token = get_token(user, info.context)
+            payload.token = get_token(user, context)
 
             if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
                 payload.refresh_token = refresh_token_lazy(user)
@@ -79,17 +82,16 @@ def token_auth(f):
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
         user = authenticate(
-            request=info.context,
+            request=context,
             username=username,
-            password=password,
-            skip_jwt_backend=True)
+            password=password)
 
         if user is None:
             raise exceptions.JSONWebTokenError(
                 _('Please, enter valid credentials'))
 
-        if hasattr(info.context, 'user'):
-            info.context.user = user
+        if hasattr(context, 'user'):
+            context.user = user
 
         result = f(cls, root, info, **kwargs)
         values = (user, result)

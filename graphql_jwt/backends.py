@@ -4,8 +4,8 @@ from .utils import get_credentials, get_user_by_natural_key
 
 class JSONWebTokenBackend(object):
 
-    def authenticate(self, request=None, skip_jwt_backend=False, **kwargs):
-        if request is None or skip_jwt_backend:
+    def authenticate(self, request=None, **kwargs):
+        if request is None or getattr(request, '_jwt_token_auth', False):
             return None
 
         token = get_credentials(request, **kwargs)
