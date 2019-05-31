@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('token', models.CharField(editable=False, max_length=255, verbose_name='token')),
                 ('created', models.DateTimeField(auto_now_add=True, verbose_name='created')),
                 ('revoked', models.DateTimeField(blank=True, null=True, verbose_name='revoked')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='refresh_token', to=settings.AUTH_USER_MODEL, verbose_name='user')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='refresh_tokens', to=settings.AUTH_USER_MODEL, verbose_name='user')),
             ],
             options={
                 'verbose_name': 'Refresh token',
