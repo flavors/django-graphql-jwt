@@ -38,6 +38,7 @@ setup(
     install_requires=[
         'Django>=1.11',
         'graphene-django>=2.0.0',
+        'graphql-core>=2.1',
         'PyJWT>=1.5.0',
     ],
     classifiers=[
