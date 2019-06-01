@@ -173,8 +173,8 @@ Automatically revoke a refresh token after it has been used::
 
 
     @receiver(refresh_token_rotated)
-    def revoke_refresh_token(sender, refresh_token, **kwargs):
-        refresh_token.revoke()
+    def revoke_refresh_token(sender, request, refresh_token, **kwargs):
+        refresh_token.revoke(request)
 
 Clear refresh tokens
 ~~~~~~~~~~~~~~~~~~~~

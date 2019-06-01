@@ -47,6 +47,7 @@ class AbstractRefreshTokenTests(UserTestCase):
         handler.assert_called_once_with(
             sender=AbstractRefreshToken,
             signal=signals.refresh_token_revoked,
+            request=None,
             refresh_token=self.refresh_token)
 
     def test_rotate(self):
@@ -56,4 +57,5 @@ class AbstractRefreshTokenTests(UserTestCase):
         handler.assert_called_once_with(
             sender=AbstractRefreshToken,
             signal=signals.refresh_token_rotated,
+            request=None,
             refresh_token=self.refresh_token)

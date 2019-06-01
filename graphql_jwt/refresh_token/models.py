@@ -54,21 +54,23 @@ class AbstractRefreshToken(models.Model):
             return self._cached_token
         return self.token
 
-    def is_expired(self, context=None):
+    def is_expired(self, request=None):
         orig_iat = timegm(self.created.timetuple())
-        return jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, context)
+        return jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, request)
 
-    def revoke(self):
+    def revoke(self, request=None):
         self.revoked = timezone.now()
         self.save(update_fields=['revoked'])
 
         signals.refresh_token_revoked.send(
             sender=AbstractRefreshToken,
+            request=request,
             refresh_token=self)
 
-    def rotate(self):
+    def rotate(self, request=None):
         signals.refresh_token_rotated.send(
             sender=AbstractRefreshToken,
+            request=request,
             refresh_token=self)
 
 

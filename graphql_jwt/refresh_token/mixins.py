@@ -19,7 +19,7 @@ class RefreshTokenMixin(object):
     @setup_jwt_cookie
     def refresh(cls, root, info, refresh_token, **kwargs):
         context = info.context
-        refresh_token = get_refresh_token(refresh_token, info.context)
+        refresh_token = get_refresh_token(refresh_token, context)
 
         if refresh_token.is_expired(context):
             raise exceptions.JSONWebTokenError(_('Refresh token is expired'))
@@ -27,7 +27,7 @@ class RefreshTokenMixin(object):
         payload = jwt_settings.JWT_PAYLOAD_HANDLER(refresh_token.user, context)
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
 
-        refresh_token.rotate()
+        refresh_token.rotate(context)
         refreshed_token = refresh_token_lazy(refresh_token.user)
         return cls(token=token, payload=payload, refresh_token=refreshed_token)
 
@@ -37,6 +37,7 @@ class RevokeMixin(object):
 
     @classmethod
     def revoke(cls, root, info, refresh_token, **kwargs):
-        refresh_token = get_refresh_token(refresh_token, info.context)
-        refresh_token.revoke()
+        context = info.context
+        refresh_token = get_refresh_token(refresh_token, context)
+        refresh_token.revoke(context)
         return cls(revoked=timegm(refresh_token.revoked.timetuple()))
