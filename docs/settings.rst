@@ -257,6 +257,17 @@ JWT_COOKIE_SECURE
   Default: ``False``
 
 
+Others
+------
+
+JWT_USER_LOGGED_IN_SIGNAL
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Send ``user_logged_in`` signal when a user authenticates successfully.
+
+  Default: ``True``
+
+
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
 .. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss
