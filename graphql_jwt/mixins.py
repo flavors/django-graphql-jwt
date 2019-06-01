@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 import graphene
 from graphene.types.generic import GenericScalar
 
-from . import exceptions
+from . import exceptions, signals
 from .decorators import setup_jwt_cookie
 from .refresh_token.mixins import RefreshTokenMixin
 from .settings import jwt_settings
@@ -67,6 +67,7 @@ class KeepAliveRefreshMixin(object):
         payload['origIat'] = orig_iat
 
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
+        signals.token_refreshed.send(sender=cls, request=context, user=user)
         return cls(token=token, payload=payload)
 
 

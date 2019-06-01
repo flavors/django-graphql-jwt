@@ -1,14 +1,14 @@
 from datetime import datetime
 from functools import wraps
 
-from django.contrib.auth import authenticate, get_user_model, user_logged_in
+from django.contrib.auth import authenticate, get_user_model
 from django.utils import six
 from django.utils.translation import ugettext as _
 
 from graphql.execution.base import ResolveInfo
 from promise import Promise, is_thenable
 
-from . import exceptions
+from . import exceptions, signals
 from .refresh_token.shortcuts import refresh_token_lazy
 from .settings import jwt_settings
 from .shortcuts import get_token
@@ -96,11 +96,7 @@ def token_auth(f):
         result = f(cls, root, info, **kwargs)
         values = (user, result)
 
-        if jwt_settings.JWT_USER_LOGGED_IN_SIGNAL:
-            user_logged_in.send(
-                sender=cls,
-                request=context,
-                user=user)
+        signals.token_issued.send(sender=cls, request=context, user=user)
 
         if is_thenable(result):
             return Promise.resolve(values).then(on_resolve)
