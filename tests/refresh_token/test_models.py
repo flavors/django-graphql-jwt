@@ -36,7 +36,7 @@ class AbstractRefreshTokenTests(UserTestCase):
 
     def test_is_expired(self):
         with refresh_expired():
-            self.assertTrue(self.refresh_token.is_expired)
+            self.assertTrue(self.refresh_token.is_expired())
 
     def test_revoke(self):
         with catch_signal(signals.refresh_token_revoked) as handler:
