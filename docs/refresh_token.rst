@@ -151,6 +151,11 @@ Queries
       }
 
 
+Per-cookie
+~~~~~~~~~~
+
+When a refresh token is requested and ``jwt_cookie`` decorator is set, the response will set the given cookie with the refresh token string.
+
 Unlimited refresh
 ~~~~~~~~~~~~~~~~~
 
