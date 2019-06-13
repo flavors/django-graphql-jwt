@@ -22,3 +22,5 @@ AUTHENTICATION_BACKENDS = [
 GRAPHENE = {
     'MIDDLEWARE': ['graphql_jwt.middleware.JSONWebTokenMiddleware'],
 }
+
+MIDDLEWARE = []

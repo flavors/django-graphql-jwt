@@ -1,11 +1,13 @@
 import warnings
 
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.middleware import get_user
 from django.contrib.auth.models import AnonymousUser
 from django.http import JsonResponse
 from django.utils.cache import patch_vary_headers
 from django.utils.deprecation import MiddlewareMixin
+from django.utils.module_loading import import_string
 
 from graphene_django.settings import graphene_settings
 
@@ -43,7 +45,17 @@ def _authenticate(request):
 class DjangoMiddleware(MiddlewareMixin):
 
     def __init__(self, get_response=None):
-        if JSONWebTokenMiddleware not in graphene_settings.MIDDLEWARE:
+        in_graphene_settings = any(
+            isinstance(middleware, JSONWebTokenMiddleware)
+            for middleware in graphene_settings.MIDDLEWARE
+        )
+
+        in_django_settings = any(
+            issubclass(import_string(middleware), JSONWebTokenMiddleware)
+            for middleware in settings.MIDDLEWARE
+        )
+        # Allow the middleware to be used per view if desired.
+        if in_django_settings and not in_graphene_settings:
             warnings.warn(
                 'Add '
                 "'graphql_jwt.middleware.JSONWebTokenMiddleware' "

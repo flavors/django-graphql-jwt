@@ -1,6 +1,7 @@
 import json
 import warnings
 
+from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.http import JsonResponse
 
@@ -28,8 +29,16 @@ class DjangoMiddlewareTests(TestCase):
 
         with warnings.catch_warnings(record=True) as warning_list:
             JSONWebTokenMiddleware()
+            self.assertFalse(warning_list)
+
+        settings.MIDDLEWARE += [
+            'graphql_jwt.middleware.JSONWebTokenMiddleware']
+
+        with warnings.catch_warnings(record=True) as warning_list:
+            JSONWebTokenMiddleware()
             self.assertTrue(warning_list)
 
+        settings.MIDDLEWARE = settings.MIDDLEWARE[:-1]
         graphene_settings.MIDDLEWARE = [JSONWebTokenMiddleware]
 
     def test_authenticate(self):
