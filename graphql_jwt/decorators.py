@@ -13,6 +13,8 @@ from .refresh_token.shortcuts import refresh_token_lazy
 from .settings import jwt_settings
 from .shortcuts import get_token
 
+import traceback
+
 __all__ = [
     'user_passes_test',
     'login_required',
@@ -67,41 +69,44 @@ def token_auth(f):
     @wraps(f)
     @setup_jwt_cookie
     def wrapper(cls, root, info, password, **kwargs):
-        context = info.context
-        context._jwt_token_auth = True
+        try:
+            context = info.context
+            context._jwt_token_auth = True
 
-        def on_resolve(values):
-            user, payload = values
-            payload.token = get_token(user, context)
+            def on_resolve(values):
+                user, payload = values
+                payload.token = get_token(user, context)
 
-            if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-                payload.refresh_token = refresh_token_lazy(user)
+                if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
+                    payload.refresh_token = refresh_token_lazy(user)
 
-            return payload
+                return payload
 
-        username = kwargs.get(get_user_model().USERNAME_FIELD)
+            username = kwargs.get(get_user_model().USERNAME_FIELD)
 
-        # Custom authentication mechanism
-        user = utils.get_user_by_payload(username)
+            # Custom authentication mechanism
+            user = utils.get_user_by_payload(username)
 
-        if not user.check_password(password):
-            user = None
+            if not user.check_password(password):
+                user = None
 
-        if user is None:
-            raise exceptions.JSONWebTokenError(
-                _('Please, enter valid credentials'))
+            if user is None:
+                raise exceptions.JSONWebTokenError(
+                    _('Please, enter valid credentials'))
 
-        if hasattr(context, 'user'):
-            context.user = user
+            if hasattr(context, 'user'):
+                context.user = user
 
-        result = f(cls, root, info, **kwargs)
-        values = (user, result)
+            result = f(cls, root, info, **kwargs)
+            values = (user, result)
 
-        signals.token_issued.send(sender=cls, request=context, user=user)
+            signals.token_issued.send(sender=cls, request=context, user=user)
 
-        if is_thenable(result):
-            return Promise.resolve(values).then(on_resolve)
-        return on_resolve(values)
+            if is_thenable(result):
+                return Promise.resolve(values).then(on_resolve)
+            return on_resolve(values)
+        except Exception:
+            traceback.print_exc()
     return wrapper
 
 
