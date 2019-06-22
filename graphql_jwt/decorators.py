@@ -85,7 +85,7 @@ def token_auth(f):
             username = kwargs.get(get_user_model().USERNAME_FIELD)
 
             # Custom authentication mechanism
-            user = utils.get_user_by_payload(username)
+            user = utils.get_user_by_natural_key(username)
 
             if not user.check_password(password):
                 user = None
