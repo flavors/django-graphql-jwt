@@ -1,14 +1,14 @@
 from datetime import datetime
 from functools import wraps
 
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import get_user_model
 from django.utils import six
 from django.utils.translation import ugettext as _
 
 from graphql.execution.base import ResolveInfo
 from promise import Promise, is_thenable
 
-from . import exceptions, signals
+from . import exceptions, signals, utils
 from .refresh_token.shortcuts import refresh_token_lazy
 from .settings import jwt_settings
 from .shortcuts import get_token
@@ -81,10 +81,11 @@ def token_auth(f):
 
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
-        user = authenticate(
-            request=context,
-            username=username,
-            password=password)
+        # Custom authentication mechanism
+        user = utils.get_user_by_payload(username)
+
+        if not user.check_password(password):
+            user = None
 
         if user is None:
             raise exceptions.JSONWebTokenError(
