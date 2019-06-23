@@ -1,14 +1,14 @@
 from datetime import datetime
 from functools import wraps
 
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from django.utils import six
 from django.utils.translation import ugettext as _
 
 from graphql.execution.base import ResolveInfo
 from promise import Promise, is_thenable
 
-from . import exceptions, signals, utils
+from . import exceptions, signals
 from .refresh_token.shortcuts import refresh_token_lazy
 from .settings import jwt_settings
 from .shortcuts import get_token
