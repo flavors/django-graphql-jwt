@@ -87,6 +87,14 @@ def token_auth(f):
             # Custom authentication mechanism
             user = jwt_settings.JWT_GET_USER_BY_NATURAL_KEY_HANDLER(username)
 
+            # If user is none, it means that user does not exist
+            # we should raise JSONWebTokenError
+            if user is None:
+                raise exceptions.JSONWebTokenError(
+                    _('Please, enter valid credentials'))
+
+            # If user.check_password fails we should also raise
+            # JSONWebTokenError
             if not user.check_password(password):
                 user = None
 
