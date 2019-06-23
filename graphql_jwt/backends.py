@@ -1,6 +1,6 @@
-from .shortcuts import get_user_by_token
-from .utils import get_credentials, get_user_by_natural_key
 from .settings import jwt_settings
+from .shortcuts import get_user_by_token
+from .utils import get_credentials
 
 
 class JSONWebTokenBackend(object):

@@ -13,8 +13,6 @@ from .refresh_token.shortcuts import refresh_token_lazy
 from .settings import jwt_settings
 from .shortcuts import get_token
 
-import traceback
-
 __all__ = [
     'user_passes_test',
     'login_required',
