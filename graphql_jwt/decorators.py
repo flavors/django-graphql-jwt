@@ -69,52 +69,50 @@ def token_auth(f):
     @wraps(f)
     @setup_jwt_cookie
     def wrapper(cls, root, info, password, **kwargs):
-        try:
-            context = info.context
-            context._jwt_token_auth = True
+        context = info.context
+        context._jwt_token_auth = True
 
-            def on_resolve(values):
-                user, payload = values
-                payload.token = get_token(user, context)
+        def on_resolve(values):
+            user, payload = values
+            payload.token = get_token(user, context)
 
-                if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-                    payload.refresh_token = refresh_token_lazy(user)
+            if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
+                payload.refresh_token = refresh_token_lazy(user)
 
-                return payload
+            return payload
 
-            username = kwargs.get(get_user_model().USERNAME_FIELD)
+        username = kwargs.get(get_user_model().USERNAME_FIELD)
 
-            # Custom authentication mechanism
-            user = jwt_settings.JWT_GET_USER_BY_NATURAL_KEY_HANDLER(username)
+        # Custom authentication mechanism
+        user = jwt_settings.JWT_GET_USER_BY_NATURAL_KEY_HANDLER(username)
 
-            # If user is none, it means that user does not exist
-            # we should raise JSONWebTokenError
-            if user is None:
-                raise exceptions.JSONWebTokenError(
-                    _('Please, enter valid credentials'))
+        # If user is none, it means that user does not exist
+        # we should raise JSONWebTokenError
+        if user is None:
+            raise exceptions.JSONWebTokenError(
+                _('Please, enter valid credentials'))
 
-            # If user.check_password fails we should also raise
-            # JSONWebTokenError
-            if not user.check_password(password):
-                user = None
+        # If user.check_password fails we should also raise
+        # JSONWebTokenError
+        if not user.check_password(password):
+            user = None
 
-            if user is None:
-                raise exceptions.JSONWebTokenError(
-                    _('Please, enter valid credentials'))
+        if user is None:
+            raise exceptions.JSONWebTokenError(
+                _('Please, enter valid credentials'))
 
-            if hasattr(context, 'user'):
-                context.user = user
+        if hasattr(context, 'user'):
+            context.user = user
 
-            result = f(cls, root, info, **kwargs)
-            values = (user, result)
+        result = f(cls, root, info, **kwargs)
+        values = (user, result)
 
-            signals.token_issued.send(sender=cls, request=context, user=user)
+        signals.token_issued.send(sender=cls, request=context, user=user)
 
-            if is_thenable(result):
-                return Promise.resolve(values).then(on_resolve)
-            return on_resolve(values)
-        except Exception:
-            traceback.print_exc()
+        if is_thenable(result):
+            return Promise.resolve(values).then(on_resolve)
+        return on_resolve(values)
+
     return wrapper
 
 
