@@ -1,5 +1,6 @@
 from .shortcuts import get_user_by_token
 from .utils import get_credentials, get_user_by_natural_key
+from .settings import jwt_settings
 
 
 class JSONWebTokenBackend(object):
@@ -16,4 +17,4 @@ class JSONWebTokenBackend(object):
         return None
 
     def get_user(self, user_id):
-        return get_user_by_natural_key(user_id)
+        return jwt_settings.JWT_GET_USER_BY_NATURAL_KEY_HANDLER(user_id)

@@ -1,7 +1,7 @@
 from datetime import datetime
 from functools import wraps
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.utils import six
 from django.utils.translation import ugettext as _
 
@@ -85,7 +85,7 @@ def token_auth(f):
             username = kwargs.get(get_user_model().USERNAME_FIELD)
 
             # Custom authentication mechanism
-            user = utils.get_user_by_natural_key(username)
+            user = jwt_settings.JWT_GET_USER_BY_NATURAL_KEY_HANDLER(username)
 
             if not user.check_password(password):
                 user = None
