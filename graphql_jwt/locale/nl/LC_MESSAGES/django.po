@@ -27,11 +27,11 @@ msgstr "Je bent niet gemachtigd om deze actie uit te voeren"
 
 #: exceptions.py:19
 msgid "Signature has expired"
-msgstr "La firma ha expirado"
+msgstr "Handtekening is verlopen"
 
 #: mixins.py:61
 msgid "origIat field is required"
-msgstr "Handtekening is verlopen"
+msgstr "origIat veld is verplicht"
 
 #: mixins.py:64
 msgid "Refresh has expired"

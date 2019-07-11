@@ -56,7 +56,7 @@ msgstr "gebruiker"
 
 #: models.py:25
 msgid "token"
-msgstr "token"
+msgstr ""
 
 #: models.py:27
 msgid "created"
