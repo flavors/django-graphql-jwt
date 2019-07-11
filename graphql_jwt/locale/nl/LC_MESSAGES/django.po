@@ -1,6 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# i18n
 # Translators:
 # lennartkerkvliet <lennart@whatishot.nl>, 2019.
 #
@@ -19,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decorators.py:86
+#: decorators.py:91
 msgid "Please, enter valid credentials"
 msgstr "Voer geldige inloggegevens in"
 
@@ -29,84 +27,28 @@ msgstr "Je bent niet gemachtigd om deze actie uit te voeren"
 
 #: exceptions.py:19
 msgid "Signature has expired"
+msgstr "La firma ha expirado"
+
+#: mixins.py:61
+msgid "origIat field is required"
 msgstr "Handtekening is verlopen"
 
-#: mixins.py:59
-msgid "origIat field is required"
-msgstr "origIat veld is verplicht"
-
-#: mixins.py:62
+#: mixins.py:64
 msgid "Refresh has expired"
 msgstr "Vernieuwen is verlopen"
 
-#: refresh_token/admin/__init__.py:26
-msgid "is expired"
-msgstr "is verlopen"
-
-#: refresh_token/admin/filters.py:14
-msgid "Yes"
-msgstr "Ja"
-
-#: refresh_token/admin/filters.py:15
-msgid "No"
-msgstr "Nee"
-
-#: refresh_token/admin/filters.py:20
-msgid "Expired"
-msgstr "Verlopen"
-
-#: refresh_token/admin/filters.py:32
-msgid "Revoked"
-msgstr "Ingetrokken"
-
-#: refresh_token/apps.py:7
-msgid "Refresh token"
-msgstr "Token vernieuwen"
-
-#: refresh_token/mixins.py:23
-msgid "Refresh token is expired"
-msgstr "Vernieuwingstoken is verlopen"
-
-#: refresh_token/models.py:24
-msgid "user"
-msgstr "gebruiker"
-
-#: refresh_token/models.py:26
-msgid "token"
-msgstr "token"
-
-#: refresh_token/models.py:28
-msgid "created"
-msgstr "aangemaakt"
-
-#: refresh_token/models.py:29
-msgid "revoked"
-msgstr "ingetrokken"
-
-#: refresh_token/models.py:35
-msgid "refresh token"
-msgstr "vernieuwingstoken"
-
-#: refresh_token/models.py:36
-msgid "refresh tokens"
-msgstr "vernieuwingstokens"
-
-#: refresh_token/shortcuts.py:18
-msgid "Invalid refresh token"
-msgstr "Ongeldige vernieuwingstoken"
-
-#: utils.py:88
+#: utils.py:89
 msgid "Error decoding signature"
 msgstr "Fout bij decodering van handtekening"
 
-#: utils.py:90
+#: utils.py:91
 msgid "Invalid token"
 msgstr "Ongeldige token"
 
-#: utils.py:106
+#: utils.py:107
 msgid "Invalid payload"
 msgstr "Ongeldige payload"
 
-#: utils.py:111
+#: utils.py:112
 msgid "User is disabled"
 msgstr "Gebruiker is uitgeschakeld"
