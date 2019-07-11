@@ -71,10 +71,8 @@ setup(
         'graphql_jwt': [
             'locale/*/LC_MESSAGES/django.po',
             'locale/*/LC_MESSAGES/django.mo',
-            'refresh_token': [
-                'locale/*/LC_MESSAGES/django.po',
-                'locale/*/LC_MESSAGES/django.mo',
-            ]
+            'refresh_token/locale/*/LC_MESSAGES/django.po',
+            'refresh_token/locale/*/LC_MESSAGES/django.mo',
         ],
     },
 )
