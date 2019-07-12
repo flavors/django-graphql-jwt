@@ -53,7 +53,7 @@ class KeepAliveRefreshMixin(object):
     @setup_jwt_cookie
     def refresh(cls, root, info, token, **kwargs):
         context = info.context
-        payload = get_payload(token, context)
+        payload = get_payload(token, context, verify=False)
         user = get_user_by_payload(payload)
         orig_iat = payload.get('origIat')
 
@@ -62,6 +62,8 @@ class KeepAliveRefreshMixin(object):
 
         if jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, context):
             raise exceptions.JSONWebTokenError(_('Refresh has expired'))
+
+        payload = get_payload(token, context)
 
         payload = jwt_settings.JWT_PAYLOAD_HANDLER(user, context)
         payload['origIat'] = orig_iat

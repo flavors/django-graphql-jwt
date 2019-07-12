@@ -41,11 +41,13 @@ def jwt_encode(payload, context=None):
     ).decode('utf-8')
 
 
-def jwt_decode(token, context=None):
+def jwt_decode(token, context=None, verify=None):
+    if verify == None:
+        verify = jwt_settings.JWT_VERIFY
     return jwt.decode(
         token,
         jwt_settings.JWT_SECRET_KEY,
-        jwt_settings.JWT_VERIFY,
+        verify,
         options={
             'verify_exp': jwt_settings.JWT_VERIFY_EXPIRATION,
         },
@@ -80,9 +82,9 @@ def get_credentials(request, **kwargs):
             get_http_authorization(request))
 
 
-def get_payload(token, context=None):
+def get_payload(token, context=None, verify=None):
     try:
-        payload = jwt_settings.JWT_DECODE_HANDLER(token, context)
+        payload = jwt_settings.JWT_DECODE_HANDLER(token, context, verify)
     except jwt.ExpiredSignature:
         raise exceptions.JSONWebTokenExpired()
     except jwt.DecodeError:
