@@ -1,0 +1,54 @@
+# i18n
+# Translators:
+# lennartkerkvliet <lennart@whatishot.nl>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Django GraphQL JWT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-11 13:32+0000\n"
+"PO-Revision-Date: 2019-07-11 13:46+0000\n"
+"Last-Translator: lennartkerkvliet <lennart@whatishot.nl>\n"
+"Language-Team: Dutch\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: decorators.py:91
+msgid "Please, enter valid credentials"
+msgstr "Voer geldige inloggegevens in"
+
+#: exceptions.py:15
+msgid "You do not have permission to perform this action"
+msgstr "Je bent niet gemachtigd om deze actie uit te voeren"
+
+#: exceptions.py:19
+msgid "Signature has expired"
+msgstr "Handtekening is verlopen"
+
+#: mixins.py:61
+msgid "origIat field is required"
+msgstr "origIat veld is verplicht"
+
+#: mixins.py:64
+msgid "Refresh has expired"
+msgstr "Vernieuwen is verlopen"
+
+#: utils.py:89
+msgid "Error decoding signature"
+msgstr "Fout bij decodering van handtekening"
+
+#: utils.py:91
+msgid "Invalid token"
+msgstr "Ongeldige token"
+
+#: utils.py:107
+msgid "Invalid payload"
+msgstr "Ongeldige payload"
+
+#: utils.py:112
+msgid "User is disabled"
+msgstr "Gebruiker is uitgeschakeld"
