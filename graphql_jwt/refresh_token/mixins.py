@@ -29,6 +29,10 @@ class RefreshTokenMixin(object):
 
         refresh_token.rotate(context)
         refreshed_token = refresh_token_lazy(refresh_token.user)
+
+        if getattr(context, 'jwt_cookie', False):
+            info.context.jwt_refresh_token = refreshed_token
+
         return cls(token=token, payload=payload, refresh_token=refreshed_token)
 
 
