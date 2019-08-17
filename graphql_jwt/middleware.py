@@ -1,15 +1,7 @@
-import warnings
-
 from django.contrib.auth import authenticate
 from django.contrib.auth.middleware import get_user
 from django.contrib.auth.models import AnonymousUser
-from django.http import JsonResponse
-from django.utils.cache import patch_vary_headers
-from django.utils.deprecation import MiddlewareMixin
 
-from graphene_django.settings import graphene_settings
-
-from .exceptions import JSONWebTokenError
 from .path import PathDict
 from .settings import jwt_settings
 from .utils import get_http_authorization, get_token_argument
@@ -40,48 +32,13 @@ def _authenticate(request):
     return is_anonymous and get_http_authorization(request) is not None
 
 
-class DjangoMiddleware(MiddlewareMixin):
+class JSONWebTokenMiddleware:
 
-    def __init__(self, get_response=None):
-        if JSONWebTokenMiddleware not in graphene_settings.MIDDLEWARE:
-            warnings.warn(
-                'Add '
-                "'graphql_jwt.middleware.JSONWebTokenMiddleware' "
-                "to your GRAPHENE['MIDDLEWARE'] setting and remove it "
-                'from your Django middleware classes.'
-                'Please see the documentation for more information: '
-                '<https://github.com/flavors/django-graphql-jwt#installation>',
-                stacklevel=2)
-
-        super(DjangoMiddleware, self).__init__(get_response)
-
-    def process_request(self, request):
-        if _authenticate(request):
-            try:
-                user = authenticate(request=request)
-            except JSONWebTokenError as err:
-                return JsonResponse({
-                    'errors': [{'message': str(err)}],
-                }, status=401)
-
-            if user is not None:
-                request.user = request._cached_user = user
-        return None
-
-    def process_response(self, request, response):
-        patch_vary_headers(response, ('Authorization',))
-        return response
-
-
-class JSONWebTokenMiddleware(DjangoMiddleware):
-
-    def __init__(self, get_response=None):
+    def __init__(self):
         self.cached_allow_any = set()
 
         if jwt_settings.JWT_ALLOW_ARGUMENT:
             self.cached_authentication = PathDict()
-
-        super(JSONWebTokenMiddleware, self).__init__(get_response)
 
     def authenticate_context(self, info, **kwargs):
         root_path = info.path[0]
