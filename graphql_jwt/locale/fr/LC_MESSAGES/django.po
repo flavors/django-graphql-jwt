@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-23 03:21+0700\n"
+"POT-Creation-Date: 2019-08-19 14:42+0000\n"
 "PO-Revision-Date: 2018-10-21 02:00+0700\n"
 "Last-Translator: wmai <williamjosephmai@gmail.com>\n"
 "Language-Team: French\n"
@@ -19,38 +19,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 
-#: decorators.py:86
+#: graphql_jwt/decorators.py:91
 msgid "Please, enter valid credentials"
 msgstr "S'il vous plaît, entrez des informations d'identification valides"
 
-#: exceptions.py:15
+#: graphql_jwt/exceptions.py:15
 msgid "You do not have permission to perform this action"
 msgstr "Vous n'avez pas la permission d'effectuer cette action"
 
-#: exceptions.py:19
+#: graphql_jwt/exceptions.py:19
 msgid "Signature has expired"
 msgstr "La signature a expiré"
 
-#: mixins.py:59
+#: graphql_jwt/mixins.py:61
 msgid "origIat field is required"
 msgstr "Le champ origIat est requis"
 
-#: mixins.py:62
+#: graphql_jwt/mixins.py:64
 msgid "Refresh has expired"
 msgstr "L'actualisation a expiré"
 
-#: utils.py:73
+#: graphql_jwt/utils.py:89
 msgid "Error decoding signature"
 msgstr "Erreur de décodage de la signature"
 
-#: utils.py:75
+#: graphql_jwt/utils.py:91
 msgid "Invalid token"
 msgstr "Token invalide"
 
-#: utils.py:91
+#: graphql_jwt/utils.py:107
 msgid "Invalid payload"
 msgstr "Payload invalide"
 
-#: utils.py:96
+#: graphql_jwt/utils.py:112
 msgid "User is disabled"
 msgstr "L'utilisateur est désactivé"
