@@ -1,0 +1,81 @@
+# Domake.io i18n
+# Copyright (C) mongkok 2019
+# This file is distributed under the same license as the django-graphql-jwt package.
+# Translators:
+# abumalick <abdullah.hilson@gmail.com>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Django GraphQL JWT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-19 14:20+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+#: graphql_jwt/refresh_token/admin/__init__.py:20
+#, python-format
+msgid "Revoke selected %(verbose_name_plural)s"
+msgstr "إبطال المحدد %(verbose_name_plural)s"
+
+#: graphql_jwt/refresh_token/admin/__init__.py:26
+msgid "is expired"
+msgstr "منتهي الصلاحية"
+
+#: graphql_jwt/refresh_token/admin/filters.py:14
+msgid "Yes"
+msgstr "نعم"
+
+#: graphql_jwt/refresh_token/admin/filters.py:15
+msgid "No"
+msgstr "لا"
+
+#: graphql_jwt/refresh_token/admin/filters.py:20
+msgid "Expired"
+msgstr "منتهي الصلاحية"
+
+#: graphql_jwt/refresh_token/admin/filters.py:32
+msgid "Revoked"
+msgstr "إلغاء"
+
+#: graphql_jwt/refresh_token/apps.py:7
+msgid "Refresh token"
+msgstr ""
+
+#: graphql_jwt/refresh_token/mixins.py:25
+msgid "Refresh token is expired"
+msgstr ""
+
+#: graphql_jwt/refresh_token/models.py:23
+msgid "user"
+msgstr "مستخدم"
+
+#: graphql_jwt/refresh_token/models.py:25
+msgid "token"
+msgstr ""
+
+#: graphql_jwt/refresh_token/models.py:27
+msgid "created"
+msgstr "موجود"
+
+#: graphql_jwt/refresh_token/models.py:28
+msgid "revoked"
+msgstr "إلغاء"
+
+#: graphql_jwt/refresh_token/models.py:34
+msgid "refresh token"
+msgstr "تحديث الرمز المميز"
+
+#: graphql_jwt/refresh_token/models.py:35
+msgid "refresh tokens"
+msgstr "تحديث الرموز"
+
+#: graphql_jwt/refresh_token/shortcuts.py:19
+msgid "Invalid refresh token"
+msgstr "رمز التحديث غير صالح"
