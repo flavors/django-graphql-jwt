@@ -19,38 +19,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-#: graphql_jwt/decorators.py:91
+#: decorators.py:91
 msgid "Please, enter valid credentials"
 msgstr "الرجاء إدخال بيانات صالحة"
 
-#: graphql_jwt/exceptions.py:15
+#: exceptions.py:15
 msgid "You do not have permission to perform this action"
 msgstr "ليس لديك إذن للقيام بهذه العملية"
 
-#: graphql_jwt/exceptions.py:19
+#: exceptions.py:19
 msgid "Signature has expired"
 msgstr "انتهت صلاحية التوقيع"
 
-#: graphql_jwt/mixins.py:61
+#: mixins.py:61
 msgid "origIat field is required"
 msgstr "يرجى إدخال origIat"
 
-#: graphql_jwt/mixins.py:64
+#: mixins.py:64
 msgid "Refresh has expired"
 msgstr "انتهت صلاحية التحديث"
 
-#: graphql_jwt/utils.py:89
+#: utils.py:89
 msgid "Error decoding signature"
 msgstr "خطأ في فك شفرة التوقيع"
 
-#: graphql_jwt/utils.py:91
+#: utils.py:91
 msgid "Invalid token"
 msgstr "Token غير صالح"
 
-#: graphql_jwt/utils.py:107
+#: utils.py:107
 msgid "Invalid payload"
 msgstr "Payload غير صالح"
 
-#: graphql_jwt/utils.py:112
+#: utils.py:112
 msgid "User is disabled"
 msgstr "المستخدم معطل"

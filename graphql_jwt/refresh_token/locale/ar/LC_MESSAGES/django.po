@@ -19,63 +19,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-#: graphql_jwt/refresh_token/admin/__init__.py:20
+#: admin/__init__.py:20
 #, python-format
 msgid "Revoke selected %(verbose_name_plural)s"
 msgstr "إبطال المحدد %(verbose_name_plural)s"
 
-#: graphql_jwt/refresh_token/admin/__init__.py:26
+#: admin/__init__.py:26
 msgid "is expired"
 msgstr "منتهي الصلاحية"
 
-#: graphql_jwt/refresh_token/admin/filters.py:14
+#: admin/filters.py:14
 msgid "Yes"
 msgstr "نعم"
 
-#: graphql_jwt/refresh_token/admin/filters.py:15
+#: admin/filters.py:15
 msgid "No"
 msgstr "لا"
 
-#: graphql_jwt/refresh_token/admin/filters.py:20
+#: admin/filters.py:20
 msgid "Expired"
 msgstr "منتهي الصلاحية"
 
-#: graphql_jwt/refresh_token/admin/filters.py:32
+#: admin/filters.py:32
 msgid "Revoked"
 msgstr "إلغاء"
 
-#: graphql_jwt/refresh_token/apps.py:7
+#: apps.py:7
 msgid "Refresh token"
 msgstr ""
 
-#: graphql_jwt/refresh_token/mixins.py:25
+#: mixins.py:25
 msgid "Refresh token is expired"
 msgstr ""
 
-#: graphql_jwt/refresh_token/models.py:23
+#: models.py:23
 msgid "user"
 msgstr "مستخدم"
 
-#: graphql_jwt/refresh_token/models.py:25
+#: models.py:25
 msgid "token"
 msgstr ""
 
-#: graphql_jwt/refresh_token/models.py:27
+#: models.py:27
 msgid "created"
 msgstr "موجود"
 
-#: graphql_jwt/refresh_token/models.py:28
+#: models.py:28
 msgid "revoked"
 msgstr "إلغاء"
 
-#: graphql_jwt/refresh_token/models.py:34
+#: models.py:34
 msgid "refresh token"
 msgstr "تحديث الرمز المميز"
 
-#: graphql_jwt/refresh_token/models.py:35
+#: models.py:35
 msgid "refresh tokens"
 msgstr "تحديث الرموز"
 
-#: graphql_jwt/refresh_token/shortcuts.py:19
+#: shortcuts.py:19
 msgid "Invalid refresh token"
 msgstr "رمز التحديث غير صالح"
