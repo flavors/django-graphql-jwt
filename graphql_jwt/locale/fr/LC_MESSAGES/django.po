@@ -19,38 +19,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 
-#: graphql_jwt/decorators.py:91
+#: decorators.py:91
 msgid "Please, enter valid credentials"
 msgstr "S'il vous plaît, entrez des informations d'identification valides"
 
-#: graphql_jwt/exceptions.py:15
+#: exceptions.py:15
 msgid "You do not have permission to perform this action"
 msgstr "Vous n'avez pas la permission d'effectuer cette action"
 
-#: graphql_jwt/exceptions.py:19
+#: exceptions.py:19
 msgid "Signature has expired"
 msgstr "La signature a expiré"
 
-#: graphql_jwt/mixins.py:61
+#: mixins.py:61
 msgid "origIat field is required"
 msgstr "Le champ origIat est requis"
 
-#: graphql_jwt/mixins.py:64
+#: mixins.py:64
 msgid "Refresh has expired"
 msgstr "L'actualisation a expiré"
 
-#: graphql_jwt/utils.py:89
+#: utils.py:89
 msgid "Error decoding signature"
 msgstr "Erreur de décodage de la signature"
 
-#: graphql_jwt/utils.py:91
+#: utils.py:91
 msgid "Invalid token"
 msgstr "Token invalide"
 
-#: graphql_jwt/utils.py:107
+#: utils.py:107
 msgid "Invalid payload"
 msgstr "Payload invalide"
 
-#: graphql_jwt/utils.py:112
+#: utils.py:112
 msgid "User is disabled"
 msgstr "L'utilisateur est désactivé"
