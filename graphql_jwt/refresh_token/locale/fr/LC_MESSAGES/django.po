@@ -1,0 +1,80 @@
+# Domake.io i18n
+# Copyright (C) mongkok 2019
+# This file is distributed under the same license as the django-graphql-jwt package.
+# Translators:
+# abumalick <abdullah.hilson@gmail.com>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Django GraphQL JWT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-19 14:42+0000\n"
+"PO-Revision-Date: 2018-10-21 02:00+0700\n"
+"Last-Translator: abumalick <abdullah.hilson@gmail.com>\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: admin/__init__.py:20
+#, python-format
+msgid "Revoke selected %(verbose_name_plural)s"
+msgstr "Révoque les %(verbose_name_plural)s sélectionnés"
+
+#: admin/__init__.py:26
+msgid "is expired"
+msgstr "est expiré"
+
+#: admin/filters.py:14
+msgid "Yes"
+msgstr "Oui"
+
+#: admin/filters.py:15
+msgid "No"
+msgstr "Non"
+
+#: admin/filters.py:20
+msgid "Expired"
+msgstr "Expiré"
+
+#: admin/filters.py:32
+msgid "Revoked"
+msgstr "Revoqué"
+
+#: apps.py:7
+msgid "Refresh token"
+msgstr "Rafraîchir le token"
+
+#: mixins.py:25
+msgid "Refresh token is expired"
+msgstr "Rafraîchir le token s'il est expiré"
+
+#: models.py:23
+msgid "user"
+msgstr "utilisateur"
+
+#: models.py:25
+msgid "token"
+msgstr ""
+
+#: models.py:27
+msgid "created"
+msgstr "créé"
+
+#: models.py:28
+msgid "revoked"
+msgstr "révoqué"
+
+#: models.py:34
+msgid "refresh token"
+msgstr "Rafraîchir le token"
+
+#: models.py:35
+msgid "refresh tokens"
+msgstr "Rafraîchir les tokens"
+
+#: shortcuts.py:19
+msgid "Invalid refresh token"
+msgstr "Le rafraîchissement du token est invalide"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-23 03:21+0700\n"
+"POT-Creation-Date: 2019-08-19 14:42+0000\n"
 "PO-Revision-Date: 2018-10-21 02:00+0700\n"
 "Last-Translator: wmai <williamjosephmai@gmail.com>\n"
 "Language-Team: French\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 
-#: decorators.py:86
+#: decorators.py:91
 msgid "Please, enter valid credentials"
 msgstr "S'il vous plaît, entrez des informations d'identification valides"
 
@@ -31,26 +31,26 @@ msgstr "Vous n'avez pas la permission d'effectuer cette action"
 msgid "Signature has expired"
 msgstr "La signature a expiré"
 
-#: mixins.py:59
+#: mixins.py:61
 msgid "origIat field is required"
 msgstr "Le champ origIat est requis"
 
-#: mixins.py:62
+#: mixins.py:64
 msgid "Refresh has expired"
 msgstr "L'actualisation a expiré"
 
-#: utils.py:73
+#: utils.py:89
 msgid "Error decoding signature"
 msgstr "Erreur de décodage de la signature"
 
-#: utils.py:75
+#: utils.py:91
 msgid "Invalid token"
 msgstr "Token invalide"
 
-#: utils.py:91
+#: utils.py:107
 msgid "Invalid payload"
 msgstr "Payload invalide"
 
-#: utils.py:96
+#: utils.py:112
 msgid "User is disabled"
 msgstr "L'utilisateur est désactivé"
