@@ -1,0 +1,56 @@
+# Domake.io i18n
+# Copyright (C) mongkok 2019
+# This file is distributed under the same license as the django-graphql-jwt package.
+# Translators:
+# Saad Aouad <s.aouad@obytes.com>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Django GraphQL JWT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-19 14:20+0000\n"
+"PO-Revision-Date: 2019-08-19 14:20+0000\n"
+"Last-Translator: saadaouad <s.aouad@obytes.com>\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+#: decorators.py:91
+msgid "Please, enter valid credentials"
+msgstr "الرجاء إدخال بيانات صالحة"
+
+#: exceptions.py:15
+msgid "You do not have permission to perform this action"
+msgstr "ليس لديك إذن للقيام بهذه العملية"
+
+#: exceptions.py:19
+msgid "Signature has expired"
+msgstr "انتهت صلاحية التوقيع"
+
+#: mixins.py:61
+msgid "origIat field is required"
+msgstr "يرجى إدخال origIat"
+
+#: mixins.py:64
+msgid "Refresh has expired"
+msgstr "انتهت صلاحية التحديث"
+
+#: utils.py:89
+msgid "Error decoding signature"
+msgstr "خطأ في فك شفرة التوقيع"
+
+#: utils.py:91
+msgid "Invalid token"
+msgstr "Token غير صالح"
+
+#: utils.py:107
+msgid "Invalid payload"
+msgstr "Payload غير صالح"
+
+#: utils.py:112
+msgid "User is disabled"
+msgstr "المستخدم معطل"
