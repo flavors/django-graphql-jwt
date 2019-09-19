@@ -12,6 +12,7 @@ DEFAULTS = {
     'JWT_ISSUER': None,
     'JWT_LEEWAY': 0,
     'JWT_SECRET_KEY': settings.SECRET_KEY,
+    'JWT_PUBLIC_KEY': None,
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': False,
     'JWT_EXPIRATION_DELTA': timedelta(seconds=60 * 5),
@@ -127,3 +128,5 @@ def reload_settings(*args, **kwargs):
 setting_changed.connect(reload_settings)
 
 jwt_settings = JWTSettings(DEFAULTS, IMPORT_STRINGS)
+if jwt_settings.JWT_PUBLIC_KEY is None:
+    jwt_settings.JWT_PUBLIC_KEY = jwt_settings.JWT_SECRET_KEY
