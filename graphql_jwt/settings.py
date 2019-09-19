@@ -107,8 +107,8 @@ class JWTSettings(object):
         if not hasattr(self, '_user_settings'):
             self._user_settings = getattr(settings, 'GRAPHQL_JWT', {})
             if self.user_settings.get(
-                'JWT_PUBLIC_KEY', 
-                self.defaults['JWT_PUBLIC_KEY']) is None:
+              'JWT_PUBLIC_KEY', 
+              self.defaults['JWT_PUBLIC_KEY']) is None:
                 self._user_settings['JWT_PUBLIC_KEY'] = self.user_settings.get(
                     'JWT_SECRET_KEY', self.defaults['JWT_SECRET_KEY'])
         return self._user_settings
@@ -118,7 +118,6 @@ class JWTSettings(object):
             delattr(self, attr)
 
         self._cached_attrs.clear()
-
         if hasattr(self, '_user_settings'):
             delattr(self, '_user_settings')
 
