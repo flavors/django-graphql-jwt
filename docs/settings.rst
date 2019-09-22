@@ -202,7 +202,7 @@ JWT_ALLOW_ANY_CLASSES
 
 JWT_AUTH_TOKEN_WITH_PASSWORD
 ~~~~~~~~~~~~~~~~~~~~~
-  Generate Authorization Token with password
+  Authorization Token with password
 
   Default: ``True``
 
