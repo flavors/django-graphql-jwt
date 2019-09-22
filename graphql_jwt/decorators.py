@@ -84,7 +84,6 @@ def token_auth(f):
         user = authenticate(
             request=context,
             username=username,
-
             skip_jwt_backend=True,
             **kwargs)
 
