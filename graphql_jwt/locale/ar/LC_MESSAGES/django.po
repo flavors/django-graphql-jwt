@@ -2,55 +2,55 @@
 # Copyright (C) mongkok 2019
 # This file is distributed under the same license as the django-graphql-jwt package.
 # Translators:
-# mongkok <domake.io@gmail.com>, 2019.
+# Saad Aouad <s.aouad@obytes.com>, 2019.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-02 04:24+0700\n"
-"PO-Revision-Date: 2018-10-21 02:00+0700\n"
-"Last-Translator: mongkok <domake.io@gmail.com>\n"
-"Language-Team: Spanish\n"
-"Language: es\n"
+"POT-Creation-Date: 2019-08-19 14:20+0000\n"
+"PO-Revision-Date: 2019-08-19 14:20+0000\n"
+"Last-Translator: saadaouad <s.aouad@obytes.com>\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 #: decorators.py:91
 msgid "Please, enter valid credentials"
-msgstr "Por favor, introduce unas credenciales válidas"
+msgstr "الرجاء إدخال بيانات صالحة"
 
 #: exceptions.py:15
 msgid "You do not have permission to perform this action"
-msgstr "Usted no tiene permiso para realizar esta acción"
+msgstr "ليس لديك إذن للقيام بهذه العملية"
 
 #: exceptions.py:19
 msgid "Signature has expired"
-msgstr "La firma ha expirado"
+msgstr "انتهت صلاحية التوقيع"
 
 #: mixins.py:61
 msgid "origIat field is required"
-msgstr "El campo origIat es requerido"
+msgstr "يرجى إدخال origIat"
 
 #: mixins.py:64
 msgid "Refresh has expired"
-msgstr "El refresco ha expirado"
+msgstr "انتهت صلاحية التحديث"
 
 #: utils.py:89
 msgid "Error decoding signature"
-msgstr "Error decodificando la firma"
+msgstr "خطأ في فك شفرة التوقيع"
 
 #: utils.py:91
 msgid "Invalid token"
-msgstr "Token inválido"
+msgstr "Token غير صالح"
 
 #: utils.py:107
 msgid "Invalid payload"
-msgstr "Payload inválido"
+msgstr "Payload غير صالح"
 
 #: utils.py:112
 msgid "User is disabled"
-msgstr "Usuario deshabilitado"
+msgstr "المستخدم معطل"

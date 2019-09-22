@@ -1,0 +1,81 @@
+# Domake.io i18n
+# Copyright (C) mongkok 2019
+# This file is distributed under the same license as the django-graphql-jwt package.
+# Translators:
+# mongkok <domake.io@gmail.com>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Django GraphQL JWT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-30 15:45-0300\n"
+"PO-Revision-Date: 2019-08-30 15:45-0300\n"
+"Last-Translator: Kleber Soares (klebercode) <kleberss@gmail.com>\n"
+"Language-Team: Português do Brasil\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: refresh_token/admin/__init__.py:20
+#, python-format
+msgid "Revoke selected %(verbose_name_plural)s"
+msgstr "Revogar %(verbose_name_plural)s selecionado(s)"
+
+#: refresh_token/admin/__init__.py:26
+msgid "is expired"
+msgstr "expirado"
+
+#: refresh_token/admin/filters.py:14
+msgid "Yes"
+msgstr "Sim"
+
+#: refresh_token/admin/filters.py:15
+msgid "No"
+msgstr "Não"
+
+#: refresh_token/admin/filters.py:20
+msgid "Expired"
+msgstr "Expirado"
+
+#: refresh_token/admin/filters.py:32
+msgid "Revoked"
+msgstr "Revogado"
+
+#: refresh_token/apps.py:7
+msgid "Refresh token"
+msgstr "Atualizar token"
+
+#: refresh_token/mixins.py:25
+msgid "Refresh token is expired"
+msgstr "A token de atualização expirou"
+
+#: refresh_token/models.py:23
+msgid "user"
+msgstr "usuário"
+
+#: refresh_token/models.py:25
+msgid "token"
+msgstr "token"
+
+#: refresh_token/models.py:27
+msgid "created"
+msgstr "criado"
+
+#: refresh_token/models.py:28
+msgid "revoked"
+msgstr "revogado"
+
+#: refresh_token/models.py:34
+msgid "refresh token"
+msgstr "atualizar token"
+
+#: refresh_token/models.py:35
+msgid "refresh tokens"
+msgstr "atualizar tokens"
+
+#: refresh_token/shortcuts.py:19
+msgid "Invalid refresh token"
+msgstr "Token de atualização inválido"

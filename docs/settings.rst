@@ -255,6 +255,13 @@ JWT_COOKIE_NAME
 
   Default: ``'JWT'``
 
+JWT_REFRESH_TOKEN_COOKIE_NAME
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  The name of the cookie when HTTP cookies are used as a valid transport for the refresh token
+
+  Default: ``'JWT-refresh-token'``
+
 
 JWT_COOKIE_SECURE
 ~~~~~~~~~~~~~~~~~

@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 from graphql.execution.base import ResolveInfo
 from promise import Promise, is_thenable
 
-from . import exceptions
+from . import exceptions, signals
 from .refresh_token.shortcuts import refresh_token_lazy
 from .settings import jwt_settings
 from .shortcuts import get_token
@@ -67,9 +67,12 @@ def token_auth(f):
     @wraps(f)
     @setup_jwt_cookie
     def wrapper(cls, root, info, **kwargs):
+        context = info.context
+        context._jwt_token_auth = True
+
         def on_resolve(values):
             user, payload = values
-            payload.token = get_token(user, info.context)
+            payload.token = get_token(user, context)
 
             if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
                 payload.refresh_token = refresh_token_lazy(user)
@@ -79,20 +82,24 @@ def token_auth(f):
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
         user = authenticate(
-            request=info.context,
+            request=context,
             username=username,
+
             skip_jwt_backend=True,
             **kwargs)
+
 
         if user is None:
             raise exceptions.JSONWebTokenError(
                 _('Please, enter valid credentials'))
 
-        if hasattr(info.context, 'user'):
-            info.context.user = user
+        if hasattr(context, 'user'):
+            context.user = user
 
         result = f(cls, root, info, **kwargs)
         values = (user, result)
+
+        signals.token_issued.send(sender=cls, request=context, user=user)
 
         if is_thenable(result):
             return Promise.resolve(values).then(on_resolve)
@@ -106,7 +113,7 @@ def setup_jwt_cookie(f):
         result = f(cls, root, info, **kwargs)
 
         if getattr(info.context, 'jwt_cookie', False):
-            info.context.jwt = result.token
+            info.context.jwt_token = result.token
         return result
     return wrapper
 
@@ -117,15 +124,27 @@ def jwt_cookie(view_func):
         request.jwt_cookie = True
         response = view_func(request, *args, **kwargs)
 
-        if hasattr(request, 'jwt'):
-            expiration = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
+        if hasattr(request, 'jwt_token'):
+            expires = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
 
             response.set_cookie(
                 jwt_settings.JWT_COOKIE_NAME,
-                request.jwt,
-                expires=expiration,
+                request.jwt_token,
+                expires=expires,
                 httponly=True,
                 secure=jwt_settings.JWT_COOKIE_SECURE)
+
+            if hasattr(request, 'jwt_refresh_token'):
+                refresh_token = request.jwt_refresh_token
+                expires = refresh_token.created +\
+                    jwt_settings.JWT_REFRESH_EXPIRATION_DELTA
+
+                response.set_cookie(
+                    jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
+                    refresh_token.token,
+                    expires=expires,
+                    httponly=True,
+                    secure=jwt_settings.JWT_COOKIE_SECURE)
 
         return response
     return wrapped_view

@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.2.2
+-----
+
+* Removed DjangoMiddleware
+* Added dutch and french locales
+* Added JWT Refresh token cookie
+* Added signals
+* Added JWT_GET_USER_BY_NATURAL_KEY_HANDLER
+
 0.2.1
 -----
 

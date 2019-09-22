@@ -36,7 +36,7 @@ class AbstractRefreshTokenTests(UserTestCase):
 
     def test_is_expired(self):
         with refresh_expired():
-            self.assertTrue(self.refresh_token.is_expired)
+            self.assertTrue(self.refresh_token.is_expired())
 
     def test_revoke(self):
         with catch_signal(signals.refresh_token_revoked) as handler:
@@ -47,6 +47,7 @@ class AbstractRefreshTokenTests(UserTestCase):
         handler.assert_called_once_with(
             sender=AbstractRefreshToken,
             signal=signals.refresh_token_revoked,
+            request=None,
             refresh_token=self.refresh_token)
 
     def test_rotate(self):
@@ -56,4 +57,5 @@ class AbstractRefreshTokenTests(UserTestCase):
         handler.assert_called_once_with(
             sender=AbstractRefreshToken,
             signal=signals.refresh_token_rotated,
+            request=None,
             refresh_token=self.refresh_token)

@@ -38,6 +38,7 @@ setup(
     install_requires=[
         'Django>=1.11',
         'graphene-django>=2.0.0',
+        'graphql-core>=2.1,<3',
         'PyJWT>=1.5.0',
     ],
     classifiers=[
@@ -70,6 +71,8 @@ setup(
         'graphql_jwt': [
             'locale/*/LC_MESSAGES/django.po',
             'locale/*/LC_MESSAGES/django.mo',
+            'refresh_token/locale/*/LC_MESSAGES/django.po',
+            'refresh_token/locale/*/LC_MESSAGES/django.mo',
         ],
     },
 )

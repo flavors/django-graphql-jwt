@@ -39,6 +39,7 @@ DEFAULTS = {
     'JWT_ALLOW_ANY_CLASSES': (),
     'JWT_AUTH_TOKEN_WITH_PASSWORD': True,
     'JWT_COOKIE_NAME': 'JWT',
+    'JWT_REFRESH_TOKEN_COOKIE_NAME': 'JWT-refresh-token',
     'JWT_COOKIE_SECURE': False,
 }
 
