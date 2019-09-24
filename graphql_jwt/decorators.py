@@ -81,10 +81,14 @@ def token_auth(f):
 
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
+        kw = {}
+        if jwt_settings.JWT_AUTH_TOKEN_WITH_PASSWORD:
+            kw = {'password': kwargs.get('password')}
+
         user = authenticate(
             request=context,
             username=username,
-            **kwargs)
+            **kw)
 
 
         if user is None:
