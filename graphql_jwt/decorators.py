@@ -90,7 +90,6 @@ def token_auth(f):
             username=username,
             **kw)
 
-
         if user is None:
             raise exceptions.JSONWebTokenError(
                 _('Please, enter valid credentials'))
