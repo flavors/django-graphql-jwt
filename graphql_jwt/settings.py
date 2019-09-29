@@ -70,7 +70,8 @@ def import_from_string(value, setting_name):
         return getattr(module, class_name)
     except (ImportError, AttributeError) as e:
         msg = 'Could not import `{}` for JWT setting `{}`. {}: {}.'.format(
-            value, setting_name, e.__class__.__name__, e)
+            value, setting_name, e.__class__.__name__, e,
+        )
         raise ImportError(msg)
 
 

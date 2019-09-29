@@ -15,15 +15,13 @@ from . import managers, signals
 @python_2_unicode_compatible
 class AbstractRefreshToken(models.Model):
     id = models.BigAutoField(primary_key=True)
-
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='refresh_tokens',
-        verbose_name=_('user'))
-
+        verbose_name=_('user'),
+    )
     token = models.CharField(_('token'), max_length=255, editable=False)
-
     created = models.DateTimeField(_('created'), auto_now_add=True)
     revoked = models.DateTimeField(_('revoked'), null=True, blank=True)
 
@@ -65,13 +63,15 @@ class AbstractRefreshToken(models.Model):
         signals.refresh_token_revoked.send(
             sender=AbstractRefreshToken,
             request=request,
-            refresh_token=self)
+            refresh_token=self,
+        )
 
     def rotate(self, request=None):
         signals.refresh_token_rotated.send(
             sender=AbstractRefreshToken,
             request=request,
-            refresh_token=self)
+            refresh_token=self,
+        )
 
 
 class RefreshToken(AbstractRefreshToken):

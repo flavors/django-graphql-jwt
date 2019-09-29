@@ -52,7 +52,8 @@ def jwt_decode(token, context=None):
         leeway=jwt_settings.JWT_LEEWAY,
         audience=jwt_settings.JWT_AUDIENCE,
         issuer=jwt_settings.JWT_ISSUER,
-        algorithms=[jwt_settings.JWT_ALGORITHM])
+        algorithms=[jwt_settings.JWT_ALGORITHM],
+    )
 
 
 def get_http_authorization(request):

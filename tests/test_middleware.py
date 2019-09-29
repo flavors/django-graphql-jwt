@@ -20,7 +20,8 @@ class AuthenticateByHeaderTests(TestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         next_mock = mock.Mock()
@@ -37,7 +38,8 @@ class AuthenticateByHeaderTests(TestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         next_mock = mock.Mock()
@@ -53,7 +55,8 @@ class AuthenticateByHeaderTests(TestCase):
     def test_invalid_token(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{} invalid'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX),
+                jwt_settings.JWT_AUTH_HEADER_PREFIX,
+            ),
         }
 
         next_mock = mock.Mock()
@@ -70,7 +73,8 @@ class AuthenticateByHeaderTests(TestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         next_mock = mock.Mock()
@@ -86,7 +90,8 @@ class AuthenticateByHeaderTests(TestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         next_mock = mock.Mock()

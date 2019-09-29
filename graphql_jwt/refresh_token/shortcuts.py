@@ -13,7 +13,8 @@ def get_refresh_token(token, context=None):
         return jwt_settings.JWT_GET_REFRESH_TOKEN_HANDLER(
             refresh_token_model=RefreshToken,
             token=token,
-            context=context)
+            context=context,
+        )
 
     except RefreshToken.DoesNotExist:
         raise JSONWebTokenError(_('Invalid refresh token'))

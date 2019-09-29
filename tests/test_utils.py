@@ -35,7 +35,8 @@ class GetHTTPAuthorizationHeaderTests(TestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         request = self.request_factory.get('/', **headers)
@@ -57,7 +58,8 @@ class GetHTTPAuthorizationHeaderTests(TestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         request = self.request_factory.get('/', **headers)

@@ -44,7 +44,8 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
         return super(JSONWebTokenClient, self).execute(
             query,
             context=context,
-            variables=variables)
+            variables=variables,
+        )
 
     def authenticate(self, user):
         self._credentials = {

@@ -41,7 +41,8 @@ class QueriesTests(SchemaTestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         variables = {
@@ -75,7 +76,8 @@ class QueriesTests(SchemaTestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                'invalid'),
+                'invalid',
+            ),
         }
 
         response = self.client.execute(query, **headers)

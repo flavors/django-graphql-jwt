@@ -19,7 +19,8 @@ class UserTestCase(testcases.TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             username='test',
-            password='dolphins')
+            password='dolphins',
+        )
 
 
 class TestCase(UserTestCase):

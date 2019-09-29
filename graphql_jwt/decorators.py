@@ -84,7 +84,8 @@ def token_auth(f):
         user = authenticate(
             request=context,
             username=username,
-            password=password)
+            password=password,
+        )
 
         if user is None:
             raise exceptions.JSONWebTokenError(
@@ -129,8 +130,8 @@ def jwt_cookie(view_func):
                 request.jwt_token,
                 expires=expires,
                 httponly=True,
-                secure=jwt_settings.JWT_COOKIE_SECURE)
-
+                secure=jwt_settings.JWT_COOKIE_SECURE,
+            )
             if hasattr(request, 'jwt_refresh_token'):
                 refresh_token = request.jwt_refresh_token
                 expires = refresh_token.created +\
@@ -141,7 +142,7 @@ def jwt_cookie(view_func):
                     refresh_token.token,
                     expires=expires,
                     httponly=True,
-                    secure=jwt_settings.JWT_COOKIE_SECURE)
-
+                    secure=jwt_settings.JWT_COOKIE_SECURE,
+                )
         return response
     return wrapped_view
