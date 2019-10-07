@@ -130,19 +130,18 @@ def jwt_cookie(view_func):
                 request.jwt_token,
                 expires=expires,
                 httponly=True,
-                secure=jwt_settings.JWT_COOKIE_SECURE,
-            )
+                secure=jwt_settings.JWT_COOKIE_SECURE)
+
             if hasattr(request, 'jwt_refresh_token'):
-                refresh_token = request.jwt_refresh_token
-                expires = refresh_token.created +\
+                expires = datetime.utcnow() +\
                     jwt_settings.JWT_REFRESH_EXPIRATION_DELTA
 
                 response.set_cookie(
                     jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
-                    refresh_token.token,
+                    request.jwt_refresh_token,
                     expires=expires,
                     httponly=True,
-                    secure=jwt_settings.JWT_COOKIE_SECURE,
-                )
+                    secure=jwt_settings.JWT_COOKIE_SECURE)
+
         return response
     return wrapped_view
