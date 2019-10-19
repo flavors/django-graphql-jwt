@@ -15,12 +15,16 @@ class SchemaRequestFactory(RequestFactory):
     def __init__(self, **defaults):
         super(SchemaRequestFactory, self).__init__(**defaults)
         self._schema = graphene_settings.SCHEMA
+        self._middleware = [JSONWebTokenMiddleware]
 
     def schema(self, **kwargs):
         self._schema = graphene.Schema(**kwargs)
 
+    def middleware(self, middleware):
+        self._middleware = middleware
+
     def execute(self, query, **options):
-        options.setdefault('middleware', [JSONWebTokenMiddleware()])
+        options.setdefault('middleware', [m() for m in self._middleware])
         return self._schema.execute(query, **options)
 
 
