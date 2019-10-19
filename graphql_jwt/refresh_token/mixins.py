@@ -33,7 +33,6 @@ class RefreshTokenMixin(object):
         if getattr(context, 'jwt_cookie', False):
             context.jwt_refresh_token = create_refresh_token(
                 refresh_token.user,
-                context,
             )
             refreshed_token = context.jwt_refresh_token.get_token()
         else:
