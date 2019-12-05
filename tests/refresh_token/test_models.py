@@ -10,7 +10,7 @@ from ..testcases import UserTestCase
 class AbstractRefreshTokenTests(UserTestCase):
 
     def setUp(self):
-        super(AbstractRefreshTokenTests, self).setUp()
+        super().setUp()
         self.refresh_token = create_refresh_token(self.user)
 
     def test_str(self):

@@ -74,7 +74,7 @@ def import_from_string(value, setting_name):
         raise ImportError(msg)
 
 
-class JWTSettings(object):
+class JWTSettings:
 
     def __init__(self, defaults, import_strings):
         self.defaults = defaults

@@ -8,7 +8,7 @@ class JSONWebTokenError(Exception):
         if message is None:
             message = self.default_message
 
-        super(JSONWebTokenError, self).__init__(message)
+        super().__init__(message)
 
 
 class PermissionDenied(JSONWebTokenError):

@@ -1,10 +1,11 @@
+from unittest import mock
+
 from django.contrib.auth.models import AnonymousUser
 
 from graphql_jwt.exceptions import JSONWebTokenError
 from graphql_jwt.middleware import JSONWebTokenMiddleware, allow_any
 from graphql_jwt.settings import jwt_settings
 
-from .compat import mock
 from .decorators import override_jwt_settings
 from .testcases import TestCase
 
@@ -12,7 +13,7 @@ from .testcases import TestCase
 class AuthenticateByHeaderTests(TestCase):
 
     def setUp(self):
-        super(AuthenticateByHeaderTests, self).setUp()
+        super().setUp()
         self.middleware = JSONWebTokenMiddleware()
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
@@ -115,7 +116,7 @@ class AuthenticateByArgumentTests(TestCase):
 
     @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
     def setUp(self):
-        super(AuthenticateByArgumentTests, self).setUp()
+        super().setUp()
         self.middleware = JSONWebTokenMiddleware()
 
     @override_jwt_settings(
@@ -192,7 +193,7 @@ class AuthenticateByArgumentTests(TestCase):
 class AllowAnyTests(TestCase):
 
     def info(self, user, **headers):
-        info_mock = super(AllowAnyTests, self).info(user, **headers)
+        info_mock = super().info(user, **headers)
         info_mock.field_name = 'test_field'
         info_mock.operation.operation = 'query'
         return info_mock

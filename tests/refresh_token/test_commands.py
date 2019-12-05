@@ -1,5 +1,4 @@
 import io
-import sys
 
 from django.core.management import call_command
 
@@ -11,13 +10,9 @@ from ..testcases import UserTestCase
 class ClearTokensTests(UserTestCase):
 
     def setUp(self):
-        super(ClearTokensTests, self).setUp()
+        super().setUp()
         self.refresh_token = create_refresh_token(self.user)
-
-        if sys.version_info[0] < 3:
-            self.f = io.BytesIO()
-        else:
-            self.f = io.StringIO()
+        self.f = io.StringIO()
 
     def test_clear_revoked_tokens(self):
         self.refresh_token.revoke()
