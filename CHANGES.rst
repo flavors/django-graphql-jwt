@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.2.3
+-----
+
+* Fixed refresh_token cookie
+* Added middleware method to SchemaRequestFactory
+* Added arabic, french and portuguese translations
+
 0.2.2
 -----
 
