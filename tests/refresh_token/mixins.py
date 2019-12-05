@@ -7,7 +7,7 @@ from ..context_managers import back_to_the_future, refresh_expired
 from ..decorators import override_jwt_settings
 
 
-class RefreshTokenMutationMixin(object):
+class RefreshTokenMutationMixin:
 
     @override_jwt_settings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     def setUp(self):
@@ -15,8 +15,7 @@ class RefreshTokenMutationMixin(object):
             name: mutation.Field() for name, mutation in
             self.refresh_token_mutations.items()
         })
-
-        super(RefreshTokenMutationMixin, self).setUp()
+        super().setUp()
 
 
 class TokenAuthMixin(RefreshTokenMutationMixin):
@@ -36,10 +35,10 @@ class TokenAuthMixin(RefreshTokenMutationMixin):
         self.assertEqual(refresh_token.user, self.user)
 
 
-class RefreshTokenMixin(object):
+class RefreshTokenMixin:
 
     def setUp(self):
-        super(RefreshTokenMixin, self).setUp()
+        super().setUp()
         self.refresh_token = create_refresh_token(self.user)
 
 

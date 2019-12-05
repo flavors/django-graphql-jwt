@@ -10,7 +10,7 @@ class PathDict(dict):
     def __repr__(self):
         return '<{0}: {1}>'.format(
             self.__class__.__name__,
-            super(PathDict, self).__repr__())
+            super().__repr__())
 
     def insert(self, path, value):
         self[filter_strings(path)] = value

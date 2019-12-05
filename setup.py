@@ -36,7 +36,7 @@ setup(
     )),
     packages=find_packages(exclude=['tests*']),
     install_requires=[
-        'Django >=1.11, <=2.2.8',
+        'Django >=1.11',
         'graphene-django>=2.0.0',
         'graphql-core>=2.1,<3',
         'PyJWT>=1.5.0',

@@ -22,7 +22,7 @@ class QueriesTests(SchemaTestCase):
             return info.context.user
 
     def setUp(self):
-        super(QueriesTests, self).setUp()
+        super().setUp()
 
         self.other_user = get_user_model().objects.create_user('other')
         self.other_token = get_token(self.other_user)

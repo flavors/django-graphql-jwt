@@ -1,9 +1,8 @@
 from contextlib import contextmanager
 from datetime import datetime, timedelta
+from unittest import mock
 
 from graphql_jwt.settings import jwt_settings
-
-from .compat import mock
 
 
 @contextmanager
