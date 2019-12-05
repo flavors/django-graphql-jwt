@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.3.0
+-----
+
+* Added Django 3.0 support
+* Removed Python 2.7 support
+
 0.2.3
 -----
 

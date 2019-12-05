@@ -9,6 +9,7 @@ Contributors
 * `@jxltom <https://github.com/jxltom>`_
 * Jarosław Wygoda, `@jwygoda <https://github.com/jwygoda>`_
 * Sultan Iman, `@imanhodjaev <https://github.com/imanhodjaev>`_
+* Víðir Valberg Guðmundsson, `@valberg <https://github.com/valberg>`_
 * William Mai, `@wmai <https://github.com/wmai>`_
 * Jarosław Wygoda, `@adogyf <https://github.com/adogyf>`_
 * Kamil Rykowski, `@vintage <https://github.com/vintage>`_
@@ -18,3 +19,4 @@ Contributors
 * `@mtszsobczak <https://github.com/mtszsobczak>`_
 * Aaron Boman `@frenchtoast747 <https://github.com/frenchtoast747>`_
 * Colton Hicks `@coltonbh <https://github.com/coltonbh>`_
+* Lasse Steffen `@lassesteffen <https://github.com/lassesteffen>`_
