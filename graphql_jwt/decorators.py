@@ -2,7 +2,6 @@ from datetime import datetime
 from functools import wraps
 
 from django.contrib.auth import authenticate, get_user_model
-from django.utils import six
 from django.utils.translation import ugettext as _
 
 from graphql.execution.base import ResolveInfo
@@ -52,7 +51,7 @@ superuser_required = user_passes_test(lambda u: u.is_active and u.is_superuser)
 
 def permission_required(perm):
     def check_perms(user):
-        if isinstance(perm, six.string_types):
+        if isinstance(perm, str):
             perms = (perm,)
         else:
             perms = perm

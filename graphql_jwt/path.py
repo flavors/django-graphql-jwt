@@ -1,10 +1,8 @@
-from django.utils import six
-
 __all__ = ['PathDict']
 
 
 def filter_strings(items):
-    return tuple(item for item in items if isinstance(item, six.string_types))
+    return tuple(item for item in items if isinstance(item, str))
 
 
 class PathDict(dict):
