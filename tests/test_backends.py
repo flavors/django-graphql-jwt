@@ -8,7 +8,7 @@ from .testcases import TestCase
 class BackendsTests(TestCase):
 
     def setUp(self):
-        super(BackendsTests, self).setUp()
+        super().setUp()
         self.backend = JSONWebTokenBackend()
 
     def test_authenticate(self):

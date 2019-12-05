@@ -12,7 +12,7 @@ from .testcases import TestCase
 class AuthenticateByHeaderTests(TestCase):
 
     def setUp(self):
-        super(AuthenticateByHeaderTests, self).setUp()
+        super().setUp()
         self.middleware = JSONWebTokenMiddleware()
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
@@ -115,7 +115,7 @@ class AuthenticateByArgumentTests(TestCase):
 
     @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
     def setUp(self):
-        super(AuthenticateByArgumentTests, self).setUp()
+        super().setUp()
         self.middleware = JSONWebTokenMiddleware()
 
     @override_jwt_settings(
@@ -192,7 +192,7 @@ class AuthenticateByArgumentTests(TestCase):
 class AllowAnyTests(TestCase):
 
     def info(self, user, **headers):
-        info_mock = super(AllowAnyTests, self).info(user, **headers)
+        info_mock = super().info(user, **headers)
         info_mock.field_name = 'test_field'
         info_mock.operation.operation = 'query'
         return info_mock

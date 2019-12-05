@@ -5,7 +5,7 @@ from .context_managers import back_to_the_future, refresh_expired
 from .decorators import override_jwt_settings
 
 
-class TokenAuthMixin(object):
+class TokenAuthMixin:
 
     def test_token_auth(self):
         response = self.execute({
@@ -26,7 +26,7 @@ class TokenAuthMixin(object):
         self.assertIsNotNone(response.errors)
 
 
-class VerifyMixin(object):
+class VerifyMixin:
 
     def test_verify(self):
         response = self.execute({
@@ -45,7 +45,7 @@ class VerifyMixin(object):
         self.assertIsNotNone(response.errors)
 
 
-class RefreshMixin(object):
+class RefreshMixin:
 
     def test_refresh(self):
         with back_to_the_future(seconds=1):
