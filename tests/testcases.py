@@ -1,4 +1,5 @@
 import json
+from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, testcases
@@ -10,8 +11,6 @@ from graphql_jwt.decorators import jwt_cookie
 from graphql_jwt.settings import jwt_settings
 from graphql_jwt.testcases import JSONWebTokenClient, JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
-
-from .compat import mock
 
 
 class UserTestCase(testcases.TestCase):

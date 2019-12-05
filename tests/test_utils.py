@@ -1,9 +1,9 @@
 from datetime import timedelta
+from unittest import mock
 
 from graphql_jwt import exceptions, utils
 from graphql_jwt.settings import jwt_settings
 
-from .compat import mock
 from .decorators import override_jwt_settings
 from .testcases import TestCase
 

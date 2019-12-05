@@ -1,10 +1,11 @@
+from unittest import mock
+
 from django.contrib.auth.models import AnonymousUser
 
 from graphql_jwt.exceptions import JSONWebTokenError
 from graphql_jwt.middleware import JSONWebTokenMiddleware, allow_any
 from graphql_jwt.settings import jwt_settings
 
-from .compat import mock
 from .decorators import override_jwt_settings
 from .testcases import TestCase
 
