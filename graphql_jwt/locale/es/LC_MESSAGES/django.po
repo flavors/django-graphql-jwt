@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-02 04:24+0700\n"
+"POT-Creation-Date: 2019-12-06 17:33+0100\n"
 "PO-Revision-Date: 2018-10-21 02:00+0700\n"
 "Last-Translator: mongkok <domake.io@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decorators.py:91
-msgid "Please, enter valid credentials"
+#: decorators.py:92
+msgid "Please enter valid credentials"
 msgstr "Por favor, introduce unas credenciales válidas"
 
 #: exceptions.py:15
@@ -39,18 +39,18 @@ msgstr "El campo origIat es requerido"
 msgid "Refresh has expired"
 msgstr "El refresco ha expirado"
 
-#: utils.py:89
+#: utils.py:90
 msgid "Error decoding signature"
 msgstr "Error decodificando la firma"
 
-#: utils.py:91
+#: utils.py:92
 msgid "Invalid token"
 msgstr "Token inválido"
 
-#: utils.py:107
+#: utils.py:108
 msgid "Invalid payload"
 msgstr "Payload inválido"
 
-#: utils.py:112
+#: utils.py:113
 msgid "User is disabled"
 msgstr "Usuario deshabilitado"
