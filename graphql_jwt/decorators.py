@@ -2,7 +2,7 @@ from datetime import datetime
 from functools import wraps
 
 from django.contrib.auth import authenticate, get_user_model
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from graphql.execution.base import ResolveInfo
 from promise import Promise, is_thenable

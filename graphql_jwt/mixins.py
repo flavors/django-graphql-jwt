@@ -1,4 +1,4 @@
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 import graphene
 from graphene.types.generic import GenericScalar
