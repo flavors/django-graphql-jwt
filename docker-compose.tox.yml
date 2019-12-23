@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  tox:
+    image: themattrix/tox-base
+    entrypoint:
+      - tox
+      # uncomment the following lines (and optionally replace 'py38' with a different environment)
+      # to limit tests to specific environments
+      # - "-e"
+      # - py38
+    volumes:
+      - "./:/app"
+    working_dir: /app
