@@ -67,6 +67,17 @@ Add *django-graphql-jwt* mutations to the root schema:
     schema = graphene.Schema(mutation=Mutation)
 
 
+Run Tests in Docker
+-------------------
+
+You can run ``tox`` by using ``docker-compose``:
+
+::
+
+    docker-compose -f docker-compose.tox.yml up
+
+Alternatively, you may edit the ``docker-compose.tox.yml`` file and limit the test to a single environment.
+
 Documentation
 -------------
 

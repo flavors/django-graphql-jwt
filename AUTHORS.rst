@@ -20,3 +20,4 @@ Contributors
 * Aaron Boman `@frenchtoast747 <https://github.com/frenchtoast747>`_
 * Colton Hicks `@coltonbh <https://github.com/coltonbh>`_
 * Lasse Steffen `@lassesteffen <https://github.com/lassesteffen>`_
+* Patryk Bratkowski `@patryk-tech <https://github.com/patryk-tech/>`_
