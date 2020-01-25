@@ -1,7 +1,7 @@
 from datetime import datetime
 from functools import wraps
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from django.utils import six
 from django.utils.translation import ugettext as _
 
@@ -52,7 +52,7 @@ superuser_required = user_passes_test(lambda u: u.is_active and u.is_superuser)
 
 def permission_required(perm):
     def check_perms(user):
-        if isinstance(perm, six.string_types):
+        if isinstance(perm, str):
             perms = (perm,)
         else:
             perms = perm
@@ -81,19 +81,13 @@ def token_auth(f):
 
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
-        # Custom authentication mechanism
         user = jwt_settings.JWT_GET_USER_BY_NATURAL_KEY_HANDLER(username)
 
-        # If user is none, it means that user does not exist
-        # we should raise JSONWebTokenError
-        if user is None:
-            raise exceptions.JSONWebTokenError(
-                _('Please, enter valid credentials'))
-
-        # If user.check_password fails we should also raise
-        # JSONWebTokenError
-        if not user.check_password(password):
-            user = None
+        user = authenticate(
+            request=context,
+            username=user.username,
+            password=password,
+        )
 
         if user is None:
             raise exceptions.JSONWebTokenError(
@@ -120,7 +114,7 @@ def setup_jwt_cookie(f):
         result = f(cls, root, info, **kwargs)
 
         if getattr(info.context, 'jwt_cookie', False):
-            info.context.jwt = result.token
+            info.context.jwt_token = result.token
         return result
     return wrapper
 
@@ -131,15 +125,27 @@ def jwt_cookie(view_func):
         request.jwt_cookie = True
         response = view_func(request, *args, **kwargs)
 
-        if hasattr(request, 'jwt'):
-            expiration = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
+        if hasattr(request, 'jwt_token'):
+            expires = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
 
             response.set_cookie(
                 jwt_settings.JWT_COOKIE_NAME,
-                request.jwt,
-                expires=expiration,
+                request.jwt_token,
+                expires=expires,
                 httponly=True,
-                secure=jwt_settings.JWT_COOKIE_SECURE)
+                secure=jwt_settings.JWT_COOKIE_SECURE,
+            )
+            if hasattr(request, 'jwt_refresh_token'):
+                refresh_token = request.jwt_refresh_token
+                expires = refresh_token.created +\
+                    jwt_settings.JWT_REFRESH_EXPIRATION_DELTA
 
+                response.set_cookie(
+                    jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
+                    refresh_token.token,
+                    expires=expires,
+                    httponly=True,
+                    secure=jwt_settings.JWT_COOKIE_SECURE,
+                )
         return response
     return wrapped_view

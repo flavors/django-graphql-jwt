@@ -11,7 +11,7 @@ from ..testcases import TestCase
 class AdminTestCase(TestCase):
 
     def setUp(self):
-        super(AdminTestCase, self).setUp()
+        super().setUp()
         RefreshToken = get_refresh_token_model()
         self.refresh_token = create_refresh_token(self.user)
         self.refresh_token_admin = admin.RefreshTokenAdmin(RefreshToken, site)

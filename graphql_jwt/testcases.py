@@ -13,21 +13,25 @@ from .shortcuts import get_token
 class SchemaRequestFactory(RequestFactory):
 
     def __init__(self, **defaults):
-        super(SchemaRequestFactory, self).__init__(**defaults)
+        super().__init__(**defaults)
         self._schema = graphene_settings.SCHEMA
+        self._middleware = [JSONWebTokenMiddleware]
 
     def schema(self, **kwargs):
         self._schema = graphene.Schema(**kwargs)
 
+    def middleware(self, middleware):
+        self._middleware = middleware
+
     def execute(self, query, **options):
-        options.setdefault('middleware', [JSONWebTokenMiddleware()])
+        options.setdefault('middleware', [m() for m in self._middleware])
         return self._schema.execute(query, **options)
 
 
 class JSONWebTokenClient(SchemaRequestFactory, Client):
 
     def __init__(self, **defaults):
-        super(JSONWebTokenClient, self).__init__(**defaults)
+        super().__init__(**defaults)
         self._credentials = {}
 
     def request(self, **request):
@@ -41,10 +45,7 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
     def execute(self, query, variables=None, **extra):
         extra.update(self._credentials)
         context = self.post('/', **extra)
-        return super(JSONWebTokenClient, self).execute(
-            query,
-            context=context,
-            variables=variables)
+        return super().execute(query, context=context, variables=variables)
 
     def authenticate(self, user):
         self._credentials = {

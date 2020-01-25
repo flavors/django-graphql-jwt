@@ -27,6 +27,7 @@ class Command(BaseCommand):
 
         msg = 'Successfully deleted {} token{}'.format(
             deleted,
-            pluralize(deleted))
+            pluralize(deleted),
+        )
 
         self.stdout.write(self.style.SUCCESS(msg))

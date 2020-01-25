@@ -1,0 +1,56 @@
+# Domake.io i18n
+# Copyright (C) wmai 2019
+# This file is distributed under the same license as the django-graphql-jwt package.
+# Translators:
+# wmai <williamjosephmai@gmail.com>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Django GraphQL JWT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-19 14:42+0000\n"
+"PO-Revision-Date: 2018-10-21 02:00+0700\n"
+"Last-Translator: wmai <williamjosephmai@gmail.com>\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+#: decorators.py:91
+msgid "Please, enter valid credentials"
+msgstr "S'il vous plaît, entrez des informations d'identification valides"
+
+#: exceptions.py:15
+msgid "You do not have permission to perform this action"
+msgstr "Vous n'avez pas la permission d'effectuer cette action"
+
+#: exceptions.py:19
+msgid "Signature has expired"
+msgstr "La signature a expiré"
+
+#: mixins.py:61
+msgid "origIat field is required"
+msgstr "Le champ origIat est requis"
+
+#: mixins.py:64
+msgid "Refresh has expired"
+msgstr "L'actualisation a expiré"
+
+#: utils.py:89
+msgid "Error decoding signature"
+msgstr "Erreur de décodage de la signature"
+
+#: utils.py:91
+msgid "Invalid token"
+msgstr "Token invalide"
+
+#: utils.py:107
+msgid "Invalid payload"
+msgstr "Payload invalide"
+
+#: utils.py:112
+msgid "User is disabled"
+msgstr "L'utilisateur est désactivé"

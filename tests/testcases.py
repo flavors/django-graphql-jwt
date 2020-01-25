@@ -1,4 +1,5 @@
 import json
+from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, testcases
@@ -11,22 +12,20 @@ from graphql_jwt.settings import jwt_settings
 from graphql_jwt.testcases import JSONWebTokenClient, JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
-from .compat import mock
-
 
 class UserTestCase(testcases.TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             username='test',
-            password='dolphins')
+            password='dolphins',
+        )
 
 
 class TestCase(UserTestCase):
 
     def setUp(self):
-        super(TestCase, self).setUp()
-
+        super().setUp()
         self.payload = jwt_payload(self.user)
         self.token = jwt_encode(self.payload)
         self.request_factory = RequestFactory()
@@ -45,7 +44,7 @@ class SchemaTestCase(TestCase, JSONWebTokenTestCase):
     Mutation = None
 
     def setUp(self):
-        super(SchemaTestCase, self).setUp()
+        super().setUp()
         self.client.schema(query=self.Query, mutation=self.Mutation)
 
     def execute(self, variables=None):
@@ -60,7 +59,7 @@ class SchemaTestCase(TestCase, JSONWebTokenTestCase):
 class RelaySchemaTestCase(SchemaTestCase):
 
     def execute(self, variables=None):
-        return super(RelaySchemaTestCase, self).execute({'input': variables})
+        return super().execute({'input': variables})
 
 
 class CookieGraphQLViewClient(JSONWebTokenClient):
@@ -77,7 +76,6 @@ class CookieGraphQLViewClient(JSONWebTokenClient):
             'query': query,
             'variables': variables,
         }
-
         view = GraphQLView(schema=self._schema)
         request = self.post('/', data=data, **extra)
         response = jwt_cookie(view.dispatch)(request)

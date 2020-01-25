@@ -7,7 +7,9 @@ import graphene
 from .. import exceptions
 from ..decorators import setup_jwt_cookie
 from ..settings import jwt_settings
-from .shortcuts import get_refresh_token, refresh_token_lazy
+from .shortcuts import (
+    create_refresh_token, get_refresh_token, refresh_token_lazy,
+)
 
 
 class RefreshTokenMixin(object):
@@ -26,9 +28,16 @@ class RefreshTokenMixin(object):
 
         payload = jwt_settings.JWT_PAYLOAD_HANDLER(refresh_token.user, context)
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
-
         refresh_token.rotate(context)
-        refreshed_token = refresh_token_lazy(refresh_token.user)
+
+        if getattr(context, 'jwt_cookie', False):
+            context.jwt_refresh_token = create_refresh_token(
+                refresh_token.user,
+            )
+            refreshed_token = context.jwt_refresh_token.get_token()
+        else:
+            refreshed_token = refresh_token_lazy(refresh_token.user)
+
         return cls(token=token, payload=payload, refresh_token=refreshed_token)
 
 

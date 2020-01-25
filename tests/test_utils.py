@@ -1,9 +1,9 @@
 from datetime import timedelta
+from unittest import mock
 
 from graphql_jwt import exceptions, utils
 from graphql_jwt.settings import jwt_settings
 
-from .compat import mock
 from .decorators import override_jwt_settings
 from .testcases import TestCase
 
@@ -35,7 +35,8 @@ class GetHTTPAuthorizationHeaderTests(TestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         request = self.request_factory.get('/', **headers)
@@ -57,7 +58,8 @@ class GetHTTPAuthorizationHeaderTests(TestCase):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         request = self.request_factory.get('/', **headers)

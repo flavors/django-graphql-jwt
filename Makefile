@@ -20,7 +20,7 @@ test-all:
 	@tox
 
 release:
-	@python setup.py sdist upload
-	@python setup.py bdist_wheel upload
+	@python setup.py sdist bdist_wheel
+	@twine upload dist/*
 
 .PHONY: help test coverage test-all release

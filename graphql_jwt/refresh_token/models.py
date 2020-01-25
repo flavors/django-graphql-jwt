@@ -5,25 +5,21 @@ from calendar import timegm
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from ..settings import jwt_settings
 from . import managers, signals
 
 
-@python_2_unicode_compatible
 class AbstractRefreshToken(models.Model):
     id = models.BigAutoField(primary_key=True)
-
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='refresh_tokens',
-        verbose_name=_('user'))
-
+        verbose_name=_('user'),
+    )
     token = models.CharField(_('token'), max_length=255, editable=False)
-
     created = models.DateTimeField(_('created'), auto_now_add=True)
     revoked = models.DateTimeField(_('revoked'), null=True, blank=True)
 
@@ -42,7 +38,7 @@ class AbstractRefreshToken(models.Model):
         if not self.token:
             self.token = self._cached_token = self.generate_token()
 
-        super(AbstractRefreshToken, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def generate_token(self):
         return binascii.hexlify(
@@ -65,13 +61,15 @@ class AbstractRefreshToken(models.Model):
         signals.refresh_token_revoked.send(
             sender=AbstractRefreshToken,
             request=request,
-            refresh_token=self)
+            refresh_token=self,
+        )
 
     def rotate(self, request=None):
         signals.refresh_token_rotated.send(
             sender=AbstractRefreshToken,
             request=request,
-            refresh_token=self)
+            refresh_token=self,
+        )
 
 
 class RefreshToken(AbstractRefreshToken):

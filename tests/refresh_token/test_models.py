@@ -10,7 +10,7 @@ from ..testcases import UserTestCase
 class AbstractRefreshTokenTests(UserTestCase):
 
     def setUp(self):
-        super(AbstractRefreshTokenTests, self).setUp()
+        super().setUp()
         self.refresh_token = create_refresh_token(self.user)
 
     def test_str(self):
@@ -48,7 +48,8 @@ class AbstractRefreshTokenTests(UserTestCase):
             sender=AbstractRefreshToken,
             signal=signals.refresh_token_revoked,
             request=None,
-            refresh_token=self.refresh_token)
+            refresh_token=self.refresh_token,
+        )
 
     def test_rotate(self):
         with catch_signal(signals.refresh_token_rotated) as handler:
@@ -58,4 +59,5 @@ class AbstractRefreshTokenTests(UserTestCase):
             sender=AbstractRefreshToken,
             signal=signals.refresh_token_rotated,
             request=None,
-            refresh_token=self.refresh_token)
+            refresh_token=self.refresh_token,
+        )

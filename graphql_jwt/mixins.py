@@ -10,7 +10,7 @@ from .settings import jwt_settings
 from .utils import get_payload, get_user_by_payload
 
 
-class JSONWebTokenMixin(object):
+class JSONWebTokenMixin:
     token = graphene.String()
 
     @classmethod
@@ -18,7 +18,7 @@ class JSONWebTokenMixin(object):
         if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
             cls._meta.fields['refresh_token'] = graphene.Field(graphene.String)
 
-        return super(JSONWebTokenMixin, cls).Field(*args, **kwargs)
+        return super().Field(*args, **kwargs)
 
 
 class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
@@ -29,22 +29,21 @@ class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
             '{name}.resolve method is required in a JSONWebTokenMutation.'
         ).format(name=name or cls.__name__)
 
-        super(ObtainJSONWebTokenMixin, cls)\
-            .__init_subclass_with_meta__(name=name, **options)
+        super().__init_subclass_with_meta__(name=name, **options)
 
 
-class VerifyMixin(object):
+class VerifyMixin:
     payload = GenericScalar()
 
 
-class ResolveMixin(object):
+class ResolveMixin:
 
     @classmethod
     def resolve(cls, root, info, **kwargs):
         return cls()
 
 
-class KeepAliveRefreshMixin(object):
+class KeepAliveRefreshMixin:
 
     class Fields:
         token = graphene.String(required=True)

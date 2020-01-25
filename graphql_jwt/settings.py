@@ -4,7 +4,6 @@ from importlib import import_module
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test.signals import setting_changed
-from django.utils import six
 
 DEFAULTS = {
     'JWT_ALGORITHM': 'HS256',
@@ -38,6 +37,7 @@ DEFAULTS = {
     'JWT_ALLOW_ANY_HANDLER': 'graphql_jwt.middleware.allow_any',
     'JWT_ALLOW_ANY_CLASSES': (),
     'JWT_COOKIE_NAME': 'JWT',
+    'JWT_REFRESH_TOKEN_COOKIE_NAME': 'JWT-refresh-token',
     'JWT_COOKIE_SECURE': False,
 }
 
@@ -55,7 +55,7 @@ IMPORT_STRINGS = (
 
 
 def perform_import(value, setting_name):
-    if isinstance(value, six.string_types):
+    if isinstance(value, str):
         return import_from_string(value, setting_name)
     if isinstance(value, (list, tuple)):
         return [import_from_string(item, setting_name) for item in value]
@@ -69,11 +69,12 @@ def import_from_string(value, setting_name):
         return getattr(module, class_name)
     except (ImportError, AttributeError) as e:
         msg = 'Could not import `{}` for JWT setting `{}`. {}: {}.'.format(
-            value, setting_name, e.__class__.__name__, e)
+            value, setting_name, e.__class__.__name__, e,
+        )
         raise ImportError(msg)
 
 
-class JWTSettings(object):
+class JWTSettings:
 
     def __init__(self, defaults, import_strings):
         self.defaults = defaults

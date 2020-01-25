@@ -1,6 +1,28 @@
 Changelog
 =========
 
+0.3.0
+-----
+
+* Added Django 3.0 support
+* Removed Python 2.7 support
+
+0.2.3
+-----
+
+* Fixed refresh_token cookie
+* Added middleware method to SchemaRequestFactory
+* Added arabic, french and portuguese translations
+
+0.2.2
+-----
+
+* Removed DjangoMiddleware
+* Added dutch and french locales
+* Added JWT Refresh token cookie
+* Added signals
+* Added JWT_GET_USER_BY_NATURAL_KEY_HANDLER
+
 0.2.1
 -----
 

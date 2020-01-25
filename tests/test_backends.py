@@ -8,14 +8,15 @@ from .testcases import TestCase
 class BackendsTests(TestCase):
 
     def setUp(self):
-        super(BackendsTests, self).setUp()
+        super().setUp()
         self.backend = JSONWebTokenBackend()
 
     def test_authenticate(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
                 jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token),
+                self.token,
+            ),
         }
 
         request = self.request_factory.get('/', **headers)
@@ -26,7 +27,8 @@ class BackendsTests(TestCase):
     def test_authenticate_fail(self):
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: '{} invalid'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX),
+                jwt_settings.JWT_AUTH_HEADER_PREFIX,
+            ),
         }
 
         request = self.request_factory.get('/', **headers)

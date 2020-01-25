@@ -52,7 +52,8 @@ def jwt_decode(token, context=None):
         leeway=jwt_settings.JWT_LEEWAY,
         audience=jwt_settings.JWT_AUDIENCE,
         issuer=jwt_settings.JWT_ISSUER,
-        algorithms=[jwt_settings.JWT_ALGORITHM])
+        algorithms=[jwt_settings.JWT_ALGORITHM],
+    )
 
 
 def get_http_authorization(request):
@@ -114,6 +115,5 @@ def get_user_by_payload(payload):
 
 
 def refresh_has_expired(orig_iat, context=None):
-    return timegm(datetime.utcnow().utctimetuple()) > (
-        orig_iat + jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
-    )
+    exp = orig_iat + jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+    return timegm(datetime.utcnow().utctimetuple()) > exp
