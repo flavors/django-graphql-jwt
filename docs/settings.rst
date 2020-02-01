@@ -160,7 +160,7 @@ JWT_REFRESH_TOKEN_MODEL
 JWT_REFRESH_TOKEN_N_BYTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Long time running refresh token number of bytes
+  Long running refresh token number of bytes
 
   Default: ``20``
 
@@ -168,7 +168,7 @@ JWT_REFRESH_TOKEN_N_BYTES
 JWT_REUSE_REFRESH_TOKENS
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Reuse the long time running refreshed token instead of generating a new one
+  Reuse the long running refreshed token instead of generating a new one
 
   Default: ``False``
 
