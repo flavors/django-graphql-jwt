@@ -1,9 +1,15 @@
 import graphene
 
+from graphql_jwt.refresh_token.signals import (
+    refresh_token_revoked, refresh_token_rotated,
+)
 from graphql_jwt.shortcuts import create_refresh_token, get_refresh_token
+from graphql_jwt.signals import token_issued
 from graphql_jwt.utils import get_payload
 
-from ..context_managers import back_to_the_future, refresh_expired
+from ..context_managers import (
+    back_to_the_future, catch_signal, refresh_expired,
+)
 from ..decorators import override_jwt_settings
 
 
@@ -22,15 +28,19 @@ class TokenAuthMixin(RefreshTokenMutationMixin):
 
     @override_jwt_settings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     def test_token_auth(self):
-        response = self.execute({
-            self.user.USERNAME_FIELD: self.user.get_username(),
-            'password': 'dolphins',
-        })
+        with catch_signal(token_issued) as token_issued_handler:
+            response = self.execute({
+                self.user.USERNAME_FIELD: self.user.get_username(),
+                'password': 'dolphins',
+            })
 
         data = response.data['tokenAuth']
         payload = get_payload(data['token'])
         refresh_token = get_refresh_token(data['refreshToken'])
 
+        self.assertEqual(token_issued_handler.call_count, 1)
+
+        self.assertIsNone(response.errors)
         self.assertUsernameIn(payload)
         self.assertEqual(refresh_token.user, self.user)
 
@@ -45,7 +55,9 @@ class RefreshTokenMixin:
 class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
 
     def test_refresh_token(self):
-        with back_to_the_future(seconds=1):
+        with catch_signal(refresh_token_rotated) as \
+                refresh_token_rotated_handler, back_to_the_future(seconds=1):
+
             response = self.execute({
                 'refreshToken': self.refresh_token.token,
             })
@@ -53,7 +65,10 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         data = response.data['refreshToken']
         token = data['token']
         refresh_token = get_refresh_token(data['refreshToken'])
-        payload = get_payload(token)
+        payload = data['payload']
+
+        self.assertIsNone(response.errors)
+        self.assertEqual(refresh_token_rotated_handler.call_count, 1)
 
         self.assertUsernameIn(payload)
         self.assertNotEqual(token, self.token)
@@ -75,11 +90,16 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
 class RevokeMixin(RefreshTokenMixin):
 
     def test_revoke(self):
-        response = self.execute({
-            'refreshToken': self.refresh_token.token,
-        })
+        with catch_signal(refresh_token_revoked) as \
+                refresh_token_revoked_handler:
+
+            response = self.execute({
+                'refreshToken': self.refresh_token.token,
+            })
+
+        self.assertIsNone(response.errors)
+        self.assertEqual(refresh_token_revoked_handler.call_count, 1)
 
         self.refresh_token.refresh_from_db()
-
         self.assertIsNotNone(self.refresh_token.revoked)
         self.assertIsNotNone(response.data['revokeToken']['revoked'])

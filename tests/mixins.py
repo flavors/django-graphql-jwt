@@ -1,20 +1,25 @@
 from graphql_jwt.shortcuts import get_token
+from graphql_jwt.signals import token_issued, token_refreshed
 from graphql_jwt.utils import get_payload
 
-from .context_managers import back_to_the_future, refresh_expired
+from .context_managers import back_to_the_future, catch_signal, refresh_expired
 from .decorators import override_jwt_settings
 
 
 class TokenAuthMixin:
 
     def test_token_auth(self):
-        response = self.execute({
-            self.user.USERNAME_FIELD: self.user.get_username(),
-            'password': 'dolphins',
-        })
+        with catch_signal(token_issued) as token_issued_handler:
+            response = self.execute({
+                self.user.USERNAME_FIELD: self.user.get_username(),
+                'password': 'dolphins',
+            })
 
         payload = get_payload(response.data['tokenAuth']['token'])
 
+        self.assertEqual(token_issued_handler.call_count, 1)
+
+        self.assertIsNone(response.errors)
         self.assertUsernameIn(payload)
 
     def test_token_auth_invalid_credentials(self):
@@ -35,6 +40,7 @@ class VerifyMixin:
 
         payload = response.data['verifyToken']['payload']
 
+        self.assertIsNone(response.errors)
         self.assertUsernameIn(payload)
 
     def test_verify_invalid_token(self):
@@ -48,15 +54,20 @@ class VerifyMixin:
 class RefreshMixin:
 
     def test_refresh(self):
-        with back_to_the_future(seconds=1):
+        with catch_signal(token_refreshed) as \
+                token_refreshed_handler, back_to_the_future(seconds=1):
+
             response = self.execute({
                 'token': self.token,
             })
 
         data = response.data['refreshToken']
         token = data['token']
-        payload = get_payload(token)
+        payload = data['payload']
 
+        self.assertEqual(token_refreshed_handler.call_count, 1)
+
+        self.assertIsNone(response.errors)
         self.assertNotEqual(token, self.token)
         self.assertUsernameIn(data['payload'])
         self.assertEqual(payload['origIat'], self.payload['origIat'])
