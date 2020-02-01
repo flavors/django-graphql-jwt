@@ -20,6 +20,7 @@ __all__ = [
     'token_auth',
     'setup_jwt_cookie',
     'jwt_cookie',
+    'ensure_token',
 ]
 
 
@@ -145,3 +146,15 @@ def jwt_cookie(view_func):
                 )
         return response
     return wrapped_view
+
+
+def ensure_token(f):
+    @wraps(f)
+    def wrapper(cls, root, info, token=None, *args, **kwargs):
+        if token is None:
+            token = info.context.COOKIES.get(jwt_settings.JWT_COOKIE_NAME)
+
+            if token is None:
+                raise exceptions.JSONWebTokenError(_('Token is required'))
+        return f(cls, root, info, token, *args, **kwargs)
+    return wrapper
