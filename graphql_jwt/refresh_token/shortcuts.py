@@ -1,5 +1,5 @@
 from django.utils.functional import lazy
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from ..exceptions import JSONWebTokenError
 from ..settings import jwt_settings
