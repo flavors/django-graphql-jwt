@@ -68,7 +68,6 @@ class AuthenticateByHeaderTests(TestCase):
 
         next_mock.assert_not_called()
 
-    @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     @mock.patch('graphql_jwt.middleware.authenticate')
     def test_already_authenticated(self, authenticate_mock):
         headers = {
@@ -138,9 +137,7 @@ class AuthenticateByArgumentTests(TestCase):
         user = self.middleware.cached_authentication[tuple(info_mock.path)]
         self.assertEqual(user, self.user)
 
-    @override_jwt_settings(
-        JWT_ALLOW_ARGUMENT=True,
-        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
     def test_authenticate_parent(self):
         next_mock = mock.Mock()
         info_mock = self.info(AnonymousUser())
@@ -152,9 +149,7 @@ class AuthenticateByArgumentTests(TestCase):
         next_mock.assert_called_with(None, info_mock)
         self.assertEqual(info_mock.context.user, self.user)
 
-    @override_jwt_settings(
-        JWT_ALLOW_ARGUMENT=True,
-        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
     def test_clear_authentication(self):
         next_mock = mock.Mock()
         info_mock = self.info(self.user)
@@ -164,9 +159,7 @@ class AuthenticateByArgumentTests(TestCase):
         next_mock.assert_called_with(None, info_mock)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
-    @override_jwt_settings(
-        JWT_ALLOW_ARGUMENT=True,
-        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
     def test_clear_session_authentication(self):
         next_mock = mock.Mock()
         info_mock = self.info(self.user)
@@ -177,9 +170,7 @@ class AuthenticateByArgumentTests(TestCase):
         next_mock.assert_called_with(None, info_mock)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
-    @override_jwt_settings(
-        JWT_ALLOW_ARGUMENT=True,
-        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+    @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
     def test_context_has_not_attr_user(self):
         next_mock = mock.Mock()
         info_mock = self.info()
