@@ -76,6 +76,27 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         self.assertEqual(refresh_token.user, self.user)
         self.assertGreater(refresh_token.created, self.refresh_token.created)
 
+    @override_jwt_settings(JWT_REUSE_REFRESH_TOKENS=True)
+    def test_reuse_refresh_token(self):
+        with catch_signal(refresh_token_rotated) as \
+                refresh_token_rotated_handler, back_to_the_future(seconds=1):
+
+            response = self.execute({
+                'refreshToken': self.refresh_token.token,
+            })
+
+        data = response.data['refreshToken']
+        token = data['token']
+        refresh_token = get_refresh_token(data['refreshToken'])
+        payload = data['payload']
+
+        self.assertIsNone(response.errors)
+        self.assertEqual(refresh_token_rotated_handler.call_count, 1)
+
+        self.assertUsernameIn(payload)
+        self.assertNotEqual(token, self.token)
+        self.assertNotEqual(refresh_token.token, self.refresh_token.token)
+
     def test_missing_refresh_token(self):
         response = self.execute({})
         self.assertIsNotNone(response.errors)
