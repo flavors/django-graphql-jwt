@@ -24,30 +24,40 @@ class RefreshTokenMixin:
     @ensure_refresh_token
     def refresh(cls, root, info, refresh_token, **kwargs):
         context = info.context
-        refresh_obj = get_refresh_token(refresh_token, context)
+        old_refresh_token = get_refresh_token(refresh_token, context)
 
-        if refresh_obj.is_expired(context):
+        if old_refresh_token.is_expired(context):
             raise exceptions.JSONWebTokenError(_('Refresh token is expired'))
 
-        payload = jwt_settings.JWT_PAYLOAD_HANDLER(refresh_obj.user, context)
+        payload = jwt_settings.JWT_PAYLOAD_HANDLER(
+            old_refresh_token.user,
+            context,
+        )
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
 
         if getattr(context, 'jwt_cookie', False):
             context.jwt_refresh_token = create_refresh_token(
-                refresh_obj.user,
-                refresh_obj,
+                old_refresh_token.user,
+                old_refresh_token,
             )
-            refreshed_token = context.jwt_refresh_token.get_token()
+            new_refresh_token = context.jwt_refresh_token.get_token()
         else:
-            refreshed_token = refresh_token_lazy(refresh_obj.user, refresh_obj)
+            new_refresh_token = refresh_token_lazy(
+                old_refresh_token.user,
+                old_refresh_token,
+            )
 
         signals.refresh_token_rotated.send(
             sender=cls,
             request=context,
-            refresh_token=refresh_obj,
+            refresh_token=old_refresh_token,
             refresh_token_issued=new_refresh_token,
         )
-        return cls(token=token, payload=payload, refresh_token=refreshed_token)
+        return cls(
+            token=token,
+            payload=payload,
+            refresh_token=new_refresh_token,
+        )
 
 
 class RevokeMixin:
@@ -57,6 +67,6 @@ class RevokeMixin:
     @ensure_refresh_token
     def revoke(cls, root, info, refresh_token, **kwargs):
         context = info.context
-        refresh_obj = get_refresh_token(refresh_token, context)
-        refresh_obj.revoke(context)
-        return cls(revoked=timegm(refresh_obj.revoked.timetuple()))
+        refresh_token_obj = get_refresh_token(refresh_token, context)
+        refresh_token_obj.revoke(context)
+        return cls(revoked=timegm(refresh_token_obj.revoked.timetuple()))

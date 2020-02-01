@@ -20,15 +20,15 @@ def get_refresh_token(token, context=None):
         raise JSONWebTokenError(_('Invalid refresh token'))
 
 
-def create_refresh_token(user, refresh_obj=None):
-    if refresh_obj is not None and jwt_settings.JWT_REUSE_REFRESH_TOKENS:
-        refresh_obj.reuse()
-        return refresh_obj
+def create_refresh_token(user, refresh_token=None):
+    if refresh_token is not None and jwt_settings.JWT_REUSE_REFRESH_TOKENS:
+        refresh_token.reuse()
+        return refresh_token
     return get_refresh_token_model().objects.create(user=user)
 
 
 refresh_token_lazy = lazy(
-    lambda user, refresh_obj=None:
-    create_refresh_token(user, refresh_obj).get_token(),
+    lambda user, refresh_token=None:
+    create_refresh_token(user, refresh_token).get_token(),
     str,
 )
