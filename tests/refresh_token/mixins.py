@@ -76,6 +76,10 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         self.assertEqual(refresh_token.user, self.user)
         self.assertGreater(refresh_token.created, self.refresh_token.created)
 
+    def test_missing_refresh_token(self):
+        response = self.execute({})
+        self.assertIsNotNone(response.errors)
+
     def test_refresh_token_expired(self):
         with refresh_expired():
             response = self.execute({

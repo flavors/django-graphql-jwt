@@ -25,7 +25,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
 
 class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
     query = '''
-    mutation RefreshToken($refreshToken: String!) {
+    mutation RefreshToken($refreshToken: String) {
       refreshToken(refreshToken: $refreshToken) {
         token
         payload

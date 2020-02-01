@@ -72,6 +72,10 @@ class RefreshMixin:
         self.assertEqual(payload['origIat'], self.payload['origIat'])
         self.assertGreater(payload['exp'], self.payload['exp'])
 
+    def test_missing_token(self):
+        response = self.execute({})
+        self.assertIsNotNone(response.errors)
+
     def test_refresh_expired(self):
         with refresh_expired():
             response = self.execute({

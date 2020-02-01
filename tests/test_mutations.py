@@ -34,7 +34,7 @@ class VerifyTests(mixins.VerifyMixin, SchemaTestCase):
 
 class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
     query = '''
-    mutation RefreshToken($token: String!) {
+    mutation RefreshToken($token: String) {
       refreshToken(token: $token) {
         token
         payload
