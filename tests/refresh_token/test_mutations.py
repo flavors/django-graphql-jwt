@@ -12,6 +12,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(username: $username, password: $password) {
         token
+        payload
         refreshToken
       }
     }'''
@@ -26,8 +27,8 @@ class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
     mutation RefreshToken($refreshToken: String!) {
       refreshToken(refreshToken: $refreshToken) {
         token
-        refreshToken
         payload
+        refreshToken
       }
     }'''
 

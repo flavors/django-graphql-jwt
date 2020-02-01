@@ -12,6 +12,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
     mutation TokenAuth($input: ObtainJSONWebTokenInput!) {
       tokenAuth(input: $input) {
         token
+        payload
         refreshToken
         clientMutationId
       }
@@ -27,8 +28,8 @@ class RefreshTokenTests(mixins.RefreshMixin, RelaySchemaTestCase):
     mutation RefreshToken($input: RefreshInput!) {
       refreshToken(input: $input) {
         token
-        refreshToken
         payload
+        refreshToken
         clientMutationId
       }
     }'''

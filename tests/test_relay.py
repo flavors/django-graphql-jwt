@@ -11,6 +11,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
     mutation TokenAuth($input: ObtainJSONWebTokenInput!) {
       tokenAuth(input: $input) {
         token
+        payload
         clientMutationId
       }
     }'''

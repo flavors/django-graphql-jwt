@@ -11,6 +11,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(username: $username, password: $password) {
         token
+        payload
       }
     }'''
 

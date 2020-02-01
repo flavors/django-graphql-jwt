@@ -2,7 +2,6 @@ import graphene
 
 import graphql_jwt
 from graphql_jwt.settings import jwt_settings
-from graphql_jwt.utils import get_payload
 
 from .context_managers import back_to_the_future
 from .testcases import CookieTestCase
@@ -13,6 +12,7 @@ class TokenAuthTests(CookieTestCase):
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(username: $username, password: $password) {
         token
+        payload
       }
     }'''
 
@@ -25,12 +25,12 @@ class TokenAuthTests(CookieTestCase):
             'password': 'dolphins',
         })
 
+        data = response.data['tokenAuth']
         token = response.cookies.get(jwt_settings.JWT_COOKIE_NAME).value
-        payload = get_payload(token)
 
         self.assertIsNone(response.errors)
-        self.assertEqual(token, response.data['tokenAuth']['token'])
-        self.assertUsernameIn(payload)
+        self.assertEqual(token, data['token'])
+        self.assertUsernameIn(data['payload'])
 
 
 class RefreshTokenTests(CookieTestCase):

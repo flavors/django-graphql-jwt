@@ -1,6 +1,5 @@
 from graphql_jwt.shortcuts import get_token
 from graphql_jwt.signals import token_issued, token_refreshed
-from graphql_jwt.utils import get_payload
 
 from .context_managers import back_to_the_future, catch_signal, refresh_expired
 from .decorators import override_jwt_settings
@@ -15,12 +14,12 @@ class TokenAuthMixin:
                 'password': 'dolphins',
             })
 
-        payload = get_payload(response.data['tokenAuth']['token'])
+        data = response.data['tokenAuth']
 
         self.assertEqual(token_issued_handler.call_count, 1)
 
         self.assertIsNone(response.errors)
-        self.assertUsernameIn(payload)
+        self.assertUsernameIn(data['payload'])
 
     def test_token_auth_invalid_credentials(self):
         response = self.execute({

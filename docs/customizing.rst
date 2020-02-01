@@ -23,6 +23,7 @@ Authenticate the user and obtain a **JSON Web Token** and the *user id*::
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(username: $username, password: $password) {
         token
+        payload
         user {
           id
         }

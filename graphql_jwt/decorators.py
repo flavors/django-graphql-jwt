@@ -10,7 +10,6 @@ from promise import Promise, is_thenable
 from . import exceptions, signals
 from .refresh_token.shortcuts import create_refresh_token, refresh_token_lazy
 from .settings import jwt_settings
-from .shortcuts import get_token
 
 __all__ = [
     'user_passes_test',
@@ -63,27 +62,27 @@ def permission_required(perm):
     return user_passes_test(check_perms)
 
 
+def on_token_auth_resolve(values):
+    context, user, payload = values
+    payload.payload = jwt_settings.JWT_PAYLOAD_HANDLER(user, context)
+    payload.token = jwt_settings.JWT_ENCODE_HANDLER(payload.payload, context)
+
+    if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
+        if getattr(context, 'jwt_cookie', False):
+            context.jwt_refresh_token = create_refresh_token(user)
+            payload.refresh_token = context.jwt_refresh_token.get_token()
+        else:
+            payload.refresh_token = refresh_token_lazy(user)
+
+    return payload
+
+
 def token_auth(f):
     @wraps(f)
     @setup_jwt_cookie
     def wrapper(cls, root, info, password, **kwargs):
         context = info.context
         context._jwt_token_auth = True
-
-        def on_resolve(values):
-            user, payload = values
-            payload.token = get_token(user, context)
-
-            if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-                if getattr(context, 'jwt_cookie', False):
-                    context.jwt_refresh_token = create_refresh_token(user)
-                    payload.refresh_token =\
-                        context.jwt_refresh_token.get_token()
-                else:
-                    payload.refresh_token = refresh_token_lazy(user)
-
-            return payload
-
         username = kwargs.get(get_user_model().USERNAME_FIELD)
 
         user = authenticate(
@@ -91,7 +90,6 @@ def token_auth(f):
             username=username,
             password=password,
         )
-
         if user is None:
             raise exceptions.JSONWebTokenError(
                 _('Please enter valid credentials'),
@@ -101,13 +99,13 @@ def token_auth(f):
             context.user = user
 
         result = f(cls, root, info, **kwargs)
-        values = (user, result)
+        values = (context, user, result)
 
         signals.token_issued.send(sender=cls, request=context, user=user)
 
         if is_thenable(result):
-            return Promise.resolve(values).then(on_resolve)
-        return on_resolve(values)
+            return Promise.resolve(values).then(on_token_auth_resolve)
+        return on_token_auth_resolve(values)
     return wrapper
 
 

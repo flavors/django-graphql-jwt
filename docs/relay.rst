@@ -37,6 +37,7 @@ Relay mutations only accepts one argument named *input*.
       mutation TokenAuth($username: String!, $password: String!) {
         tokenAuth(input: {username: $username, password: $password}) {
           token
+          payload
         }
       }
 
@@ -76,8 +77,8 @@ Long running refresh tokens
       mutation RefreshToken($refreshToken: String!) {
         refreshToken(input: {refreshToken: $refreshToken}) {
           token
-          refreshToken
           payload
+          refreshToken
         }
       }
 
@@ -117,6 +118,7 @@ Authenticate the user and obtain a **JSON Web Token** and the *user id*::
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(input: {username: $username, password: $password}) {
         token
+        payload
         user {
           id
         }

@@ -12,6 +12,7 @@ from .utils import get_payload, get_user_by_payload
 
 class JSONWebTokenMixin:
     token = graphene.String(required=True)
+    payload = GenericScalar(required=True)
 
     @classmethod
     def Field(cls, *args, **kwargs):

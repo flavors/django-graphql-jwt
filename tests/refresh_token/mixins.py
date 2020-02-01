@@ -5,7 +5,6 @@ from graphql_jwt.refresh_token.signals import (
 )
 from graphql_jwt.shortcuts import create_refresh_token, get_refresh_token
 from graphql_jwt.signals import token_issued
-from graphql_jwt.utils import get_payload
 
 from ..context_managers import (
     back_to_the_future, catch_signal, refresh_expired,
@@ -35,13 +34,12 @@ class TokenAuthMixin(RefreshTokenMutationMixin):
             })
 
         data = response.data['tokenAuth']
-        payload = get_payload(data['token'])
         refresh_token = get_refresh_token(data['refreshToken'])
 
         self.assertEqual(token_issued_handler.call_count, 1)
 
         self.assertIsNone(response.errors)
-        self.assertUsernameIn(payload)
+        self.assertUsernameIn(data['payload'])
         self.assertEqual(refresh_token.user, self.user)
 
 

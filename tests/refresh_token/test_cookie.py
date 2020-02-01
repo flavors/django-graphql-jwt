@@ -14,6 +14,7 @@ class TokenAuthTests(RefreshTokenMutationMixin, CookieTestCase):
     query = '''
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(username: $username, password: $password) {
+        payload
         refreshToken
       }
     }'''
@@ -29,12 +30,14 @@ class TokenAuthTests(RefreshTokenMutationMixin, CookieTestCase):
             'password': 'dolphins',
         })
 
+        data = response.data['tokenAuth']
         token = response.cookies.get(
             jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
         ).value
 
         self.assertIsNone(response.errors)
         self.assertEqual(token, response.data['tokenAuth']['refreshToken'])
+        self.assertUsernameIn(data['payload'])
 
 
 class RefreshTokenTests(RefreshTokenMutationMixin, RefreshTokenCookieTestCase):
