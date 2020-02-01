@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-11 13:32+0000\n"
+"POT-Creation-Date: 2019-12-06 17:33+0100\n"
 "PO-Revision-Date: 2019-07-11 13:46+0000\n"
 "Last-Translator: lennartkerkvliet <lennart@whatishot.nl>\n"
 "Language-Team: Dutch\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decorators.py:91
-msgid "Please, enter valid credentials"
+#: decorators.py:92
+msgid "Please enter valid credentials"
 msgstr "Voer geldige inloggegevens in"
 
 #: exceptions.py:15
@@ -37,18 +37,18 @@ msgstr "origIat veld is verplicht"
 msgid "Refresh has expired"
 msgstr "Vernieuwen is verlopen"
 
-#: utils.py:89
+#: utils.py:90
 msgid "Error decoding signature"
 msgstr "Fout bij decodering van handtekening"
 
-#: utils.py:91
+#: utils.py:92
 msgid "Invalid token"
 msgstr "Ongeldige token"
 
-#: utils.py:107
+#: utils.py:108
 msgid "Invalid payload"
 msgstr "Ongeldige payload"
 
-#: utils.py:112
+#: utils.py:113
 msgid "User is disabled"
 msgstr "Gebruiker is uitgeschakeld"

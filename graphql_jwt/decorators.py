@@ -88,7 +88,7 @@ def token_auth(f):
 
         if user is None:
             raise exceptions.JSONWebTokenError(
-                _('Please, enter valid credentials'))
+                _('Please enter valid credentials'))
 
         if hasattr(context, 'user'):
             context.user = user

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django GraphQL JWT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-19 14:20+0000\n"
+"POT-Creation-Date: 2019-12-06 17:33+0100\n"
 "PO-Revision-Date: 2019-08-19 14:20+0000\n"
 "Last-Translator: saadaouad <s.aouad@obytes.com>\n"
 "Language-Team: Arabic\n"
@@ -19,8 +19,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-#: decorators.py:91
-msgid "Please, enter valid credentials"
+
+#: decorators.py:92
+msgid "Please enter valid credentials"
 msgstr "الرجاء إدخال بيانات صالحة"
 
 #: exceptions.py:15
@@ -39,18 +40,18 @@ msgstr "يرجى إدخال origIat"
 msgid "Refresh has expired"
 msgstr "انتهت صلاحية التحديث"
 
-#: utils.py:89
+#: utils.py:90
 msgid "Error decoding signature"
 msgstr "خطأ في فك شفرة التوقيع"
 
-#: utils.py:91
+#: utils.py:92
 msgid "Invalid token"
 msgstr "Token غير صالح"
 
-#: utils.py:107
+#: utils.py:108
 msgid "Invalid payload"
 msgstr "Payload غير صالح"
 
-#: utils.py:112
+#: utils.py:113
 msgid "User is disabled"
 msgstr "المستخدم معطل"
