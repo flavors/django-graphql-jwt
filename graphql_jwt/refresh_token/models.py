@@ -64,12 +64,10 @@ class AbstractRefreshToken(models.Model):
             refresh_token=self,
         )
 
-    def rotate(self, request=None):
-        signals.refresh_token_rotated.send(
-            sender=AbstractRefreshToken,
-            request=request,
-            refresh_token=self,
-        )
+    def reuse(self, request=None):
+        self.token = ''
+        self.created = timezone.now()
+        self.save(update_fields=['token', 'created'])
 
 
 class RefreshToken(AbstractRefreshToken):
