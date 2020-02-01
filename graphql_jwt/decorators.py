@@ -8,7 +8,7 @@ from graphql.execution.base import ResolveInfo
 from promise import Promise, is_thenable
 
 from . import exceptions, signals
-from .refresh_token.shortcuts import refresh_token_lazy
+from .refresh_token.shortcuts import create_refresh_token, refresh_token_lazy
 from .settings import jwt_settings
 from .shortcuts import get_token
 
@@ -75,7 +75,12 @@ def token_auth(f):
             payload.token = get_token(user, context)
 
             if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-                payload.refresh_token = refresh_token_lazy(user)
+                if getattr(context, 'jwt_cookie', False):
+                    context.jwt_refresh_token = create_refresh_token(user)
+                    payload.refresh_token =\
+                        context.jwt_refresh_token.get_token()
+                else:
+                    payload.refresh_token = refresh_token_lazy(user)
 
             return payload
 
@@ -89,7 +94,8 @@ def token_auth(f):
 
         if user is None:
             raise exceptions.JSONWebTokenError(
-                _('Please enter valid credentials'))
+                _('Please enter valid credentials'),
+            )
 
         if hasattr(context, 'user'):
             context.user = user
