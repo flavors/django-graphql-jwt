@@ -109,7 +109,7 @@ If you want to customize the ``ObtainJSONWebToken`` behavior, you'll need to cus
         user = graphene.Field(UserType)
 
         @classmethod
-        def resolve(cls, root, info):
+        def resolve(cls, root, info, **kwargs):
             return cls(user=info.context.user)
 
 Authenticate the user and obtain a **JSON Web Token** and the *user id*::
