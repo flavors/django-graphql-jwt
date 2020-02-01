@@ -11,12 +11,13 @@ from .utils import get_payload, get_user_by_payload
 
 
 class JSONWebTokenMixin:
-    token = graphene.String()
+    token = graphene.String(required=True)
 
     @classmethod
     def Field(cls, *args, **kwargs):
         if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-            cls._meta.fields['refresh_token'] = graphene.Field(graphene.String)
+            cls._meta.fields['refresh_token'] =\
+                graphene.Field(graphene.String, required=True)
 
         return super().Field(*args, **kwargs)
 
@@ -33,7 +34,8 @@ class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
 
 
 class VerifyMixin:
-    payload = GenericScalar()
+    payload = GenericScalar(required=True)
+
     @classmethod
     @ensure_token
     def verify(cls, root, info, token, **kwargs):
@@ -80,4 +82,4 @@ class RefreshMixin((RefreshTokenMixin
                     else KeepAliveRefreshMixin),
                    JSONWebTokenMixin):
 
-    payload = GenericScalar()
+    payload = GenericScalar(required=True)
