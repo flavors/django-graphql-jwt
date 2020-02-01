@@ -13,6 +13,7 @@ class TokenAuthTests(CookieTestCase):
       tokenAuth(username: $username, password: $password) {
         token
         payload
+        refreshExpiresIn
       }
     }'''
 
@@ -39,6 +40,7 @@ class RefreshTokenTests(CookieTestCase):
       refreshToken {
         token
         payload
+        refreshExpiresIn
       }
     }'''
 

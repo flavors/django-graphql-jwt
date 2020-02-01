@@ -12,6 +12,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
       tokenAuth(username: $username, password: $password) {
         token
         payload
+        refreshExpiresIn
       }
     }'''
 
@@ -37,6 +38,7 @@ class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
       refreshToken(token: $token) {
         token
         payload
+        refreshExpiresIn
       }
     }'''
 

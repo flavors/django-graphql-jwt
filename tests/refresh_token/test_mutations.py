@@ -14,6 +14,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
         token
         payload
         refreshToken
+        refreshExpiresIn
       }
     }'''
 
@@ -29,6 +30,7 @@ class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
         token
         payload
         refreshToken
+        refreshExpiresIn
       }
     }'''
 

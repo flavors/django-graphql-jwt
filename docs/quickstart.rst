@@ -73,6 +73,7 @@ Queries
         tokenAuth(username: $username, password: $password) {
           token
           payload
+          refreshExpiresIn
         }
       }
 

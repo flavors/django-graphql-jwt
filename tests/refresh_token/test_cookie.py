@@ -16,6 +16,7 @@ class TokenAuthTests(RefreshTokenMutationMixin, CookieTestCase):
       tokenAuth(username: $username, password: $password) {
         payload
         refreshToken
+        refreshExpiresIn
       }
     }'''
 
@@ -45,8 +46,9 @@ class RefreshTokenTests(RefreshTokenMutationMixin, RefreshTokenCookieTestCase):
     mutation {
       refreshToken {
         token
-        refreshToken
         payload
+        refreshToken
+        refreshExpiresIn
       }
     }'''
 

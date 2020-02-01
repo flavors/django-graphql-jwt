@@ -1,3 +1,4 @@
+from calendar import timegm
 from datetime import datetime
 from functools import wraps
 
@@ -80,6 +81,7 @@ def on_token_auth_resolve(values):
 def token_auth(f):
     @wraps(f)
     @setup_jwt_cookie
+    @refresh_expiration
     def wrapper(cls, root, info, password, **kwargs):
         context = info.context
         context._jwt_token_auth = True
@@ -106,6 +108,24 @@ def token_auth(f):
         if is_thenable(result):
             return Promise.resolve(values).then(on_token_auth_resolve)
         return on_token_auth_resolve(values)
+    return wrapper
+
+
+def refresh_expiration(f):
+    @wraps(f)
+    def wrapper(cls, *args, **kwargs):
+        def on_resolve(payload):
+            payload.refresh_expires_in = (
+                timegm(datetime.utcnow().utctimetuple()) +
+                jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+            )
+            return payload
+
+        result = f(cls, *args, **kwargs)
+
+        if is_thenable(result):
+            return Promise.resolve(result).then(on_resolve)
+        return on_resolve(result)
     return wrapper
 
 

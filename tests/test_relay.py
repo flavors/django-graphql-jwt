@@ -12,6 +12,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
       tokenAuth(input: $input) {
         token
         payload
+        refreshExpiresIn
         clientMutationId
       }
     }'''
@@ -39,6 +40,7 @@ class RefreshTests(mixins.RefreshMixin, RelaySchemaTestCase):
       refreshToken(input: $input) {
         token
         payload
+        refreshExpiresIn
         clientMutationId
       }
     }'''

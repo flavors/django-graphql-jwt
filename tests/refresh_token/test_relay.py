@@ -14,6 +14,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
         token
         payload
         refreshToken
+        refreshExpiresIn
         clientMutationId
       }
     }'''
@@ -30,6 +31,7 @@ class RefreshTokenTests(mixins.RefreshMixin, RelaySchemaTestCase):
         token
         payload
         refreshToken
+        refreshExpiresIn
         clientMutationId
       }
     }'''

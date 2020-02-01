@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 import graphene
 
 from .. import exceptions
-from ..decorators import setup_jwt_cookie
+from ..decorators import refresh_expiration, setup_jwt_cookie
 from ..settings import jwt_settings
 from . import signals
 from .decorators import ensure_refresh_token
@@ -21,6 +21,7 @@ class RefreshTokenMixin:
 
     @classmethod
     @setup_jwt_cookie
+    @refresh_expiration
     @ensure_refresh_token
     def refresh(cls, root, info, refresh_token, **kwargs):
         context = info.context

@@ -4,7 +4,7 @@ import graphene
 from graphene.types.generic import GenericScalar
 
 from . import exceptions, signals
-from .decorators import ensure_token, setup_jwt_cookie
+from .decorators import ensure_token, refresh_expiration, setup_jwt_cookie
 from .refresh_token.mixins import RefreshTokenMixin
 from .settings import jwt_settings
 from .utils import get_payload, get_user_by_payload
@@ -13,6 +13,7 @@ from .utils import get_payload, get_user_by_payload
 class JSONWebTokenMixin:
     token = graphene.String(required=True)
     payload = GenericScalar(required=True)
+    refresh_expires_in = graphene.Int(required=True)
 
     @classmethod
     def Field(cls, *args, **kwargs):
@@ -57,6 +58,7 @@ class KeepAliveRefreshMixin:
 
     @classmethod
     @setup_jwt_cookie
+    @refresh_expiration
     @ensure_token
     def refresh(cls, root, info, token, **kwargs):
         context = info.context
@@ -83,4 +85,4 @@ class RefreshMixin((RefreshTokenMixin
                     else KeepAliveRefreshMixin),
                    JSONWebTokenMixin):
 
-    payload = GenericScalar(required=True)
+    """RefreshMixin"""
