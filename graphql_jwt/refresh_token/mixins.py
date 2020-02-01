@@ -7,18 +7,20 @@ import graphene
 from .. import exceptions
 from ..decorators import setup_jwt_cookie
 from ..settings import jwt_settings
+from .decorators import ensure_refresh_token
 from .shortcuts import (
     create_refresh_token, get_refresh_token, refresh_token_lazy,
 )
 
 
-class RefreshTokenMixin(object):
+class RefreshTokenMixin:
 
     class Fields:
-        refresh_token = graphene.String(required=True)
+        refresh_token = graphene.String()
 
     @classmethod
     @setup_jwt_cookie
+    @ensure_refresh_token
     def refresh(cls, root, info, refresh_token, **kwargs):
         context = info.context
         refresh_token = get_refresh_token(refresh_token, context)
@@ -41,10 +43,11 @@ class RefreshTokenMixin(object):
         return cls(token=token, payload=payload, refresh_token=refreshed_token)
 
 
-class RevokeMixin(object):
+class RevokeMixin:
     revoked = graphene.Int()
 
     @classmethod
+    @ensure_refresh_token
     def revoke(cls, root, info, refresh_token, **kwargs):
         context = info.context
         refresh_token = get_refresh_token(refresh_token, context)
