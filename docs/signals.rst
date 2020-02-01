@@ -33,8 +33,8 @@ Sent when a long running refresh token has been rotated.
 Arguments sent with this signal:
     - sender: The class of the refresh_token that just rotated.
     - request: The current HttpRequest instance.
-    - refresh_token: The RefreshToken instance that just rotated.
-    - old_token: The refresh token used to refresh.
+    - refresh_token: The old RefreshToken instance that just rotated.
+    - refresh_token_issued: The new RefreshToken instance issued.
 
 
 refresh_token_revoked

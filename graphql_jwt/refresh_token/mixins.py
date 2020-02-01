@@ -45,7 +45,7 @@ class RefreshTokenMixin:
             sender=cls,
             request=context,
             refresh_token=refresh_obj,
-            old_token=refresh_token,
+            refresh_token_issued=new_refresh_token,
         )
         return cls(token=token, payload=payload, refresh_token=refreshed_token)
 
