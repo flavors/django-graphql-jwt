@@ -4,10 +4,11 @@ import graphql_jwt
 from graphql_jwt.settings import jwt_settings
 from graphql_jwt.utils import get_payload
 
-from .testcases import CookieGraphQLViewTestCase
+from .context_managers import back_to_the_future
+from .testcases import CookieTestCase
 
 
-class TokenAuthTests(CookieGraphQLViewTestCase):
+class TokenAuthTests(CookieTestCase):
     query = '''
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(username: $username, password: $password) {
@@ -27,24 +28,32 @@ class TokenAuthTests(CookieGraphQLViewTestCase):
         token = response.cookies.get(jwt_settings.JWT_COOKIE_NAME).value
         payload = get_payload(token)
 
+        self.assertIsNone(response.errors)
         self.assertEqual(token, response.data['tokenAuth']['token'])
         self.assertUsernameIn(payload)
 
 
-class ViewerTests(CookieGraphQLViewTestCase):
+class RefreshTokenTests(CookieTestCase):
     query = '''
-    {
-      viewer
+    mutation {
+      refreshToken {
+        token
+        payload
+      }
     }'''
 
-    class Query(graphene.ObjectType):
-        viewer = graphene.String()
+    class Mutation(graphene.ObjectType):
+        refresh_token = graphql_jwt.Refresh.Field()
 
-        def resolve_viewer(self, info):
-            return info.context.user.get_username()
+    def test_refresh(self):
+        self.set_cookie()
 
-    def test_viewer(self):
-        self.authenticate()
-        response = self.execute()
+        with back_to_the_future(seconds=1):
+            response = self.execute()
 
-        self.assertEqual(self.user.get_username(), response.data['viewer'])
+        data = response.data['refreshToken']
+        token = data['token']
+
+        self.assertIsNone(response.errors)
+        self.assertNotEqual(token, self.token)
+        self.assertUsernameIn(data['payload'])
