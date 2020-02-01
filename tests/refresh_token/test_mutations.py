@@ -1,10 +1,10 @@
 import graphene
 
 import graphql_jwt
-from graphql_jwt.refresh_token.mixins import RefreshTokenMixin
 
 from ..testcases import SchemaTestCase
 from . import mixins
+from .mutations import Refresh
 
 
 class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
@@ -19,12 +19,6 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
     refresh_token_mutations = {
         'token_auth': graphql_jwt.ObtainJSONWebToken,
     }
-
-
-class Refresh(RefreshTokenMixin, graphql_jwt.Refresh):
-
-    class Arguments(RefreshTokenMixin.Fields):
-        """Refresh Arguments"""
 
 
 class RefreshTests(mixins.RefreshMixin, SchemaTestCase):

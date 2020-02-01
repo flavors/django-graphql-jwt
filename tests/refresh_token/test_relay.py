@@ -1,10 +1,10 @@
 import graphene
 
 import graphql_jwt
-from graphql_jwt.refresh_token.mixins import RefreshTokenMixin
 
 from ..testcases import RelaySchemaTestCase
 from . import mixins
+from .relay import Refresh
 
 
 class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
@@ -20,12 +20,6 @@ class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
     refresh_token_mutations = {
         'token_auth': graphql_jwt.relay.ObtainJSONWebToken,
     }
-
-
-class Refresh(RefreshTokenMixin, graphql_jwt.relay.Refresh):
-
-    class Input(RefreshTokenMixin.Fields):
-        """Refresh Input"""
 
 
 class RefreshTokenTests(mixins.RefreshMixin, RelaySchemaTestCase):
