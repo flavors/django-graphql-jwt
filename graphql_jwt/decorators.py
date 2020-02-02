@@ -16,6 +16,7 @@ __all__ = [
     'user_passes_test',
     'login_required',
     'staff_member_required',
+    'superuser_required',
     'permission_required',
     'token_auth',
     'setup_jwt_cookie',
