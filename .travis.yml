@@ -5,7 +5,7 @@ cache: pip
 matrix:
   fast_finish: true
   include:
-    - python: 3.7
+    - python: 3.8
       env: TOXENV=flake8
 
     # Django 1.11
