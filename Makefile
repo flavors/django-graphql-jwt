@@ -12,7 +12,6 @@ coverage:
 	@pytest \
 		--verbose \
 		--cov graphql_jwt \
-		--cov tests \
 		--cov-config .coveragerc \
 		--cov-report term \
 		--cov-report xml
