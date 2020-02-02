@@ -281,6 +281,17 @@ JWT_HIDE_TOKEN_FIELDS
   Default: ``False``
 
 
+CSRF
+----
+
+JWT_CSRF_ROTATION
+~~~~~~~~~~~~~~~~~
+
+  Rotate CSRF tokens each time a user is authenticated.
+
+  Default: ``False``
+
+
 .. _JWT_ALGORITHM: https://pyjwt.readthedocs.io/en/latest/algorithms.html
 .. _JWT_AUDIENCE: http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud
 .. _JWT_ISSUER: http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss

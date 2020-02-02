@@ -37,6 +37,7 @@ DEFAULTS = {
     'graphql_jwt.refresh_token.utils.get_refresh_token_by_model',
     'JWT_ALLOW_ANY_HANDLER': 'graphql_jwt.middleware.allow_any',
     'JWT_ALLOW_ANY_CLASSES': (),
+    'JWT_CSRF_ROTATION': False,
     'JWT_HIDE_TOKEN_FIELDS': False,
     'JWT_COOKIE_NAME': 'JWT',
     'JWT_REFRESH_TOKEN_COOKIE_NAME': 'JWT-refresh-token',

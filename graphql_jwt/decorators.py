@@ -3,6 +3,7 @@ from datetime import datetime
 from functools import wraps
 
 from django.contrib.auth import authenticate, get_user_model
+from django.middleware.csrf import rotate_token
 from django.utils.translation import gettext as _
 
 from graphql.execution.base import ResolveInfo
@@ -103,6 +104,9 @@ def token_auth(f):
 
         result = f(cls, root, info, **kwargs)
         values = (context, user, result)
+
+        if jwt_settings.JWT_CSRF_ROTATION:
+            rotate_token(context)
 
         signals.token_issued.send(sender=cls, request=context, user=user)
 
