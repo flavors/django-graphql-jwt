@@ -256,6 +256,7 @@ JWT_COOKIE_NAME
 
   Default: ``'JWT'``
 
+
 JWT_REFRESH_TOKEN_COOKIE_NAME
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -268,6 +269,14 @@ JWT_COOKIE_SECURE
 ~~~~~~~~~~~~~~~~~
 
   Whether to use a secure cookie for the JWT cookie. If this is set to True, the cookie will be marked as "secure", which means browsers may ensure that the cookie is only sent under an HTTPS connection.
+
+  Default: ``False``
+
+
+JWT_HIDE_TOKEN_FIELDS
+~~~~~~~~~~~~~~~~~~~~~
+
+  For cookie-based authentications, remove the token fields from the GraphQL schema in order to prevent XSS exploitation.
 
   Default: ``False``
 

@@ -11,15 +11,18 @@ from .utils import get_payload, get_user_by_payload
 
 
 class JSONWebTokenMixin:
-    token = graphene.String(required=True)
     payload = GenericScalar(required=True)
     refresh_expires_in = graphene.Int(required=True)
 
     @classmethod
     def Field(cls, *args, **kwargs):
-        if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-            cls._meta.fields['refresh_token'] =\
+        if not jwt_settings.JWT_HIDE_TOKEN_FIELDS:
+            cls._meta.fields['token'] =\
                 graphene.Field(graphene.String, required=True)
+
+            if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
+                cls._meta.fields['refresh_token'] =\
+                    graphene.Field(graphene.String, required=True)
 
         return super().Field(*args, **kwargs)
 
