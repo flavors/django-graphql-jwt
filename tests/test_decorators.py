@@ -1,5 +1,3 @@
-from unittest import mock
-
 from django.contrib.auth.models import AnonymousUser, Permission
 
 from promise import Promise, is_thenable
@@ -118,18 +116,14 @@ class TokenAuthTests(TestCase):
 
         self.assertTrue(is_thenable(result))
 
+
+class CSRFRotationTests(TestCase):
+
     @override_jwt_settings(JWT_CSRF_ROTATION=True)
     def test_csrf_rotation(self):
         info_mock = self.info(AnonymousUser())
-        func = decorators.token_auth(
-            lambda cls, root, info, **kwargs: mock.Mock(),
-        )
-        func(
-            self,
-            None,
-            info_mock,
-            password='dolphins',
-            username=self.user.get_username(),
-        )
+        decorators.csrf_rotation(
+            lambda cls, root, info, *args, **kwargs: None,
+        )(self, None, info_mock)
 
         self.assertTrue(info_mock.context.csrf_cookie_needs_reset)

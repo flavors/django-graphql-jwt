@@ -20,6 +20,7 @@ __all__ = [
     'superuser_required',
     'permission_required',
     'token_auth',
+    'csrf_rotation',
     'setup_jwt_cookie',
     'jwt_cookie',
     'ensure_token',
@@ -83,6 +84,7 @@ def on_token_auth_resolve(values):
 def token_auth(f):
     @wraps(f)
     @setup_jwt_cookie
+    @csrf_rotation
     @refresh_expiration
     def wrapper(cls, root, info, password, **kwargs):
         context = info.context
@@ -104,9 +106,6 @@ def token_auth(f):
 
         result = f(cls, root, info, **kwargs)
         values = (context, user, result)
-
-        if jwt_settings.JWT_CSRF_ROTATION:
-            rotate_token(context)
 
         signals.token_issued.send(sender=cls, request=context, user=user)
 
@@ -131,6 +130,17 @@ def refresh_expiration(f):
         if is_thenable(result):
             return Promise.resolve(result).then(on_resolve)
         return on_resolve(result)
+    return wrapper
+
+
+def csrf_rotation(f):
+    @wraps(f)
+    def wrapper(cls, root, info, *args, **kwargs):
+        result = f(cls, root, info, **kwargs)
+
+        if jwt_settings.JWT_CSRF_ROTATION:
+            rotate_token(info.context)
+        return result
     return wrapper
 
 

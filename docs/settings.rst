@@ -287,7 +287,7 @@ CSRF
 JWT_CSRF_ROTATION
 ~~~~~~~~~~~~~~~~~
 
-  Rotate CSRF tokens each time a user is authenticated.
+  Rotate CSRF tokens each time a token or refresh token is issued.
 
   Default: ``False``
 
