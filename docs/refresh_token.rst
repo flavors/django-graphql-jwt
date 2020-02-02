@@ -4,7 +4,7 @@ Refresh token
 This package supports two refresh methods:
 
 * `Single token refresh <#single-token-refresh>`__ (by default)
-* `Long running refresh tokens <#long-running-refresh-tokens>`__ (`django-graphql-jwt` ≥ v0.1.14)
+* `Long running refresh tokens <#long-running-refresh-tokens>`__
 
 Single token refresh
 --------------------
