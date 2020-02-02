@@ -62,7 +62,7 @@ class RefreshTokenMixin:
 
 
 class RevokeMixin:
-    revoked = graphene.Int()
+    revoked = graphene.Int(required=True)
 
     @classmethod
     @ensure_refresh_token
