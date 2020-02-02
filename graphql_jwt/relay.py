@@ -4,7 +4,7 @@ import graphene
 
 from . import mixins
 from .decorators import token_auth
-from .refresh_token.relay import Revoke
+from .refresh_token.relay import DeleteRefreshTokenCookie, Revoke
 
 __all__ = [
     'JSONWebTokenMutation',
@@ -12,6 +12,7 @@ __all__ = [
     'Verify',
     'Refresh',
     'Revoke',
+    'DeleteRefreshTokenCookie',
 ]
 
 
@@ -58,3 +59,12 @@ class Refresh(mixins.RefreshMixin, graphene.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, *args, **kwargs):
         return cls.refresh(*args, **kwargs)
+
+
+class DeleteJSONWebTokenCookie(
+        mixins.DeleteJSONWebTokenCookieMixin,
+        graphene.ClientIDMutation):
+
+    @classmethod
+    def mutate_and_get_payload(cls, *args, **kwargs):
+        return cls.delete_cookie(*args, **kwargs)

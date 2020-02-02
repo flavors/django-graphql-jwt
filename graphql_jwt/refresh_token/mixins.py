@@ -71,3 +71,14 @@ class RevokeMixin:
         refresh_token_obj = get_refresh_token(refresh_token, context)
         refresh_token_obj.revoke(context)
         return cls(revoked=timegm(refresh_token_obj.revoked.timetuple()))
+
+
+class DeleteRefreshTokenCookieMixin:
+    deleted = graphene.Boolean(required=True)
+
+    @classmethod
+    def delete_cookie(cls, root, info, **kwargs):
+        context = info.context
+        context.delete_refresh_token_cookie =\
+            jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME in context.COOKIES
+        return cls(deleted=context.delete_refresh_token_cookie)

@@ -1,3 +1,4 @@
+from graphql_jwt.settings import jwt_settings
 from graphql_jwt.shortcuts import get_token
 from graphql_jwt.signals import token_issued, token_refreshed
 
@@ -92,3 +93,47 @@ class RefreshMixin:
         })
 
         self.assertIsNotNone(response.errors)
+
+
+class CookieTokenAuthMixin:
+
+    def test_token_auth(self):
+        response = self.execute({
+            self.user.USERNAME_FIELD: self.user.get_username(),
+            'password': 'dolphins',
+        })
+
+        data = response.data['tokenAuth']
+        token = response.cookies.get(jwt_settings.JWT_COOKIE_NAME).value
+
+        self.assertIsNone(response.errors)
+        self.assertEqual(token, data['token'])
+        self.assertUsernameIn(data['payload'])
+
+
+class CookieRefreshMixin:
+
+    def test_refresh(self):
+        self.set_cookie()
+
+        with back_to_the_future(seconds=1):
+            response = self.execute()
+
+        data = response.data['refreshToken']
+        token = data['token']
+
+        self.assertIsNone(response.errors)
+        self.assertNotEqual(token, self.token)
+        self.assertUsernameIn(data['payload'])
+
+
+class DeleteCookieMixin:
+
+    def test_delete_cookie(self):
+        self.set_cookie()
+
+        response = self.execute()
+        data = response.data['deleteCookie']
+
+        self.assertIsNone(response.errors)
+        self.assertTrue(data['deleted'])

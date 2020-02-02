@@ -1,17 +1,17 @@
 from graphql_jwt.settings import jwt_settings
 from graphql_jwt.shortcuts import create_refresh_token
 
-from ..testcases import CookieClient, CookieTestCase
+from .. import testcases
 
 
-class RefreshTokenCookieClient(CookieClient):
+class CookieClient(testcases.CookieClient):
 
     def set_refresh_token_cookie(self, token):
         self.cookies[jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME] = token
 
 
-class RefreshTokenCookieTestCase(CookieTestCase):
-    client_class = RefreshTokenCookieClient
+class CookieTestCase(testcases.CookieTestCase):
+    client_class = CookieClient
 
     def setUp(self):
         super().setUp()
@@ -19,3 +19,7 @@ class RefreshTokenCookieTestCase(CookieTestCase):
 
     def set_refresh_token_cookie(self):
         self.client.set_refresh_token_cookie(self.refresh_token.token)
+
+
+class RelayCookieTestCase(testcases.RelaySchemaTestCase, CookieTestCase):
+    """CookieTestCase"""

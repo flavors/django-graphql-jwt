@@ -84,5 +84,15 @@ class RefreshMixin((RefreshTokenMixin
                     if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN
                     else KeepAliveRefreshMixin),
                    JSONWebTokenMixin):
-
     """RefreshMixin"""
+
+
+class DeleteJSONWebTokenCookieMixin:
+    deleted = graphene.Boolean(required=True)
+
+    @classmethod
+    def delete_cookie(cls, root, info, **kwargs):
+        context = info.context
+        context.delete_jwt_cookie =\
+            jwt_settings.JWT_COOKIE_NAME in context.COOKIES
+        return cls(deleted=context.delete_jwt_cookie)

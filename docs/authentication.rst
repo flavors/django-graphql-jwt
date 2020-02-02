@@ -49,6 +49,49 @@ When a token is requested and ``jwt_cookie`` decorator is set, the response will
 
 If the ``jwt_cookie`` decorator is set, consider adding `CSRF middleware <https://docs.djangoproject.com/es/2.1/ref/csrf/>`_ ``'django.middleware.csrf.CsrfViewMiddleware'`` to provide protection against `Cross Site Request Forgeries <https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)>`_.
 
+A cookie-based authentication does not require sending the tokens as a mutation input argument.
+
+Delete Cookies
+~~~~~~~~~~~~~~
+
+In order to prevent XSS (cross-site scripting) attacks, cookies have the ``HttpOnly`` flag set, so you cannot delete them on the client-side. This package includes some mutations to delete the cookies on the server-side.
+
+Add mutations to the root schema::
+
+    import graphene
+    import graphql_jwt
+
+
+    class Mutation(graphene.ObjectType):
+        delete_token_cookie = graphql_jwt.DeleteJSONWebTokenCookie.Field()
+
+        # Long running refresh tokens
+        delete_refresh_token_cookie = \
+            graphql_jwt.refresh_token.DeleteRefreshTokenCookie.Field()
+
+
+    schema = graphene.Schema(mutation=Mutation)
+
+
+* ``deleteTokenCookie`` to delete the ``JWT`` cookie:
+
+  ::
+
+      mutation {
+        deleteTokenCookie {
+          deleted
+        }
+      }
+
+* ``deleteRefreshTokenCookie`` to delete ``JWT-refresh-token`` cookie for :doc:`long running refresh tokens<refresh_token>`.
+
+  ::
+
+      mutation {
+        deleteRefreshTokenCookie {
+          deleted
+        }
+      }
 
 Per-argument
 ------------

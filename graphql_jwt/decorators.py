@@ -168,6 +168,12 @@ def jwt_cookie(view_func):
                     httponly=True,
                     secure=jwt_settings.JWT_COOKIE_SECURE,
                 )
+        if hasattr(request, 'delete_jwt_cookie'):
+            response.delete_cookie(jwt_settings.JWT_COOKIE_NAME)
+
+        if hasattr(request, 'delete_refresh_token_cookie'):
+            response.delete_cookie(jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME)
+
         return response
     return wrapped_view
 

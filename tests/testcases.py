@@ -90,3 +90,7 @@ class CookieTestCase(SchemaTestCase):
 
     def set_cookie(self):
         self.client.set_cookie(self.token)
+
+
+class RelayCookieTestCase(RelaySchemaTestCase, CookieTestCase):
+    """RelayCookieTestCase"""
