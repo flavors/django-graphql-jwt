@@ -81,6 +81,6 @@ class DeleteRefreshTokenCookieMixin:
         context = info.context
         context.delete_refresh_token_cookie = (
             jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME in context.COOKIES and
-            context.jwt_cookie
+            getattr(context, 'jwt_cookie', False)
         )
         return cls(deleted=context.delete_refresh_token_cookie)

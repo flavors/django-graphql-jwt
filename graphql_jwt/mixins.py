@@ -98,6 +98,6 @@ class DeleteJSONWebTokenCookieMixin:
         context = info.context
         context.delete_jwt_cookie = (
             jwt_settings.JWT_COOKIE_NAME in context.COOKIES and
-            context.jwt_cookie
+            getattr(context, 'jwt_cookie', False)
         )
         return cls(deleted=context.delete_jwt_cookie)
