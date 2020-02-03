@@ -11,6 +11,8 @@ DEFAULTS = {
     'JWT_ISSUER': None,
     'JWT_LEEWAY': 0,
     'JWT_SECRET_KEY': settings.SECRET_KEY,
+    'JWT_PUBLIC_KEY': None,
+    'JWT_PRIVATE_KEY': None,
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': False,
     'JWT_EXPIRATION_DELTA': timedelta(seconds=60 * 5),
