@@ -36,7 +36,7 @@ def jwt_payload(user, context=None):
 def jwt_encode(payload, context=None):
     return jwt.encode(
         payload,
-        jwt_settings.JWT_SECRET_KEY,
+        jwt_settings.JWT_PRIVATE_KEY or jwt_settings.JWT_SECRET_KEY,
         jwt_settings.JWT_ALGORITHM,
     ).decode('utf-8')
 
@@ -44,7 +44,7 @@ def jwt_encode(payload, context=None):
 def jwt_decode(token, context=None):
     return jwt.decode(
         token,
-        jwt_settings.JWT_SECRET_KEY,
+        jwt_settings.JWT_PUBLIC_KEY or jwt_settings.JWT_SECRET_KEY,
         jwt_settings.JWT_VERIFY,
         options={
             'verify_exp': jwt_settings.JWT_VERIFY_EXPIRATION,

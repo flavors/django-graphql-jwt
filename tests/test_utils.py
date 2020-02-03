@@ -1,6 +1,9 @@
 from datetime import timedelta
 from unittest import mock
 
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric import rsa
+
 from graphql_jwt import exceptions, utils
 from graphql_jwt.settings import jwt_settings
 
@@ -27,6 +30,28 @@ class JWTPayloadTests(TestCase):
     def test_issuer(self):
         payload = utils.jwt_payload(self.user)
         self.assertEqual(payload['iss'], 'test')
+
+
+class AsymmetricAlgorithmsTests(TestCase):
+
+    def test_rsa_jwt(self):
+        private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=2048,
+            backend=default_backend(),
+        )
+        public_key = private_key.public_key()
+        payload = utils.jwt_payload(self.user)
+
+        with override_jwt_settings(
+                JWT_PUBLIC_KEY=public_key,
+                JWT_PRIVATE_KEY=private_key,
+                JWT_ALGORITHM='RS256'):
+
+            token = utils.jwt_encode(payload)
+            decoded = utils.jwt_decode(token)
+
+        self.assertEqual(payload, decoded)
 
 
 class GetHTTPAuthorizationHeaderTests(TestCase):
