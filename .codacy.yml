@@ -1,0 +1,3 @@
+---
+exclude_paths:
+  - 'graphql_jwt/refresh_token/migrations/*'
