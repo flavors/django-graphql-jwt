@@ -94,10 +94,10 @@ def get_payload(token, context=None):
 
 
 def get_user_by_natural_key(username):
-    User = get_user_model()
+    UserModel = get_user_model()
     try:
-        return User.objects.get_by_natural_key(username)
-    except User.DoesNotExist:
+        return UserModel._default_manager.get_by_natural_key(username)
+    except UserModel.DoesNotExist:
         return None
 
 
