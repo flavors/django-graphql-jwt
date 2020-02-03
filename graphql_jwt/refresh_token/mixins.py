@@ -3,6 +3,7 @@ from calendar import timegm
 from django.utils.translation import gettext as _
 
 import graphene
+from graphene.utils.thenables import maybe_thenable
 
 from .. import exceptions
 from ..decorators import csrf_rotation, refresh_expiration, setup_jwt_cookie
@@ -25,6 +26,12 @@ class RefreshTokenMixin:
     @refresh_expiration
     @ensure_refresh_token
     def refresh(cls, root, info, refresh_token, **kwargs):
+        def on_resolve(values):
+            payload, token, refresh_token = values
+            payload.token = token
+            payload.refresh_token = refresh_token
+            return payload
+
         context = info.context
         old_refresh_token = get_refresh_token(refresh_token, context)
 
@@ -55,11 +62,8 @@ class RefreshTokenMixin:
             refresh_token=old_refresh_token,
             refresh_token_issued=new_refresh_token,
         )
-        return cls(
-            token=token,
-            payload=payload,
-            refresh_token=new_refresh_token,
-        )
+        result = cls(payload=payload)
+        return maybe_thenable((result, token, new_refresh_token), on_resolve)
 
 
 class RevokeMixin:

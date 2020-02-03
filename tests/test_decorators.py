@@ -1,7 +1,5 @@
 from django.contrib.auth.models import AnonymousUser, Permission
 
-from promise import Promise, is_thenable
-
 from graphql_jwt import decorators, exceptions
 
 from .decorators import override_jwt_settings
@@ -97,24 +95,6 @@ class PermissionRequiredTests(TestCase):
 
         with self.assertRaises(exceptions.PermissionDenied):
             func(self.info(self.user))
-
-
-class TokenAuthTests(TestCase):
-
-    def test_is_thenable(self):
-        info_mock = self.info(AnonymousUser())
-        func = decorators.token_auth(
-            lambda cls, root, info, **kwargs: Promise(),
-        )
-        result = func(
-            self,
-            None,
-            info_mock,
-            password='dolphins',
-            username=self.user.get_username(),
-        )
-
-        self.assertTrue(is_thenable(result))
 
 
 class CSRFRotationTests(TestCase):
