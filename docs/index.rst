@@ -1,7 +1,7 @@
 Django GraphQL JWT
 ==================
 
-|Pypi| |Build Status| |Codecov| |Code Climate|
+|Pypi| |Build Status| |Codecov| |Codacy|
 
 
 `JSON Web Token <https://jwt.io/>`_ authentication for `Django GraphQL <https://github.com/graphql-python/graphene-django>`_
@@ -21,9 +21,9 @@ Django GraphQL JWT
    :target: https://codecov.io/gh/flavors/django-graphql-jwt
    :alt: Codecov
 
-.. |Code Climate| image:: https://api.codeclimate.com/v1/badges/c79a185d546f7e34fdd6/maintainability
-   :target: https://codeclimate.com/github/flavors/django-graphql-jwt
-   :alt: Codeclimate
+.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/4f9fd439fbc74be88a215b9ed2abfcf9
+   :target: https://app.codacy.com/gh/flavors/django-graphql-jwt?utm_source=github.com&utm_medium=referral&utm_content=flavors/django-graphql-jwt&utm_campaign=Badge_Grade_Dashboard
+   :alt: Codacy
 
 
 .. toctree::
