@@ -1,6 +1,10 @@
 Django GraphQL JWT
 ==================
 
+.. image:: https://api.codacy.com/project/badge/Grade/4f9fd439fbc74be88a215b9ed2abfcf9
+   :alt: Codacy Badge
+   :target: https://app.codacy.com/gh/flavors/django-graphql-jwt?utm_source=github.com&utm_medium=referral&utm_content=flavors/django-graphql-jwt&utm_campaign=Badge_Grade_Dashboard
+
 |Pypi| |Build Status| |Codecov| |Code Climate|
 
 
