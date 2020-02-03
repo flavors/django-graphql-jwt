@@ -1,5 +1,5 @@
 from .shortcuts import get_user_by_token
-from .utils import get_credentials, get_user_by_natural_key
+from .utils import get_credentials
 
 
 class JSONWebTokenBackend:
@@ -16,4 +16,4 @@ class JSONWebTokenBackend:
         return None
 
     def get_user(self, user_id):
-        return get_user_by_natural_key(user_id)
+        return None
