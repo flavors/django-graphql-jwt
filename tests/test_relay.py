@@ -3,7 +3,7 @@ import graphene
 import graphql_jwt
 
 from . import mixins
-from .testcases import RelaySchemaTestCase
+from .testcases import RelayCookieTestCase, RelaySchemaTestCase
 
 
 class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
@@ -11,6 +11,8 @@ class TokenAuthTests(mixins.TokenAuthMixin, RelaySchemaTestCase):
     mutation TokenAuth($input: ObtainJSONWebTokenInput!) {
       tokenAuth(input: $input) {
         token
+        payload
+        refreshExpiresIn
         clientMutationId
       }
     }'''
@@ -38,9 +40,51 @@ class RefreshTests(mixins.RefreshMixin, RelaySchemaTestCase):
       refreshToken(input: $input) {
         token
         payload
+        refreshExpiresIn
         clientMutationId
       }
     }'''
 
     class Mutation(graphene.ObjectType):
         refresh_token = graphql_jwt.relay.Refresh.Field()
+
+
+class CookieTokenAuthTests(mixins.CookieTokenAuthMixin, RelayCookieTestCase):
+    query = '''
+    mutation TokenAuth($input: ObtainJSONWebTokenInput!) {
+      tokenAuth(input: $input) {
+        token
+        payload
+        refreshExpiresIn
+        clientMutationId
+      }
+    }'''
+
+    class Mutation(graphene.ObjectType):
+        token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
+
+
+class CookieRefreshTests(mixins.CookieRefreshMixin, RelayCookieTestCase):
+    query = '''
+    mutation {
+      refreshToken(input: {}) {
+        token
+        payload
+        refreshExpiresIn
+      }
+    }'''
+
+    class Mutation(graphene.ObjectType):
+        refresh_token = graphql_jwt.relay.Refresh.Field()
+
+
+class DeleteCookieTests(mixins.DeleteCookieMixin, RelayCookieTestCase):
+    query = '''
+    mutation {
+      deleteCookie(input: {}) {
+        deleted
+      }
+    }'''
+
+    class Mutation(graphene.ObjectType):
+        delete_cookie = graphql_jwt.relay.DeleteJSONWebTokenCookie.Field()

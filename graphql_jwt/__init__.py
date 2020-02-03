@@ -1,6 +1,7 @@
 from . import relay
 from .mutations import (
-    JSONWebTokenMutation, ObtainJSONWebToken, Refresh, Revoke, Verify,
+    DeleteJSONWebTokenCookie, DeleteRefreshTokenCookie, JSONWebTokenMutation,
+    ObtainJSONWebToken, Refresh, Revoke, Verify,
 )
 
 __all__ = [
@@ -10,6 +11,8 @@ __all__ = [
     'Verify',
     'Refresh',
     'Revoke',
+    'DeleteJSONWebTokenCookie',
+    'DeleteRefreshTokenCookie',
 ]
 
 __version__ = '0.3.0'

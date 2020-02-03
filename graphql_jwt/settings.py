@@ -19,6 +19,7 @@ DEFAULTS = {
     'JWT_LONG_RUNNING_REFRESH_TOKEN': False,
     'JWT_REFRESH_TOKEN_MODEL': 'refresh_token.RefreshToken',
     'JWT_REFRESH_TOKEN_N_BYTES': 20,
+    'JWT_REUSE_REFRESH_TOKENS': False,
     'JWT_AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_ALLOW_ARGUMENT': False,
@@ -36,9 +37,13 @@ DEFAULTS = {
     'graphql_jwt.refresh_token.utils.get_refresh_token_by_model',
     'JWT_ALLOW_ANY_HANDLER': 'graphql_jwt.middleware.allow_any',
     'JWT_ALLOW_ANY_CLASSES': (),
+    'JWT_CSRF_ROTATION': False,
+    'JWT_HIDE_TOKEN_FIELDS': False,
     'JWT_COOKIE_NAME': 'JWT',
     'JWT_REFRESH_TOKEN_COOKIE_NAME': 'JWT-refresh-token',
     'JWT_COOKIE_SECURE': False,
+    'JWT_COOKIE_PATH': '/',
+    'JWT_COOKIE_DOMAIN': None,
 }
 
 IMPORT_STRINGS = (

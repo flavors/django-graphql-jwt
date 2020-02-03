@@ -117,3 +117,23 @@ def get_user_by_payload(payload):
 def refresh_has_expired(orig_iat, context=None):
     exp = orig_iat + jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
     return timegm(datetime.utcnow().utctimetuple()) > exp
+
+
+def set_cookie(response, key, value, expires):
+    response.set_cookie(
+        key,
+        value,
+        expires=expires,
+        httponly=True,
+        secure=jwt_settings.JWT_COOKIE_SECURE,
+        path=jwt_settings.JWT_COOKIE_PATH,
+        domain=jwt_settings.JWT_COOKIE_DOMAIN,
+    )
+
+
+def delete_cookie(response, key):
+    response.delete_cookie(
+        key,
+        path=jwt_settings.JWT_COOKIE_PATH,
+        domain=jwt_settings.JWT_COOKIE_DOMAIN,
+    )

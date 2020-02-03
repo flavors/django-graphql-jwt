@@ -160,9 +160,17 @@ JWT_REFRESH_TOKEN_MODEL
 JWT_REFRESH_TOKEN_N_BYTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Refresh token number of bytes
+  Long running refresh token number of bytes
 
   Default: ``20``
+
+
+JWT_REUSE_REFRESH_TOKENS
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Reuse the long running refreshed token instead of generating a new one
+
+  Default: ``False``
 
 
 JWT_REFRESH_EXPIRED_HANDLER
@@ -248,6 +256,7 @@ JWT_COOKIE_NAME
 
   Default: ``'JWT'``
 
+
 JWT_REFRESH_TOKEN_COOKIE_NAME
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -259,7 +268,42 @@ JWT_REFRESH_TOKEN_COOKIE_NAME
 JWT_COOKIE_SECURE
 ~~~~~~~~~~~~~~~~~
 
-  Whether to use a secure cookie for the JWT cookie. If this is set to True, the cookie will be marked as "secure", which means browsers may ensure that the cookie is only sent under an HTTPS connection.
+  Whether to use a secure cookie for the JWT cookie. If this is set to True, the cookie will be marked as "secure", which means browsers may ensure that the cookie is only sent under an HTTPS connection
+
+  Default: ``False``
+
+
+JWT_COOKIE_PATH
+~~~~~~~~~~~~~~~~~
+
+  Document location for the cookie
+
+  Default: ``'/'``
+
+
+JWT_COOKIE_DOMAIN
+~~~~~~~~~~~~~~~~~
+
+  Use domain if you want to set a cross-domain cookie
+
+  Default: ``None``
+
+
+JWT_HIDE_TOKEN_FIELDS
+~~~~~~~~~~~~~~~~~~~~~
+
+  For cookie-based authentications, remove the token fields from the GraphQL schema in order to prevent XSS exploitation
+
+  Default: ``False``
+
+
+CSRF
+----
+
+JWT_CSRF_ROTATION
+~~~~~~~~~~~~~~~~~
+
+  Rotate CSRF tokens each time a token or refresh token is issued
 
   Default: ``False``
 

@@ -4,19 +4,25 @@ import graphene
 from graphene.types.generic import GenericScalar
 
 from . import exceptions, signals
-from .decorators import setup_jwt_cookie
+from .decorators import csrf_rotation, ensure_token, setup_jwt_cookie
 from .refresh_token.mixins import RefreshTokenMixin
 from .settings import jwt_settings
 from .utils import get_payload, get_user_by_payload
 
 
 class JSONWebTokenMixin:
-    token = graphene.String()
+    payload = GenericScalar(required=True)
+    refresh_expires_in = graphene.Int(required=True)
 
     @classmethod
     def Field(cls, *args, **kwargs):
-        if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-            cls._meta.fields['refresh_token'] = graphene.Field(graphene.String)
+        if not jwt_settings.JWT_HIDE_TOKEN_FIELDS:
+            cls._meta.fields['token'] =\
+                graphene.Field(graphene.String, required=True)
+
+            if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
+                cls._meta.fields['refresh_token'] =\
+                    graphene.Field(graphene.String, required=True)
 
         return super().Field(*args, **kwargs)
 
@@ -33,7 +39,12 @@ class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
 
 
 class VerifyMixin:
-    payload = GenericScalar()
+    payload = GenericScalar(required=True)
+
+    @classmethod
+    @ensure_token
+    def verify(cls, root, info, token, **kwargs):
+        return cls(payload=get_payload(token, info.context))
 
 
 class ResolveMixin:
@@ -46,10 +57,12 @@ class ResolveMixin:
 class KeepAliveRefreshMixin:
 
     class Fields:
-        token = graphene.String(required=True)
+        token = graphene.String()
 
     @classmethod
     @setup_jwt_cookie
+    @csrf_rotation
+    @ensure_token
     def refresh(cls, root, info, token, **kwargs):
         context = info.context
         payload = get_payload(token, context)
@@ -64,15 +77,34 @@ class KeepAliveRefreshMixin:
 
         payload = jwt_settings.JWT_PAYLOAD_HANDLER(user, context)
         payload['origIat'] = orig_iat
+        refresh_expires_in = orig_iat +\
+            jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
 
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
         signals.token_refreshed.send(sender=cls, request=context, user=user)
-        return cls(token=token, payload=payload)
+
+        return cls(
+            token=token,
+            payload=payload,
+            refresh_expires_in=refresh_expires_in,
+        )
 
 
 class RefreshMixin((RefreshTokenMixin
                     if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN
                     else KeepAliveRefreshMixin),
                    JSONWebTokenMixin):
+    """RefreshMixin"""
 
-    payload = GenericScalar()
+
+class DeleteJSONWebTokenCookieMixin:
+    deleted = graphene.Boolean(required=True)
+
+    @classmethod
+    def delete_cookie(cls, root, info, **kwargs):
+        context = info.context
+        context.delete_jwt_cookie = (
+            jwt_settings.JWT_COOKIE_NAME in context.COOKIES and
+            getattr(context, 'jwt_cookie', False)
+        )
+        return cls(deleted=context.delete_jwt_cookie)

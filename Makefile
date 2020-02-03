@@ -9,11 +9,11 @@ test:
 	@pytest tests
 
 coverage:
-	@pytest\
-		--verbose\
-		--cov graphql_jwt\
-		--cov-config .coveragerc\
-		--cov-report term\
+	@pytest \
+		--verbose \
+		--cov graphql_jwt \
+		--cov-config .coveragerc \
+		--cov-report term \
 		--cov-report xml
 
 test-all:

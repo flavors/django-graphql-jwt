@@ -1,5 +1,5 @@
-from graphql_jwt.refresh_token import signals
 from graphql_jwt.refresh_token.models import AbstractRefreshToken
+from graphql_jwt.refresh_token.signals import refresh_token_revoked
 from graphql_jwt.settings import jwt_settings
 from graphql_jwt.shortcuts import create_refresh_token
 
@@ -39,25 +39,25 @@ class AbstractRefreshTokenTests(UserTestCase):
             self.assertTrue(self.refresh_token.is_expired())
 
     def test_revoke(self):
-        with catch_signal(signals.refresh_token_revoked) as handler:
+        with catch_signal(refresh_token_revoked) as \
+                refresh_token_revoked_handler:
+
             self.refresh_token.revoke()
 
         self.assertIsNotNone(self.refresh_token.revoked)
 
-        handler.assert_called_once_with(
+        refresh_token_revoked_handler.assert_called_once_with(
             sender=AbstractRefreshToken,
-            signal=signals.refresh_token_revoked,
+            signal=refresh_token_revoked,
             request=None,
             refresh_token=self.refresh_token,
         )
 
-    def test_rotate(self):
-        with catch_signal(signals.refresh_token_rotated) as handler:
-            self.refresh_token.rotate()
+    def test_reuse(self):
+        token = self.refresh_token.token
+        created = self.refresh_token.created
 
-        handler.assert_called_once_with(
-            sender=AbstractRefreshToken,
-            signal=signals.refresh_token_rotated,
-            request=None,
-            refresh_token=self.refresh_token,
-        )
+        self.refresh_token.reuse()
+
+        self.assertNotEqual(self.refresh_token.token, token)
+        self.assertGreater(self.refresh_token.created, created)

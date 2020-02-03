@@ -62,13 +62,13 @@ class RelaySchemaTestCase(SchemaTestCase):
         return super().execute({'input': variables})
 
 
-class CookieGraphQLViewClient(JSONWebTokenClient):
+class CookieClient(JSONWebTokenClient):
 
     def post(self, path, data, **kwargs):
         kwargs.setdefault('content_type', 'application/json')
         return self.generic('POST', path, json.dumps(data), **kwargs)
 
-    def authenticate(self, token):
+    def set_cookie(self, token):
         self.cookies[jwt_settings.JWT_COOKIE_NAME] = token
 
     def execute(self, query, variables=None, **extra):
@@ -79,12 +79,18 @@ class CookieGraphQLViewClient(JSONWebTokenClient):
         view = GraphQLView(schema=self._schema)
         request = self.post('/', data=data, **extra)
         response = jwt_cookie(view.dispatch)(request)
-        response.data = self._parse_json(response)['data']
+        content = self._parse_json(response)
+        response.data = content.get('data')
+        response.errors = content.get('errors')
         return response
 
 
-class CookieGraphQLViewTestCase(SchemaTestCase):
-    client_class = CookieGraphQLViewClient
+class CookieTestCase(SchemaTestCase):
+    client_class = CookieClient
 
-    def authenticate(self):
-        self.client.authenticate(self.token)
+    def set_cookie(self):
+        self.client.set_cookie(self.token)
+
+
+class RelayCookieTestCase(RelaySchemaTestCase, CookieTestCase):
+    """RelayCookieTestCase"""

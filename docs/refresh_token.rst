@@ -4,7 +4,7 @@ Refresh token
 This package supports two refresh methods:
 
 * `Single token refresh <#single-token-refresh>`__ (by default)
-* `Long running refresh tokens <#long-running-refresh-tokens>`__ (`django-graphql-jwt` ≥ v0.1.14)
+* `Long running refresh tokens <#long-running-refresh-tokens>`__
 
 Single token refresh
 --------------------
@@ -20,7 +20,7 @@ Settings
         'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
     }
 
-It means that you need to refresh every 5 mins and even you keep on refreshing token every 5 mins, you will still be logout in 7 days after the first token has been issued.
+It means that you need to refresh every 5 mins (``payload.exp``) and even you keep on refreshing token every 5 mins, you will still be logout in 7 days after the first token has been issued (``refreshExpiresIn``).
 
 Queries
 ~~~~~~~
@@ -33,6 +33,7 @@ Queries
       refreshToken(token: $token) {
         token
         payload
+        refreshExpiresIn
       }
     }
 
@@ -50,7 +51,7 @@ Queries
 
   ::
 
-    exp = orig_iat + JWT_EXPIRATION_DELTA
+    exp = orig_iat + JWT_EXPIRATION_DELTA (payload.exp)
     refreshToken (t): exp = t + JWT_EXPIRATION_DELTA
 
 2. Signature expiration (login is required)
@@ -65,7 +66,7 @@ Queries
 
   ::
 
-    when: t = orig_iat + JWT_REFRESH_EXPIRATION_DELTA
+    when: t = orig_iat + JWT_REFRESH_EXPIRATION_DELTA (refreshExpiresIn)
     refreshToken (t): error!
 
 Long running refresh tokens
@@ -93,7 +94,7 @@ Settings
         'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
     }
 
-It means that you need to refresh every 5 mins and you need to replace your refresh token in 7 days after it has been issued.
+It means that you need to refresh every 5 mins (``payload.exp``) and you need to replace your refresh token in 7 days after it has been issued (``refreshExpiresIn``).
 
 Schema
 ~~~~~~
@@ -122,7 +123,9 @@ Queries
       mutation TokenAuth($username: String!, $password: String!) {
         tokenAuth(username: $username, password: $password) {
           token
+          payload
           refreshToken
+          refreshExpiresIn
         }
       }
 
@@ -134,8 +137,9 @@ Queries
       mutation RefreshToken($refreshToken: String!) {
         refreshToken(refreshToken: $refreshToken) {
           token
-          refreshToken
           payload
+          refreshToken
+          refreshExpiresIn
         }
       }
 

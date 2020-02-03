@@ -16,9 +16,13 @@ Add mutations to the root schema::
         token_auth = graphql_jwt.relay.ObtainJSONWebToken.Field()
         verify_token = graphql_jwt.relay.Verify.Field()
         refresh_token = graphql_jwt.relay.Refresh.Field()
+        delete_token_cookie = graphql_jwt.relay.DeleteJSONWebTokenCookie.Field()
 
         # Long running refresh tokens
         revoke_token = graphql_jwt.relay.Revoke.Field()
+
+        delete_refresh_token_cookie = \
+            graphql_jwt.refresh_token.relay.DeleteRefreshTokenCookie.Field()
 
 
     schema = graphene.Schema(mutation=Mutation)
@@ -37,6 +41,8 @@ Relay mutations only accepts one argument named *input*.
       mutation TokenAuth($username: String!, $password: String!) {
         tokenAuth(input: {username: $username, password: $password}) {
           token
+          payload
+          refreshExpiresIn
         }
       }
 
@@ -62,6 +68,7 @@ Single token refresh
         refreshToken(input: {token: $token}) {
           token
           payload
+          refreshExpiresIn
         }
       }
 
@@ -76,8 +83,9 @@ Long running refresh tokens
       mutation RefreshToken($refreshToken: String!) {
         refreshToken(input: {refreshToken: $refreshToken}) {
           token
-          refreshToken
           payload
+          refreshToken
+          refreshExpiresIn
         }
       }
 
@@ -88,6 +96,30 @@ Long running refresh tokens
       mutation RevokeToken($refreshToken: String!) {
         revokeToken(input: {refreshToken: $refreshToken}) {
           revoked
+        }
+      }
+
+
+Cookies
+~~~~~~~
+
+* ``deleteTokenCookie`` to delete the ``JWT`` cookie:
+
+  ::
+
+      mutation {
+        deleteTokenCookie(input: {}) {
+          deleted
+        }
+      }
+
+* ``deleteRefreshTokenCookie`` to delete ``JWT-refresh-token`` cookie for :doc:`long running refresh tokens<refresh_token>`.
+
+  ::
+
+      mutation {
+        deleteRefreshTokenCookie(input: {}) {
+          deleted
         }
       }
 
@@ -117,6 +149,8 @@ Authenticate the user and obtain a **JSON Web Token** and the *user id*::
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(input: {username: $username, password: $password}) {
         token
+        payload
+        refreshExpiresIn
         user {
           id
         }
