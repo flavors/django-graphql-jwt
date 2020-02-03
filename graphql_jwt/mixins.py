@@ -4,9 +4,7 @@ import graphene
 from graphene.types.generic import GenericScalar
 
 from . import exceptions, signals
-from .decorators import (
-    csrf_rotation, ensure_token, refresh_expiration, setup_jwt_cookie,
-)
+from .decorators import csrf_rotation, ensure_token, setup_jwt_cookie
 from .refresh_token.mixins import RefreshTokenMixin
 from .settings import jwt_settings
 from .utils import get_payload, get_user_by_payload
@@ -64,7 +62,6 @@ class KeepAliveRefreshMixin:
     @classmethod
     @setup_jwt_cookie
     @csrf_rotation
-    @refresh_expiration
     @ensure_token
     def refresh(cls, root, info, token, **kwargs):
         context = info.context
@@ -80,10 +77,17 @@ class KeepAliveRefreshMixin:
 
         payload = jwt_settings.JWT_PAYLOAD_HANDLER(user, context)
         payload['origIat'] = orig_iat
+        refresh_expires_in = orig_iat +\
+            jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
 
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
         signals.token_refreshed.send(sender=cls, request=context, user=user)
-        return cls(token=token, payload=payload)
+
+        return cls(
+            token=token,
+            payload=payload,
+            refresh_expires_in=refresh_expires_in,
+        )
 
 
 class RefreshMixin((RefreshTokenMixin
