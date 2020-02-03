@@ -12,6 +12,7 @@ from promise import Promise, is_thenable
 from . import exceptions, signals
 from .refresh_token.shortcuts import create_refresh_token, refresh_token_lazy
 from .settings import jwt_settings
+from .utils import delete_cookie, set_cookie
 
 __all__ = [
     'user_passes_test',
@@ -164,30 +165,29 @@ def jwt_cookie(view_func):
         if hasattr(request, 'jwt_token'):
             expires = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
 
-            response.set_cookie(
+            set_cookie(
+                response,
                 jwt_settings.JWT_COOKIE_NAME,
                 request.jwt_token,
                 expires=expires,
-                httponly=True,
-                secure=jwt_settings.JWT_COOKIE_SECURE,
             )
             if hasattr(request, 'jwt_refresh_token'):
                 refresh_token = request.jwt_refresh_token
                 expires = refresh_token.created +\
                     jwt_settings.JWT_REFRESH_EXPIRATION_DELTA
 
-                response.set_cookie(
+                set_cookie(
+                    response,
                     jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
                     refresh_token.token,
                     expires=expires,
-                    httponly=True,
-                    secure=jwt_settings.JWT_COOKIE_SECURE,
                 )
+
         if hasattr(request, 'delete_jwt_cookie'):
-            response.delete_cookie(jwt_settings.JWT_COOKIE_NAME)
+            delete_cookie(response, jwt_settings.JWT_COOKIE_NAME)
 
         if hasattr(request, 'delete_refresh_token_cookie'):
-            response.delete_cookie(jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME)
+            delete_cookie(response, jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME)
 
         return response
     return wrapped_view

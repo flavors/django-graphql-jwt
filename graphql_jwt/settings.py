@@ -42,6 +42,8 @@ DEFAULTS = {
     'JWT_COOKIE_NAME': 'JWT',
     'JWT_REFRESH_TOKEN_COOKIE_NAME': 'JWT-refresh-token',
     'JWT_COOKIE_SECURE': False,
+    'JWT_COOKIE_PATH': '/',
+    'JWT_COOKIE_DOMAIN': None,
 }
 
 IMPORT_STRINGS = (
