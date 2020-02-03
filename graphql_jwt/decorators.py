@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate, get_user_model
 from django.middleware.csrf import rotate_token
 from django.utils.translation import gettext as _
 
+from graphene.utils.thenables import maybe_thenable
 from graphql.execution.base import ResolveInfo
-from promise import Promise, is_thenable
 
 from . import exceptions, signals
 from .refresh_token.shortcuts import create_refresh_token, refresh_token_lazy
@@ -106,13 +106,8 @@ def token_auth(f):
             context.user = user
 
         result = f(cls, root, info, **kwargs)
-        values = (context, user, result)
-
         signals.token_issued.send(sender=cls, request=context, user=user)
-
-        if is_thenable(result):
-            return Promise.resolve(values).then(on_token_auth_resolve)
-        return on_token_auth_resolve(values)
+        return maybe_thenable((context, user, result), on_token_auth_resolve)
     return wrapper
 
 
@@ -127,10 +122,7 @@ def refresh_expiration(f):
             return payload
 
         result = f(cls, *args, **kwargs)
-
-        if is_thenable(result):
-            return Promise.resolve(result).then(on_resolve)
-        return on_resolve(result)
+        return maybe_thenable(result, on_resolve)
     return wrapper
 
 

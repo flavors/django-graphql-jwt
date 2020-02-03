@@ -2,6 +2,7 @@ from django.utils.translation import gettext as _
 
 import graphene
 from graphene.types.generic import GenericScalar
+from graphene.utils.thenables import maybe_thenable
 
 from . import exceptions, signals
 from .decorators import csrf_rotation, ensure_token, setup_jwt_cookie
@@ -64,6 +65,11 @@ class KeepAliveRefreshMixin:
     @csrf_rotation
     @ensure_token
     def refresh(cls, root, info, token, **kwargs):
+        def on_resolve(values):
+            payload, token = values
+            payload.token = token
+            return payload
+
         context = info.context
         payload = get_payload(token, context)
         user = get_user_by_payload(payload)
@@ -83,11 +89,8 @@ class KeepAliveRefreshMixin:
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
         signals.token_refreshed.send(sender=cls, request=context, user=user)
 
-        return cls(
-            token=token,
-            payload=payload,
-            refresh_expires_in=refresh_expires_in,
-        )
+        result = cls(payload=payload, refresh_expires_in=refresh_expires_in)
+        return maybe_thenable((result, token), on_resolve)
 
 
 class RefreshMixin((RefreshTokenMixin
