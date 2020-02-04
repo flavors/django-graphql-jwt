@@ -63,6 +63,7 @@ class JSONWebTokenMiddleware:
             elif hasattr(context, 'user'):
                 if hasattr(context, 'session'):
                     context.user = get_user(context)
+                    self.cached_authentication.insert(info.path, context.user)
                 else:
                     context.user = AnonymousUser()
 
