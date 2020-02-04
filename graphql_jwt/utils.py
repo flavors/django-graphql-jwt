@@ -109,7 +109,7 @@ def get_user_by_payload(payload):
 
     user = jwt_settings.JWT_GET_USER_BY_NATURAL_KEY_HANDLER(username)
 
-    if user is not None and not user.is_active:
+    if user is not None and not getattr(user, 'is_active', True):
         raise exceptions.JSONWebTokenError(_('User is disabled'))
     return user
 
