@@ -1,9 +1,9 @@
 from datetime import timedelta
-from importlib import import_module
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test.signals import setting_changed
+from django.utils.module_loading import import_string
 
 DEFAULTS = {
     'JWT_ALGORITHM': 'HS256',
@@ -71,10 +71,8 @@ def perform_import(value, setting_name):
 
 def import_from_string(value, setting_name):
     try:
-        module_path, class_name = value.rsplit('.', 1)
-        module = import_module(module_path)
-        return getattr(module, class_name)
-    except (ImportError, AttributeError) as e:
+        return import_string(value)
+    except ImportError as e:
         msg = 'Could not import `{}` for JWT setting `{}`. {}: {}.'.format(
             value, setting_name, e.__class__.__name__, e,
         )
