@@ -50,8 +50,8 @@ def user_passes_test(test_func, exc=exceptions.PermissionDenied()):
 
 
 login_required = user_passes_test(lambda u: u.is_authenticated)
-staff_member_required = user_passes_test(lambda u: u.is_active and u.is_staff)
-superuser_required = user_passes_test(lambda u: u.is_active and u.is_superuser)
+staff_member_required = user_passes_test(lambda u: u.is_staff)
+superuser_required = user_passes_test(lambda u: u.is_superuser)
 
 
 def permission_required(perm):

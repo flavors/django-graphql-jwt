@@ -80,7 +80,7 @@ The decorator may also take an iterable of permissions, in which case the user m
 
 A resolver or mutation decorated with this function will having the following behavior:
 
-If the user is logged in, is a staff member (``User.is_staff=True``), and is active (``User.is_active=True``), execute the function normally.
+If the user is a staff member (``User.is_staff=True``), execute the function normally.
 
 Otherwise, the ``PermissionDenied`` exception will be raised::
 
@@ -105,7 +105,7 @@ Otherwise, the ``PermissionDenied`` exception will be raised::
 
 A resolver or mutation decorated with this function will having the following behavior:
 
-If the user is active (``User.is_active=True``) and is superuser (``User.is_superuser=True``), execute the function normally.
+If the user is superuser (``User.is_superuser=True``), execute the function normally.
 
 Otherwise, the ``PermissionDenied`` exception will be raised::
 
