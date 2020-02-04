@@ -37,7 +37,7 @@ def context(f):
     return decorator
 
 
-def user_passes_test(test_func, exc=exceptions.PermissionDenied()):
+def user_passes_test(test_func, exc=exceptions.PermissionDenied):
     def decorator(f):
         @wraps(f)
         @context(f)
@@ -60,10 +60,7 @@ def permission_required(perm):
             perms = (perm,)
         else:
             perms = perm
-
-        if user.has_perms(perms):
-            return True
-        return False
+        return user.has_perms(perms)
     return user_passes_test(check_perms)
 
 
