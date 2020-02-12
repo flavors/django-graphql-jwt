@@ -8,6 +8,7 @@ from django.utils.translation import gettext as _
 
 from graphene.utils.thenables import maybe_thenable
 from graphql.execution.base import ResolveInfo
+from graphql import GraphQLError
 
 from . import exceptions, signals
 from .refresh_token.shortcuts import create_refresh_token, refresh_token_lazy
@@ -25,6 +26,7 @@ __all__ = [
     'setup_jwt_cookie',
     'jwt_cookie',
     'ensure_token',
+    'check_group_permission'
 ]
 
 
@@ -52,6 +54,31 @@ def user_passes_test(test_func, exc=exceptions.PermissionDenied):
 login_required = user_passes_test(lambda u: u.is_authenticated)
 staff_member_required = user_passes_test(lambda u: u.is_staff)
 superuser_required = user_passes_test(lambda u: u.is_superuser)
+
+
+def check_group_permission(codename):
+    """
+    Decorator to check for user's group permissions
+    """
+    def decorator(func):
+        def wrapper(self, info, *args, **kwargs):
+            user = info.context.user
+            groups = user.groups.first()
+
+            if not group:
+                raise GraphQLError("The user is not part of any group!")
+
+            permissions = []
+
+            for group in groups:
+                permissions.append(group.permissions.all())
+            
+            for permission in permissions:
+                if permission.codename == codename:
+                    return func(self, info, *args, **kwargs)
+            raise GraphQLError("The user's group doesn't have the required permission for this opeartion!")
+        return wrapper
+    return decorator
 
 
 def permission_required(perm):
