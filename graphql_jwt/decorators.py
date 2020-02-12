@@ -76,7 +76,7 @@ def check_group_permission(codename):
             for permission in permissions:
                 if permission.codename == codename:
                     return func(self, info, *args, **kwargs)
-            raise GraphQLError("The user's group doesn't have the required permission for this opeartion!")
+            raise GraphQLError("Group doesn't have the required permission")
         return wrapper
     return decorator
 
