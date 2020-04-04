@@ -45,7 +45,12 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
     def execute(self, query, variables=None, **extra):
         extra.update(self._credentials)
         context = self.post('/', **extra)
-        return super().execute(query, context=context, variables=variables)
+
+        return super().execute(
+            query,
+            context_value=context,
+            variable_values=variables,
+        )
 
     def authenticate(self, user):
         self._credentials = {
