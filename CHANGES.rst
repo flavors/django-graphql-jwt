@@ -1,6 +1,20 @@
 Changelog
 =========
 
+0.3.1
+-----
+
+* Set JWT-refresh-token cookie on tokenAuth mutation
+* Read token/refresh-token from cookies (TokenAuth, Refresh, Verify and Revoke mutations)
+* Add refreshExpiredIn field
+* Add token payload to tokenAuth mutation
+* Add DeleteJSONWebTokenCookie and DeleteRefreshTokenCookie mutations
+* Add JWT_REUSE_REFRESH_TOKENS setting in order to reuse the refresh token instances
+* Add JWT_HIDE_TOKEN_FIELDS setting (prevent XSS exploitation)
+* Add JWT_CSRF_ROTATION setting
+* Add JWT_COOKIE_PATH and JWT_COOKIE_DOMAIN settings
+* Removed ugettext in favor of gettext
+
 0.3.0
 -----
 
