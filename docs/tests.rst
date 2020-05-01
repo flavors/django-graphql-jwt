@@ -30,7 +30,7 @@ This package includes a subclass of `unittest.TestCase <https://docs.python.org/
 
             executed = self.client.execute(query, variables)
             
-            assert expected == {
+            assert executed == {
               'data': {
                 'user': {
                   'id': 0
