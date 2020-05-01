@@ -28,4 +28,12 @@ This package includes a subclass of `unittest.TestCase <https://docs.python.org/
               'username': self.user.username,
             }
 
-            self.client.execute(query, variables)
+            executed = self.client.execute(query, variables)
+            
+            assert expected == {
+              'data': {
+                'user': {
+                  'id': 0
+                }
+              }
+            }
