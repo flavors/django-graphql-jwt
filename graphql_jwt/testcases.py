@@ -12,6 +12,8 @@ from .shortcuts import get_token
 
 from promise import Promise, is_thenable
 
+from json import loads, dumps
+
 
 class SchemaRequestFactory(RequestFactory):
 
@@ -47,8 +49,8 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
         self._credentials = kwargs
 
     def format_result(self, result):
-        return format_execution_result(result, self.format_error)
-
+        return loads(dumps(format_execution_result(result, self.format_error)))
+        
     def execute(self, query, variables=None, **extra):
         extra.update(self._credentials)
         context = self.post('/', **extra)
