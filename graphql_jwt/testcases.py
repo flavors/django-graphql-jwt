@@ -33,7 +33,7 @@ class SchemaRequestFactory(RequestFactory):
 
 class JSONWebTokenClient(SchemaRequestFactory, Client):
 
-    def __init__(self, format_error=None **defaults):
+    def __init__(self, format_error=None, **defaults):
         self.format_error = format_error or default_format_error
         super().__init__(**defaults)
         self._credentials = {}
