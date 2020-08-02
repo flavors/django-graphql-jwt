@@ -46,6 +46,7 @@ DEFAULTS = {
     'JWT_COOKIE_SECURE': False,
     'JWT_COOKIE_PATH': '/',
     'JWT_COOKIE_DOMAIN': None,
+    'JWT_COOKIE_SAMESITE': None,
 }
 
 IMPORT_STRINGS = (

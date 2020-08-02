@@ -1,6 +1,7 @@
 from calendar import timegm
 from datetime import datetime
 
+import django
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 
@@ -120,15 +121,17 @@ def refresh_has_expired(orig_iat, context=None):
 
 
 def set_cookie(response, key, value, expires):
-    response.set_cookie(
-        key,
-        value,
-        expires=expires,
-        httponly=True,
-        secure=jwt_settings.JWT_COOKIE_SECURE,
-        path=jwt_settings.JWT_COOKIE_PATH,
-        domain=jwt_settings.JWT_COOKIE_DOMAIN,
-    )
+    kwargs = {
+        'expires': expires,
+        'httponly': True,
+        'secure': jwt_settings.JWT_COOKIE_SECURE,
+        'path': jwt_settings.JWT_COOKIE_PATH,
+        'domain': jwt_settings.JWT_COOKIE_DOMAIN,
+    }
+    if django.VERSION >= (2, 1):
+        kwargs['samesite'] = jwt_settings.JWT_COOKIE_SAMESITE
+
+    response.set_cookie(key, value, **kwargs)
 
 
 def delete_cookie(response, key):
