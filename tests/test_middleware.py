@@ -185,17 +185,15 @@ class AllowAnyTests(TestCase):
 
     def info(self, user, **headers):
         info_mock = super().info(user, **headers)
-        info_mock.field_name = 'test_field'
-        info_mock.operation.operation = 'query'
+        info_mock.field_name = 'test'
+        info_mock.operation.operation.name = 'query'
         return info_mock
 
     def info_with_field_mock(self, user, field=None):
         info_mock = self.info(user)
-        field_mock = mock.Mock(fields={
-            'test_field': field,
+        info_mock.schema.query_type = mock.Mock(fields={
+            'test': field,
         })
-
-        info_mock.schema.get_query_type.return_value = field_mock
         return info_mock
 
     def info_with_type_mock(self, user, type=None):
@@ -208,25 +206,21 @@ class AllowAnyTests(TestCase):
         allowed = allow_any(info_mock)
 
         self.assertTrue(allowed)
-        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_not_allow_any(self):
         info_mock = self.info_with_type_mock(self.user, TestCase)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_unknown_field(self):
         info_mock = self.info_with_field_mock(self.user)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_unknown_type(self):
         info_mock = self.info_with_type_mock(self.user)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once_with()

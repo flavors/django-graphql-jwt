@@ -7,7 +7,7 @@ from django.middleware.csrf import rotate_token
 from django.utils.translation import gettext as _
 
 from graphene.utils.thenables import maybe_thenable
-from graphql.execution.base import ResolveInfo
+from graphql.execution.execute import GraphQLResolveInfo
 
 from . import exceptions, signals
 from .refresh_token.shortcuts import create_refresh_token, refresh_token_lazy
@@ -31,7 +31,10 @@ __all__ = [
 def context(f):
     def decorator(func):
         def wrapper(*args, **kwargs):
-            info = next(arg for arg in args if isinstance(arg, ResolveInfo))
+            info = next(
+                arg for arg in args
+                if isinstance(arg, GraphQLResolveInfo)
+            )
             return func(info.context, *args, **kwargs)
         return wrapper
     return decorator
