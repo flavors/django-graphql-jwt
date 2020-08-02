@@ -19,10 +19,8 @@ class AuthenticateByHeaderTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_authenticate(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         next_mock = mock.Mock()
@@ -30,17 +28,15 @@ class AuthenticateByHeaderTests(TestCase):
 
         self.middleware.resolve(next_mock, None, info_mock)
 
-        next_mock.assert_called_with(None, info_mock)
+        next_mock.assert_called_once_with(None, info_mock)
         self.assertEqual(info_mock.context.user, self.user)
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_not_authenticate(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         next_mock = mock.Mock()
@@ -48,16 +44,15 @@ class AuthenticateByHeaderTests(TestCase):
 
         self.middleware.resolve(next_mock, None, info_mock)
 
-        next_mock.assert_called_with(None, info_mock)
-        authenticate_mock.assert_called_with(request=info_mock.context)
+        next_mock.assert_called_once_with(None, info_mock)
+        authenticate_mock.assert_called_once_with(request=info_mock.context)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_invalid_token(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{} invalid'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} invalid',
         }
 
         next_mock = mock.Mock()
@@ -71,10 +66,8 @@ class AuthenticateByHeaderTests(TestCase):
     @mock.patch('graphql_jwt.middleware.authenticate')
     def test_already_authenticated(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         next_mock = mock.Mock()
@@ -82,16 +75,14 @@ class AuthenticateByHeaderTests(TestCase):
 
         self.middleware.resolve(next_mock, None, info_mock)
 
-        next_mock.assert_called_with(None, info_mock)
+        next_mock.assert_called_once_with(None, info_mock)
         authenticate_mock.assert_not_called()
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: True)
     def test_allow_any(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         next_mock = mock.Mock()
@@ -99,7 +90,7 @@ class AuthenticateByHeaderTests(TestCase):
 
         self.middleware.resolve(next_mock, None, info_mock)
 
-        next_mock.assert_called_with(None, info_mock)
+        next_mock.assert_called_once_with(None, info_mock)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
     def test_authenticate_context(self):
@@ -131,7 +122,7 @@ class AuthenticateByArgumentTests(TestCase):
 
         self.middleware.resolve(next_mock, None, info_mock, **kwargs)
 
-        next_mock.assert_called_with(None, info_mock, **kwargs)
+        next_mock.assert_called_once_with(None, info_mock, **kwargs)
         self.assertEqual(info_mock.context.user, self.user)
 
         user = self.middleware.cached_authentication[tuple(info_mock.path)]
@@ -146,7 +137,7 @@ class AuthenticateByArgumentTests(TestCase):
         self.middleware.cached_authentication.insert(['0'], self.user)
         self.middleware.resolve(next_mock, None, info_mock)
 
-        next_mock.assert_called_with(None, info_mock)
+        next_mock.assert_called_once_with(None, info_mock)
         self.assertEqual(info_mock.context.user, self.user)
 
     @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
@@ -156,7 +147,7 @@ class AuthenticateByArgumentTests(TestCase):
 
         self.middleware.resolve(next_mock, None, info_mock)
 
-        next_mock.assert_called_with(None, info_mock)
+        next_mock.assert_called_once_with(None, info_mock)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
     @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
@@ -167,7 +158,7 @@ class AuthenticateByArgumentTests(TestCase):
 
         self.middleware.resolve(next_mock, None, info_mock)
 
-        next_mock.assert_called_with(None, info_mock)
+        next_mock.assert_called_once_with(None, info_mock)
         self.assertIsInstance(info_mock.context.user, AnonymousUser)
 
     @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
@@ -177,7 +168,7 @@ class AuthenticateByArgumentTests(TestCase):
 
         self.middleware.resolve(next_mock, None, info_mock)
 
-        next_mock.assert_called_with(None, info_mock)
+        next_mock.assert_called_once_with(None, info_mock)
         self.assertFalse(hasattr(info_mock.context, 'user'))
 
 
@@ -185,17 +176,15 @@ class AllowAnyTests(TestCase):
 
     def info(self, user, **headers):
         info_mock = super().info(user, **headers)
-        info_mock.field_name = 'test_field'
-        info_mock.operation.operation = 'query'
+        info_mock.field_name = 'test'
+        info_mock.operation.operation.name = 'query'
         return info_mock
 
     def info_with_field_mock(self, user, field=None):
         info_mock = self.info(user)
-        field_mock = mock.Mock(fields={
-            'test_field': field,
+        info_mock.schema.query_type = mock.Mock(fields={
+            'test': field,
         })
-
-        info_mock.schema.get_query_type.return_value = field_mock
         return info_mock
 
     def info_with_type_mock(self, user, type=None):
@@ -208,25 +197,21 @@ class AllowAnyTests(TestCase):
         allowed = allow_any(info_mock)
 
         self.assertTrue(allowed)
-        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_not_allow_any(self):
         info_mock = self.info_with_type_mock(self.user, TestCase)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_unknown_field(self):
         info_mock = self.info_with_field_mock(self.user)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once_with()
 
     def test_unknown_type(self):
         info_mock = self.info_with_type_mock(self.user)
         allowed = allow_any(info_mock)
 
         self.assertFalse(allowed)
-        info_mock.schema.get_query_type.assert_called_once_with()

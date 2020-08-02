@@ -36,9 +36,8 @@ setup(
     )),
     packages=find_packages(exclude=['tests*']),
     install_requires=[
-        'Django >=1.11',
-        'graphene-django>=2.1.5',
-        'graphql-core>=2.1,<3',
+        'Django>=1.11',
+        'graphene-django>=3.0.0b1',
         'PyJWT>=1.5.0',
     ],
     classifiers=[
@@ -49,8 +48,6 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',

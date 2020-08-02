@@ -54,9 +54,8 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
 
     def authenticate(self, user):
         self._credentials = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                get_token(user)),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {get_token(user)}',
         }
 
     def logout(self):

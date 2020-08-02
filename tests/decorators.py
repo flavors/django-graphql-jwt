@@ -13,4 +13,4 @@ class override_jwt_settings(override_settings):
 def skipif_django_version(version):
     return pytest.mark.skipif(
         django.get_version() < version,
-        reason='Django < {} is not supported'.format(version))
+        reason=f'Django < {version} is not supported')

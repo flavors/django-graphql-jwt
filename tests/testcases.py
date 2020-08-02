@@ -4,8 +4,9 @@ from unittest import mock
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, testcases
 
+import graphene
 from graphene_django.views import GraphQLView
-from graphql.execution.base import ResolveInfo
+from graphql.execution.execute import GraphQLResolveInfo
 
 from graphql_jwt.decorators import jwt_cookie
 from graphql_jwt.settings import jwt_settings
@@ -36,11 +37,18 @@ class TestCase(UserTestCase):
         if user is not None:
             request.user = user
 
-        return mock.Mock(context=request, path=['test'], spec=ResolveInfo)
+        return mock.Mock(
+            context=request,
+            path=['test'],
+            spec=GraphQLResolveInfo,
+        )
 
 
 class SchemaTestCase(TestCase, JSONWebTokenTestCase):
-    Query = None
+
+    class Query(graphene.ObjectType):
+        test = graphene.String()
+
     Mutation = None
 
     def setUp(self):

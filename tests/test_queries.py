@@ -39,10 +39,8 @@ class QueriesTests(SchemaTestCase):
         }}'''.format(jwt_settings.JWT_ARGUMENT_NAME)
 
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         variables = {
@@ -67,17 +65,15 @@ class QueriesTests(SchemaTestCase):
             'graphene.types.generic.GenericScalar',
         ])
     def test_allow_any(self):
-        query = '''
+        query = f'''
         {{
           testAllowAny: test
-          testInvalidToken: test({0}: "invalid")
-        }}'''.format(jwt_settings.JWT_ARGUMENT_NAME)
+          testInvalidToken: test({jwt_settings.JWT_ARGUMENT_NAME}: "invalid")
+        }}'''
 
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                'invalid',
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} invalid',
         }
 
         response = self.client.execute(query, **headers)
