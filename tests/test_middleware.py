@@ -19,10 +19,8 @@ class AuthenticateByHeaderTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_authenticate(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         next_mock = mock.Mock()
@@ -37,10 +35,8 @@ class AuthenticateByHeaderTests(TestCase):
     @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
     def test_not_authenticate(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         next_mock = mock.Mock()
@@ -55,9 +51,8 @@ class AuthenticateByHeaderTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_invalid_token(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{} invalid'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} invalid',
         }
 
         next_mock = mock.Mock()
@@ -71,10 +66,8 @@ class AuthenticateByHeaderTests(TestCase):
     @mock.patch('graphql_jwt.middleware.authenticate')
     def test_already_authenticated(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         next_mock = mock.Mock()
@@ -88,10 +81,8 @@ class AuthenticateByHeaderTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: True)
     def test_allow_any(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{0} {1}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         next_mock = mock.Mock()

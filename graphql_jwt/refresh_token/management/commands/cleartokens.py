@@ -25,9 +25,5 @@ class Command(BaseCommand):
 
         deleted, _ = qs.filter(query).delete()
 
-        msg = 'Successfully deleted {} token{}'.format(
-            deleted,
-            pluralize(deleted),
-        )
-
+        msg = f'Successfully deleted {deleted} token{pluralize(deleted)}'
         self.stdout.write(self.style.SUCCESS(msg))

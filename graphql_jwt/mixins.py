@@ -33,8 +33,9 @@ class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
     @classmethod
     def __init_subclass_with_meta__(cls, name=None, **options):
         assert getattr(cls, 'resolve', None), (
-            '{name}.resolve method is required in a JSONWebTokenMutation.'
-        ).format(name=name or cls.__name__)
+            f'{name or cls.__name__}.resolve '
+            'method is required in a JSONWebTokenMutation.'
+        )
 
         super().__init_subclass_with_meta__(name=name, **options)
 

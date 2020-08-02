@@ -73,8 +73,9 @@ def import_from_string(value, setting_name):
     try:
         return import_string(value)
     except ImportError as e:
-        msg = 'Could not import `{}` for JWT setting `{}`. {}: {}.'.format(
-            value, setting_name, e.__class__.__name__, e,
+        msg = (
+            f'Could not import `{value}` for JWT setting `{setting_name}`.'
+            f'{e.__class__.__name__}: {e}.'
         )
         raise ImportError(msg)
 
@@ -88,7 +89,7 @@ class JWTSettings:
 
     def __getattr__(self, attr):
         if attr not in self.defaults:
-            raise AttributeError('Invalid setting: `{}`'.format(attr))
+            raise AttributeError(f'Invalid setting: `{attr}`')
 
         value = self.user_settings.get(attr, self.defaults[attr])
 

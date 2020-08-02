@@ -58,10 +58,8 @@ class GetHTTPAuthorizationHeaderTests(TestCase):
 
     def test_get_authorization_header(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         request = self.request_factory.get('/', **headers)
@@ -81,10 +79,8 @@ class GetHTTPAuthorizationHeaderTests(TestCase):
 
     def test_get_authorization_cookie(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: '{} {}'.format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX,
-                self.token,
-            ),
+            jwt_settings.JWT_AUTH_HEADER_NAME:
+            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
         }
 
         request = self.request_factory.get('/', **headers)

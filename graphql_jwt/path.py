@@ -8,9 +8,7 @@ def filter_strings(items):
 class PathDict(dict):
 
     def __repr__(self):
-        return '<{0}: {1}>'.format(
-            self.__class__.__name__,
-            super().__repr__())
+        return f'<{self.__class__.__name__}: {super().__repr__()}>'
 
     def insert(self, path, value):
         self[filter_strings(path)] = value

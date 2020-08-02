@@ -15,7 +15,7 @@ __all__ = [
 def allow_any(info, **kwargs):
     field = getattr(
         info.schema,
-        '{}_type'.format(info.operation.operation.name.lower()),
+        f'{info.operation.operation.name.lower()}_type',
     ).fields.get(info.field_name)
 
     if field is None:

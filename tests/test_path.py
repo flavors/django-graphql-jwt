@@ -18,7 +18,7 @@ class PathDictTests(TestCase):
         self.path_dict = PathDict()
 
     def test_repr(self):
-        path_dict_repr = '<{}: {{}}>'.format(self.path_dict.__class__.__name__)
+        path_dict_repr = f'<{self.path_dict.__class__.__name__}: {{}}>'
         self.assertEqual(repr(self.path_dict), path_dict_repr)
 
     def test_insert(self):
