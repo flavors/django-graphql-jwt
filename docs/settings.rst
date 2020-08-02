@@ -309,6 +309,7 @@ JWT_COOKIE_SAMESITE
 ~~~~~~~~~~~~~~~~~~~
 
   Use 'Strict' or 'Lax' to tell the browser not to send the JWT cookie when performing a cross-origin request (Django ≥ 2.1 required)
+
   Use 'None' (string) to explicitly state that the JWT cookie is sent with all same-site and cross-site requests (Django ≥ 3.1 required)
 
   Default: ``None``
