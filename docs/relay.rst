@@ -22,7 +22,7 @@ Add mutations to the root schema::
         revoke_token = graphql_jwt.relay.Revoke.Field()
 
         delete_refresh_token_cookie = \
-            graphql_jwt.refresh_token.relay.DeleteRefreshTokenCookie.Field()
+            graphql_jwt.relay.DeleteRefreshTokenCookie.Field()
 
 
     schema = graphene.Schema(mutation=Mutation)
