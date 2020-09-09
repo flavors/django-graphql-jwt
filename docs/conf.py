@@ -19,7 +19,6 @@ import sys
 
 import django
 
-
 ROOT_DIR = pathlib.Path(__file__).resolve().parent
 
 sys.path.insert(0, str(ROOT_DIR))
@@ -29,7 +28,6 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.settings'
 django.setup()
 
 import graphql_jwt  # NOQA I001, E402
-
 
 # -- Project information -----------------------------------------------------
 

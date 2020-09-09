@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.4.0
+-----
+
+* Added support for Django 3.1
+* Removed support for Django 1.11, 2.0, 2.1
+* Removed support for Python 3.5
+
 0.3.1
 -----
 

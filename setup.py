@@ -36,7 +36,7 @@ setup(
     )),
     packages=find_packages(exclude=['tests*']),
     install_requires=[
-        'Django>=1.11',
+        'Django>=2.2',
         'graphene-django>=3.0.0b1',
         'PyJWT>=1.5.0',
     ],
@@ -52,11 +52,9 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Framework :: Django',
-        'Framework :: Django :: 1.11',
-        'Framework :: Django :: 2.0',
-        'Framework :: Django :: 2.1',
         'Framework :: Django :: 2.2',
         'Framework :: Django :: 3.0',
+        'Framework :: Django :: 3.1',
     ],
     zip_safe=False,
     package_data={

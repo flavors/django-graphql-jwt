@@ -4,8 +4,8 @@ Quickstart
 Dependencies
 ------------
 
-* Python ≥ 3.4
-* Django ≥ 1.11
+* Python ≥ 3.6
+* Django ≥ 2.2
 
 
 Installation
@@ -65,7 +65,7 @@ Queries
 
 * ``tokenAuth`` to authenticate the user and obtain a **JSON Web Token**.
 
-  The mutation uses your User's model `USERNAME_FIELD <https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#django.contrib.auth.models.CustomUser>`_, which by default is ``username``:
+  The mutation uses your User's model `USERNAME_FIELD <https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#django.contrib.auth.models.CustomUser>`_, which by default is ``username``:
 
   ::
 

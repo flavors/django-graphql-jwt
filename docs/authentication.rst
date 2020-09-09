@@ -47,7 +47,7 @@ When a token is requested and ``jwt_cookie`` decorator is set, the response will
     ]
 
 
-If the ``jwt_cookie`` decorator is set, consider adding `CSRF middleware <https://docs.djangoproject.com/es/2.1/ref/csrf/>`_ ``'django.middleware.csrf.CsrfViewMiddleware'`` to provide protection against `Cross Site Request Forgeries <https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)>`_.
+If the ``jwt_cookie`` decorator is set, consider adding `CSRF middleware <https://docs.djangoproject.com/es/3.1/ref/csrf/>`_ ``'django.middleware.csrf.CsrfViewMiddleware'`` to provide protection against `Cross Site Request Forgeries <https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)>`_.
 
 A cookie-based authentication does not require sending the tokens as a mutation input argument.
 
