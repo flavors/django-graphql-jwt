@@ -35,11 +35,16 @@ def jwt_payload(user, context=None):
 
 
 def jwt_encode(payload, context=None):
-    return jwt.encode(
+    token = jwt.encode(
         payload,
         jwt_settings.JWT_PRIVATE_KEY or jwt_settings.JWT_SECRET_KEY,
         jwt_settings.JWT_ALGORITHM,
-    ).decode('utf-8')
+    )
+
+    if isinstance(token, bytes):
+        return token.decode('utf-8')
+
+    return token
 
 
 def jwt_decode(token, context=None):
