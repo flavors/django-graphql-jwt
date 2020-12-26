@@ -38,7 +38,7 @@ setup(
     install_requires=[
         'Django>=1.11',
         'graphene-django>=3.0.0b1',
-        'PyJWT>=1.5.0',
+        'PyJWT>=1.5.0,<2',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
