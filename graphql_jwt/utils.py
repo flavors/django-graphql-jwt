@@ -85,7 +85,7 @@ def get_credentials(request, **kwargs):
 def get_payload(token, context=None):
     try:
         payload = jwt_settings.JWT_DECODE_HANDLER(token, context)
-    except jwt.ExpiredSignature:
+    except jwt.ExpiredSignatureError:
         raise exceptions.JSONWebTokenExpired()
     except jwt.DecodeError:
         raise exceptions.JSONWebTokenError(_('Error decoding signature'))
