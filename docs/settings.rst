@@ -184,7 +184,7 @@ JWT_REFRESH_TOKEN_N_BYTES
 JWT_REUSE_REFRESH_TOKENS
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Reuse the long running refreshed token instead of generating a new one
+  A new long running refresh token is being generated but replaces the existing database record and thus invalidates the previous long running refresh token.
 
   Default: ``False``
 
