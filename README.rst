@@ -77,8 +77,8 @@ Fantastic documentation is available at https://django-graphql-jwt.domake.io.
    :target: https://pypi.python.org/pypi/django-graphql-jwt
    :alt: Pypi
 
-.. |Build Status| image:: https://travis-ci.org/flavors/django-graphql-jwt.svg?branch=master
-   :target: https://travis-ci.org/flavors/django-graphql-jwt
+.. |Build Status| image:: https://travis-ci.com/flavors/django-graphql-jwt.svg?branch=master
+   :target: https://travis-ci.com/flavors/django-graphql-jwt
    :alt: Build Status
 
 .. |Codecov| image:: https://codecov.io/gh/flavors/django-graphql-jwt/branch/master/graph/badge.svg
