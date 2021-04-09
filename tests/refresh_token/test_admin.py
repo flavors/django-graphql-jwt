@@ -4,7 +4,6 @@ from graphql_jwt.refresh_token import admin
 from graphql_jwt.refresh_token.utils import get_refresh_token_model
 from graphql_jwt.shortcuts import create_refresh_token
 
-from ..decorators import skipif_django_version
 from ..testcases import TestCase
 
 
@@ -42,22 +41,18 @@ class FiltersTests(AdminTestCase):
         changelist = self.refresh_token_admin.get_changelist_instance(request)
         return changelist.get_queryset(request)
 
-    @skipif_django_version('2.0')
     def test_revoked(self):
         qs = self.filter_queryset(revoked='yes')
         self.assertFalse(qs)
 
-    @skipif_django_version('2.0')
     def test_not_revoked(self):
         qs = self.filter_queryset(revoked='no')
         self.assertTrue(qs)
 
-    @skipif_django_version('2.0')
     def test_expired(self):
         qs = self.filter_queryset(expired='yes')
         self.assertFalse(qs)
 
-    @skipif_django_version('2.0')
     def test_not_expired(self):
         qs = self.filter_queryset(expired='no')
         self.assertTrue(qs)

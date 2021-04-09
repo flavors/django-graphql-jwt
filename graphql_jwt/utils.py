@@ -17,9 +17,11 @@ def jwt_payload(user, context=None):
     if hasattr(username, 'pk'):
         username = username.pk
 
+    exp = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
+
     payload = {
         user.USERNAME_FIELD: username,
-        'exp': datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA,
+        'exp': timegm(exp.utctimetuple()),
     }
 
     if jwt_settings.JWT_ALLOW_REFRESH:
@@ -39,16 +41,17 @@ def jwt_encode(payload, context=None):
         payload,
         jwt_settings.JWT_PRIVATE_KEY or jwt_settings.JWT_SECRET_KEY,
         jwt_settings.JWT_ALGORITHM,
-    ).decode('utf-8')
+    )
 
 
 def jwt_decode(token, context=None):
     return jwt.decode(
         token,
         jwt_settings.JWT_PUBLIC_KEY or jwt_settings.JWT_SECRET_KEY,
-        jwt_settings.JWT_VERIFY,
         options={
             'verify_exp': jwt_settings.JWT_VERIFY_EXPIRATION,
+            'verify_aud': jwt_settings.JWT_AUDIENCE is not None,
+            'verify_signature': jwt_settings.JWT_VERIFY,
         },
         leeway=jwt_settings.JWT_LEEWAY,
         audience=jwt_settings.JWT_AUDIENCE,
@@ -85,7 +88,7 @@ def get_credentials(request, **kwargs):
 def get_payload(token, context=None):
     try:
         payload = jwt_settings.JWT_DECODE_HANDLER(token, context)
-    except jwt.ExpiredSignature:
+    except jwt.ExpiredSignatureError:
         raise exceptions.JSONWebTokenExpired()
     except jwt.DecodeError:
         raise exceptions.JSONWebTokenError(_('Error decoding signature'))
