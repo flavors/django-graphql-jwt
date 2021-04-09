@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.3.2
+-----
+
+* Added support for PyJWT>=2
+* Removed signals providing_args
+* Added JWT_COOKIE_SAMESITE setting
+* Added support for Graphene v3
+
 0.3.1
 -----
 
