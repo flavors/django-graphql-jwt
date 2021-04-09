@@ -8,10 +8,6 @@ matrix:
     - python: 3.8
       env: TOXENV=flake8
 
-    # Django 1.11
-    - python: 3.6
-      env: TOXENV=py36-django111
-
     # Django 2.0
     - python: 3.6
       env: TOXENV=py36-django20
