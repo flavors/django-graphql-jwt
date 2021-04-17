@@ -14,7 +14,7 @@ Changelog
 
 * Set JWT-refresh-token cookie on tokenAuth mutation
 * Read token/refresh-token from cookies (TokenAuth, Refresh, Verify and Revoke mutations)
-* Add refreshExpiredIn field
+* Add refreshExpiresIn field
 * Add token payload to tokenAuth mutation
 * Add DeleteJSONWebTokenCookie and DeleteRefreshTokenCookie mutations
 * Add JWT_REUSE_REFRESH_TOKENS setting in order to reuse the refresh token instances
