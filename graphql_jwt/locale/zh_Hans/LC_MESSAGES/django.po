@@ -1,0 +1,59 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-22 02:09+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: decorators.py:102
+msgid "Please enter valid credentials"
+msgstr "请输入有效的凭证"
+
+#: decorators.py:195
+msgid "Token is required"
+msgstr "需要令牌"
+
+#: exceptions.py:15
+msgid "You do not have permission to perform this action"
+msgstr "您无权执行此操作"
+
+#: exceptions.py:19
+msgid "Signature has expired"
+msgstr "签名已过期"
+
+#: mixins.py:80
+msgid "origIat field is required"
+msgstr "需要 origIat 字段"
+
+#: mixins.py:83
+msgid "Refresh has expired"
+msgstr "刷新令牌已过期"
+
+#: utils.py:94
+msgid "Error decoding signature"
+msgstr "解码签名时出错"
+
+#: utils.py:96
+msgid "Invalid token"
+msgstr "令牌无效"
+
+#: utils.py:112
+msgid "Invalid payload"
+msgstr "无效载荷"
+
+#: utils.py:117
+msgid "User is disabled"
+msgstr "用户被禁用"
