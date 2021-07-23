@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
 from django.core.handlers.wsgi import WSGIRequest
-from django.test import Client, RequestFactory, testcases
+from django.test import Client, RequestFactory, TestCase
 
 import graphene
 from graphene_django.settings import graphene_settings
@@ -62,5 +62,5 @@ class JSONWebTokenClient(SchemaRequestFactory, Client):
         self._credentials.pop(jwt_settings.JWT_AUTH_HEADER_NAME, None)
 
 
-class JSONWebTokenTestCase(testcases.TestCase):
+class JSONWebTokenTestCase(TestCase):
     client_class = JSONWebTokenClient

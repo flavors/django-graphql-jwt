@@ -2,19 +2,19 @@ import json
 from unittest import mock
 
 from django.contrib.auth import get_user_model
-from django.test import RequestFactory, testcases
+from django.test import RequestFactory, TestCase
 
 import graphene
 from graphene_django.views import GraphQLView
-from graphql.execution.execute import GraphQLResolveInfo
 
+from graphql_jwt.compat import GraphQLResolveInfo
 from graphql_jwt.decorators import jwt_cookie
 from graphql_jwt.settings import jwt_settings
 from graphql_jwt.testcases import JSONWebTokenClient, JSONWebTokenTestCase
 from graphql_jwt.utils import jwt_encode, jwt_payload
 
 
-class UserTestCase(testcases.TestCase):
+class UserTestCase(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(

@@ -182,7 +182,7 @@ class AllowAnyTests(TestCase):
 
     def info_with_field_mock(self, user, field=None):
         info_mock = self.info(user)
-        info_mock.schema.query_type = mock.Mock(fields={
+        info_mock.schema.get_type.return_value = mock.Mock(fields={
             'test': field,
         })
         return info_mock
