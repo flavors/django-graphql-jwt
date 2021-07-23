@@ -4,7 +4,7 @@ Changelog
 0.3.3
 -----
 
-* Added Graphene V3 support
+* Added Graphene V2 support
 
 0.3.2
 -----
