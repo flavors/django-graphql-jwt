@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.middleware import get_user
 from django.contrib.auth.models import AnonymousUser
 
+from .compat import get_operation_name
 from .path import PathDict
 from .settings import jwt_settings
 from .utils import get_http_authorization, get_token_argument
@@ -13,10 +14,8 @@ __all__ = [
 
 
 def allow_any(info, **kwargs):
-    field = getattr(
-        info.schema,
-        f'{info.operation.operation.name.lower()}_type',
-    ).fields.get(info.field_name)
+    operation_name = get_operation_name(info.operation.operation).title()
+    field = info.schema.get_type(operation_name).fields.get(info.field_name)
 
     if field is None:
         return False

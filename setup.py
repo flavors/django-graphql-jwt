@@ -37,7 +37,8 @@ setup(
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Django>=2.0',
-        'graphene-django>=3.0.0b1',
+        'graphene>=2.1.5',
+        'graphene-django>=2.0.0',
         'PyJWT>=2,<3',
     ],
     classifiers=[
