@@ -22,4 +22,5 @@ Contributors
 * Kamil Rykowski, `@vintage <https://github.com/vintage>`_
 * `@mtszsobczak <https://github.com/mtszsobczak>`_
 * Lasse Steffen `@lassesteffen <https://github.com/lassesteffen>`_
+* Rainshaw `@RainshawGao <https://github.com/RainshawGao>`_
 * `@TitanFighter <https://github.com/TitanFighter>`_
