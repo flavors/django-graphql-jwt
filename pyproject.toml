@@ -74,8 +74,8 @@ DJANGO_SETTINGS_MODULE = "tests.settings"
 [tool.black]
 extend-exclude = '''
 /(
-  | .dist
   | .htmlcov
+  | dist
 )/
 '''
 
