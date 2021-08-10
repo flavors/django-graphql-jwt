@@ -1,4 +1,4 @@
 [flake8]
 max-line-length = 88
 exclude = .tox,*.egg*,src/,**/migrations/*,build
-ignore = test_*.py Q001,W504
+ignore = W503
