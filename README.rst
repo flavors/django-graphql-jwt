@@ -81,7 +81,7 @@ Fantastic documentation is available at https://django-graphql-jwt.domake.io.
    :target: https://github.com/flavors/django-graphql-jwt/actions
    :alt: Build Status
 
-.. |Codecov| image:: https://codecov.io/gh/flavors/django-graphql-jwt/branch/master/graph/badge.svg
+.. |Codecov| image:: https://codecov.io/gh/flavors/django-graphql-jwt/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/flavors/django-graphql-jwt
    :alt: Codecov
 

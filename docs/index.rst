@@ -13,7 +13,7 @@ Django GraphQL JWT
    :target: https://pypi.python.org/pypi/django-graphql-jwt
    :alt: Pypi
 
-.. |Build Status| image:: https://travis-ci.org/flavors/django-graphql-jwt.svg?branch=master
+.. |Build Status| image:: https://travis-ci.org/flavors/django-graphql-jwt.svg?branch=main
    :target: https://travis-ci.org/flavors/django-graphql-jwt
    :alt: Build Status
 
