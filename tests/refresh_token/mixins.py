@@ -1,15 +1,14 @@
 import graphene
 
 from graphql_jwt.refresh_token.signals import (
-    refresh_token_revoked, refresh_token_rotated,
+    refresh_token_revoked,
+    refresh_token_rotated,
 )
 from graphql_jwt.settings import jwt_settings
 from graphql_jwt.shortcuts import create_refresh_token, get_refresh_token
 from graphql_jwt.signals import token_issued
 
-from ..context_managers import (
-    back_to_the_future, catch_signal, refresh_expired,
-)
+from ..context_managers import back_to_the_future, catch_signal, refresh_expired
 from ..decorators import override_jwt_settings
 
 

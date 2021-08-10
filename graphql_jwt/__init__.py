@@ -1,7 +1,12 @@
 from . import relay
 from .mutations import (
-    DeleteJSONWebTokenCookie, DeleteRefreshTokenCookie, JSONWebTokenMutation,
-    ObtainJSONWebToken, Refresh, Revoke, Verify,
+    DeleteJSONWebTokenCookie,
+    DeleteRefreshTokenCookie,
+    JSONWebTokenMutation,
+    ObtainJSONWebToken,
+    Refresh,
+    Revoke,
+    Verify,
 )
 
 __all__ = [

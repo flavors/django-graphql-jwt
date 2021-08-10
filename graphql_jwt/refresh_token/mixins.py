@@ -10,9 +10,7 @@ from ..decorators import csrf_rotation, refresh_expiration, setup_jwt_cookie
 from ..settings import jwt_settings
 from . import signals
 from .decorators import ensure_refresh_token
-from .shortcuts import (
-    create_refresh_token, get_refresh_token, refresh_token_lazy,
-)
+from .shortcuts import create_refresh_token, get_refresh_token, refresh_token_lazy
 
 
 class RefreshTokenMixin:
