@@ -1,5 +1,9 @@
+from django.contrib.auth import get_user_model
+
 from .shortcuts import get_user_by_token
 from .utils import get_credentials
+
+UserModel = get_user_model()
 
 
 class JSONWebTokenBackend:
@@ -16,4 +20,7 @@ class JSONWebTokenBackend:
         return None
 
     def get_user(self, user_id):
-        return None
+        try:
+            return UserModel._default_manager.get(pk=user_id)
+        except UserModel.DoesNotExist:
+            return None
