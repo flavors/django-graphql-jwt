@@ -1,6 +1,0 @@
-flake8>=3.7.0
-
-flake8-commas>=0.4.3
-flake8-comprehensions>=1.4.1
-flake8-isort>=2.2.2
-flake8-quotes>=0.13.0

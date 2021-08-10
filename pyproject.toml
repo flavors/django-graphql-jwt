@@ -1,0 +1,88 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "django-graphql-jwt"
+version = "0.3.3"
+description = "JSON Web Token for Django GraphQL."
+license = "MIT"
+authors = ["mongkok <dani@domake.io>"]
+readme = "README.md"
+include = ["LICENSE", "README.md"]
+keywords = ["django", "graphql", "jwt"]
+
+homepage = "https://github.com/flavors/django-graphql-jwt"
+repository = "https://github.com/flavors/django-graphql-jwt"
+documentation = "https://django-graphql-jwt.domake.io"
+
+packages = [
+    { include = "graphql_jwt" },
+]
+
+classifiers = [
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Framework :: Django",
+    "Framework :: Django :: 2.0",
+    "Framework :: Django :: 2.1",
+    "Framework :: Django :: 2.2",
+    "Framework :: Django :: 3.0",
+    "Framework :: Django :: 3.1",
+    "Framework :: Django :: 3.2",
+    "Topic :: Security",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+Django = ">=2.0"
+graphene = ">=2.1.5"
+graphene-django = ">=2.0.0"
+PyJWT = ">=2,<3"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+codecov = "*"
+cryptography = "2.8"
+flake8 = "*"
+isort = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-django = "*"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+
+[tool.black]
+extend-exclude = '''
+/(
+  | .dist
+  | .htmlcov
+)/
+'''
+
+[tool.isort]
+profile = "black"
+skip = "migrations"
+default_section = "THIRDPARTY"
+known_django = "django"
+known_first_party = "graphql_jwt"
+sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
