@@ -15,9 +15,9 @@ Settings
 ::
 
     GRAPHQL_JWT = {
-        'JWT_VERIFY_EXPIRATION': True,
-        'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
-        'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+        "JWT_VERIFY_EXPIRATION": True,
+        "JWT_EXPIRATION_DELTA": timedelta(minutes=5),
+        "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=7),
     }
 
 It means that you need to refresh every 5 mins (``payload.exp``) and even you keep on refreshing token every 5 mins, you will still be logout in 7 days after the first token has been issued (``refreshExpiresIn``).
@@ -78,7 +78,7 @@ Add ``graphql_jwt.refresh_token`` to your *INSTALLED\_APPS*::
 
     INSTALLED_APPS = [
         ...
-        'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+        "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
         ...
     ]
 
@@ -88,10 +88,10 @@ Settings
 ::
 
     GRAPHQL_JWT = {
-        'JWT_VERIFY_EXPIRATION': True,
-        'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
-        'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
-        'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+        "JWT_VERIFY_EXPIRATION": True,
+        "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+        "JWT_EXPIRATION_DELTA": timedelta(minutes=5),
+        "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=7),
     }
 
 It means that you need to refresh every 5 mins (``payload.exp``) and you need to replace your refresh token in 7 days after it has been issued (``refreshExpiresIn``).
@@ -166,9 +166,9 @@ Unlimited refresh
 Configure the ``JWT_REFRESH_EXPIRED_HANDLER`` setting that checks if the refresh token is expired::
 
     GRAPHQL_JWT = {
-        'JWT_VERIFY_EXPIRATION': True,
-        'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
-        'JWT_REFRESH_EXPIRED_HANDLER': lambda orig_iat, context: False,
+        "JWT_VERIFY_EXPIRATION": True,
+        "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+        "JWT_REFRESH_EXPIRED_HANDLER": lambda orig_iat, context: False,
     }
 
 One time only use refresh token

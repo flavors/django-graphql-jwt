@@ -21,24 +21,24 @@ Add ``AuthenticationMiddleware`` middleware to your *MIDDLEWARE* settings:
 
     MIDDLEWARE = [
         ...
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
         ...
     ]
 
 Add ``JSONWebTokenMiddleware`` middleware to your *GRAPHENE* settings::
 
     GRAPHENE = {
-        'SCHEMA': 'mysite.myschema.schema',
-        'MIDDLEWARE': [
-            'graphql_jwt.middleware.JSONWebTokenMiddleware',
+        "SCHEMA": "mysite.myschema.schema",
+        "MIDDLEWARE": [
+            "graphql_jwt.middleware.JSONWebTokenMiddleware",
         ],
     }
 
 Add ``JSONWebTokenBackend`` backend to your *AUTHENTICATION_BACKENDS*::
 
     AUTHENTICATION_BACKENDS = [
-        'graphql_jwt.backends.JSONWebTokenBackend',
-        'django.contrib.auth.backends.ModelBackend',
+        "graphql_jwt.backends.JSONWebTokenBackend",
+        "django.contrib.auth.backends.ModelBackend",
     ]
 
 

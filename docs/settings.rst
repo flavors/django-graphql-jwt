@@ -4,8 +4,8 @@ Settings
 *Django-graphql-jwt* reads your configuration from a single **Django setting** named ``GRAPHQL_JWT``::
 
     GRAPHQL_JWT = {
-        'JWT_VERIFY_EXPIRATION': True,
-        'JWT_EXPIRATION_DELTA': timedelta(minutes=10),
+        "JWT_VERIFY_EXPIRATION": True,
+        "JWT_EXPIRATION_DELTA": timedelta(minutes=10),
     }
 
 
@@ -20,7 +20,7 @@ PyJWT
 
   Algorithm for cryptographic signing
 
-  Default: ``'HS256'``
+  Default: ``"HS256"``
 
 
 `JWT_AUDIENCE`_
@@ -232,7 +232,7 @@ JWT_AUTH_HEADER_NAME
 
   Authorization header name
 
-  Default: ``'HTTP_AUTHORIZATION'``
+  Default: ``"HTTP_AUTHORIZATION"``
 
 
 JWT_AUTH_HEADER_PREFIX
@@ -240,7 +240,7 @@ JWT_AUTH_HEADER_PREFIX
 
   Authorization header prefix
 
-  Default: ``'JWT'``
+  Default: ``"JWT"``
 
 
 Per-argument
@@ -259,7 +259,7 @@ JWT_ARGUMENT_NAME
 
   Argument name for per-argument authentication system
 
-  Default: ``'token'``
+  Default: ``"token"``
 
 
 Cookie authentication
@@ -270,7 +270,7 @@ JWT_COOKIE_NAME
 
   The name of the cookie when HTTP cookies are used as a valid transport for the token
 
-  Default: ``'JWT'``
+  Default: ``"JWT"``
 
 
 JWT_REFRESH_TOKEN_COOKIE_NAME
@@ -278,7 +278,7 @@ JWT_REFRESH_TOKEN_COOKIE_NAME
 
   The name of the cookie when HTTP cookies are used as a valid transport for the refresh token
 
-  Default: ``'JWT-refresh-token'``
+  Default: ``"JWT-refresh-token"``
 
 
 JWT_COOKIE_SECURE
@@ -294,7 +294,7 @@ JWT_COOKIE_PATH
 
   Document location for the cookie
 
-  Default: ``'/'``
+  Default: ``"/"``
 
 
 JWT_COOKIE_DOMAIN

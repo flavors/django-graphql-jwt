@@ -39,7 +39,7 @@ As a shortcut, you can use the convenient ``user_passes_test()`` decorator which
     class Query(graphene.ObjectType):
         users = graphene.List(UserType)
 
-        @user_passes_test(lambda user: user.email.contains('@staff'))
+        @user_passes_test(lambda user: user.email.contains("@staff"))
         def resolve_users(self, info, **kwargs):
             return get_user_model().objects.all()
 
@@ -68,7 +68,7 @@ The decorator may also take an iterable of permissions, in which case the user m
             user_id = graphene.Int()
 
         @classmethod
-        @permission_required('auth.change_user')
+        @permission_required("auth.change_user")
         def mutate(cls, root, info, user_id):
             ...
 

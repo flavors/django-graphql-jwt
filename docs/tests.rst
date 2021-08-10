@@ -13,19 +13,19 @@ This package includes a subclass of `unittest.TestCase <https://docs.python.org/
     class UsersTests(JSONWebTokenTestCase):
 
         def setUp(self):
-            self.user = get_user_model().objects.create(username='test')
+            self.user = get_user_model().objects.create(username="test")
             self.client.authenticate(self.user)
 
         def test_get_user(self):
-            query = '''
+            query = """
             query GetUser($username: String!) {
               user(username: $username) {
                 id
               }
-            }'''
+            }"""
 
             variables = {
-              'username': self.user.username,
+              "username": self.user.username,
             }
 
             self.client.execute(query, variables)
