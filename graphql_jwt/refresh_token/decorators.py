@@ -15,7 +15,8 @@ def ensure_refresh_token(f):
             )
             if refresh_token is None:
                 raise exceptions.JSONWebTokenError(
-                    _('Refresh token is required'),
+                    _("Refresh token is required"),
                 )
         return f(cls, root, info, refresh_token, *args, **kwargs)
+
     return wrapper

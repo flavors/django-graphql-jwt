@@ -12,11 +12,12 @@ from .testcases import SchemaTestCase
 
 
 class QueriesTests(SchemaTestCase):
-
     class Query(graphene.ObjectType):
-        test = GenericScalar(**{
-            jwt_settings.JWT_ARGUMENT_NAME: graphene.String(),
-        })
+        test = GenericScalar(
+            **{
+                jwt_settings.JWT_ARGUMENT_NAME: graphene.String(),
+            }
+        )
 
         def resolve_test(self, info, **kwargs):
             return info.context.user
@@ -24,59 +25,64 @@ class QueriesTests(SchemaTestCase):
     def setUp(self):
         super().setUp()
 
-        self.other_user = get_user_model().objects.create_user('other')
+        self.other_user = get_user_model().objects.create_user("other")
         self.other_token = get_token(self.other_user)
 
     @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
     def test_multiple_credentials(self):
-        query = '''
+        query = """
         query Tests($token: String!, $otherToken: String!) {{
           testBegin: test
           testToken: test({0}: $token)
           testOtherToken: test({0}: $otherToken)
           testInvalidToken: test({0}: "invalid")
           testEnd: test
-        }}'''.format(jwt_settings.JWT_ARGUMENT_NAME)
+        }}""".format(
+            jwt_settings.JWT_ARGUMENT_NAME
+        )
 
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME:
-            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
+            jwt_settings.JWT_AUTH_HEADER_NAME: (
+                f"{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}"
+            ),
         }
 
         variables = {
-            'token': self.token,
-            'otherToken': self.other_token,
+            "token": self.token,
+            "otherToken": self.other_token,
         }
 
         response = self.client.execute(query, variables, **headers)
         data = response.data
 
-        self.assertEqual(data['testBegin'], self.user)
-        self.assertEqual(data['testEnd'], self.user)
-        self.assertEqual(data['testToken'], self.user)
-        self.assertEqual(data['testOtherToken'], self.other_user)
+        self.assertEqual(data["testBegin"], self.user)
+        self.assertEqual(data["testEnd"], self.user)
+        self.assertEqual(data["testToken"], self.user)
+        self.assertEqual(data["testOtherToken"], self.other_user)
 
-        self.assertIsNone(data['testInvalidToken'])
+        self.assertIsNone(data["testInvalidToken"])
         self.assertEqual(len(response.errors), 1)
 
     @override_jwt_settings(
         JWT_ALLOW_ARGUMENT=True,
         JWT_ALLOW_ANY_CLASSES=[
-            'graphene.types.generic.GenericScalar',
-        ])
+            "graphene.types.generic.GenericScalar",
+        ],
+    )
     def test_allow_any(self):
-        query = f'''
+        query = f"""
         {{
           testAllowAny: test
           testInvalidToken: test({jwt_settings.JWT_ARGUMENT_NAME}: "invalid")
-        }}'''
+        }}"""
 
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME:
-            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} invalid',
+            jwt_settings.JWT_AUTH_HEADER_NAME: (
+                f"{jwt_settings.JWT_AUTH_HEADER_PREFIX} invalid"
+            ),
         }
 
         response = self.client.execute(query, **headers)
 
-        self.assertIsInstance(response.data['testAllowAny'], AnonymousUser)
-        self.assertIsInstance(response.data['testInvalidToken'], AnonymousUser)
+        self.assertIsInstance(response.data["testAllowAny"], AnonymousUser)
+        self.assertIsInstance(response.data["testInvalidToken"], AnonymousUser)

@@ -4,7 +4,6 @@ from . import mixins
 
 
 class Revoke(mixins.RevokeMixin, graphene.ClientIDMutation):
-
     class Input:
         refresh_token = graphene.String()
 
@@ -14,9 +13,9 @@ class Revoke(mixins.RevokeMixin, graphene.ClientIDMutation):
 
 
 class DeleteRefreshTokenCookie(
-        mixins.DeleteRefreshTokenCookieMixin,
-        graphene.ClientIDMutation):
-
+    mixins.DeleteRefreshTokenCookieMixin,
+    graphene.ClientIDMutation,
+):
     @classmethod
     def mutate_and_get_payload(cls, *args, **kwargs):
         return cls.delete_cookie(*args, **kwargs)

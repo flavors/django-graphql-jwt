@@ -10,14 +10,14 @@ from .mutations import (
 )
 
 __all__ = [
-    'relay',
-    'JSONWebTokenMutation',
-    'ObtainJSONWebToken',
-    'Verify',
-    'Refresh',
-    'Revoke',
-    'DeleteJSONWebTokenCookie',
-    'DeleteRefreshTokenCookie',
+    "relay",
+    "JSONWebTokenMutation",
+    "ObtainJSONWebToken",
+    "Verify",
+    "Refresh",
+    "Revoke",
+    "DeleteJSONWebTokenCookie",
+    "DeleteRefreshTokenCookie",
 ]
 
-__version__ = '0.3.3'
+__version__ = "0.3.3"

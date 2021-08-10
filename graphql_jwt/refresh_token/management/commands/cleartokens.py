@@ -6,13 +6,13 @@ from ...utils import get_refresh_token_model
 
 
 class Command(BaseCommand):
-    help = 'Clears refresh tokens'
+    help = "Clears refresh tokens"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--expired',
-            action='store_true',
-            help='Clears expired tokens',
+            "--expired",
+            action="store_true",
+            help="Clears expired tokens",
         )
 
     def handle(self, expired, *args, **options):
@@ -25,5 +25,5 @@ class Command(BaseCommand):
 
         deleted, _ = qs.filter(query).delete()
 
-        msg = f'Successfully deleted {deleted} token{pluralize(deleted)}'
+        msg = f"Successfully deleted {deleted} token{pluralize(deleted)}"
         self.stdout.write(self.style.SUCCESS(msg))

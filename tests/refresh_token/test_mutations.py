@@ -9,7 +9,7 @@ from .testcases import CookieTestCase
 
 
 class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
-    query = '''
+    query = """
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(username: $username, password: $password) {
         token
@@ -17,15 +17,15 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
         refreshToken
         refreshExpiresIn
       }
-    }'''
+    }"""
 
     refresh_token_mutations = {
-        'token_auth': graphql_jwt.ObtainJSONWebToken,
+        "token_auth": graphql_jwt.ObtainJSONWebToken,
     }
 
 
 class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
-    query = '''
+    query = """
     mutation RefreshToken($refreshToken: String) {
       refreshToken(refreshToken: $refreshToken) {
         token
@@ -33,27 +33,27 @@ class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
         refreshToken
         refreshExpiresIn
       }
-    }'''
+    }"""
 
     refresh_token_mutations = {
-        'refresh_token': Refresh,
+        "refresh_token": Refresh,
     }
 
 
 class RevokeTests(mixins.RevokeMixin, SchemaTestCase):
-    query = '''
+    query = """
     mutation RevokeToken($refreshToken: String!) {
       revokeToken(refreshToken: $refreshToken) {
         revoked
       }
-    }'''
+    }"""
 
     class Mutation(graphene.ObjectType):
         revoke_token = graphql_jwt.Revoke.Field()
 
 
 class CookieTokenAuthTests(mixins.CookieTokenAuthMixin, CookieTestCase):
-    query = '''
+    query = """
     mutation TokenAuth($username: String!, $password: String!) {
       tokenAuth(username: $username, password: $password) {
         token
@@ -61,15 +61,15 @@ class CookieTokenAuthTests(mixins.CookieTokenAuthMixin, CookieTestCase):
         refreshToken
         refreshExpiresIn
       }
-    }'''
+    }"""
 
     refresh_token_mutations = {
-        'token_auth': graphql_jwt.ObtainJSONWebToken,
+        "token_auth": graphql_jwt.ObtainJSONWebToken,
     }
 
 
 class CookieRefreshTests(mixins.CookieRefreshMixin, CookieTestCase):
-    query = '''
+    query = """
     mutation {
       refreshToken {
         token
@@ -77,20 +77,20 @@ class CookieRefreshTests(mixins.CookieRefreshMixin, CookieTestCase):
         refreshToken
         refreshExpiresIn
       }
-    }'''
+    }"""
 
     refresh_token_mutations = {
-        'refresh_token': Refresh,
+        "refresh_token": Refresh,
     }
 
 
 class DeleteCookieTests(mixins.DeleteCookieMixin, CookieTestCase):
-    query = '''
+    query = """
     mutation {
       deleteCookie {
         deleted
       }
-    }'''
+    }"""
 
     class Mutation(graphene.ObjectType):
         delete_cookie = graphql_jwt.DeleteRefreshTokenCookie.Field()

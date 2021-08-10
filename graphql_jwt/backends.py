@@ -7,9 +7,8 @@ UserModel = get_user_model()
 
 
 class JSONWebTokenBackend:
-
     def authenticate(self, request=None, **kwargs):
-        if request is None or getattr(request, '_jwt_token_auth', False):
+        if request is None or getattr(request, "_jwt_token_auth", False):
             return None
 
         token = get_credentials(request, **kwargs)

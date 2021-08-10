@@ -14,7 +14,6 @@ from .shortcuts import create_refresh_token, get_refresh_token, refresh_token_la
 
 
 class RefreshTokenMixin:
-
     class Fields:
         refresh_token = graphene.String()
 
@@ -34,7 +33,7 @@ class RefreshTokenMixin:
         old_refresh_token = get_refresh_token(refresh_token, context)
 
         if old_refresh_token.is_expired(context):
-            raise exceptions.JSONWebTokenError(_('Refresh token is expired'))
+            raise exceptions.JSONWebTokenError(_("Refresh token is expired"))
 
         payload = jwt_settings.JWT_PAYLOAD_HANDLER(
             old_refresh_token.user,
@@ -42,7 +41,7 @@ class RefreshTokenMixin:
         )
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
 
-        if getattr(context, 'jwt_cookie', False):
+        if getattr(context, "jwt_cookie", False):
             context.jwt_refresh_token = create_refresh_token(
                 old_refresh_token.user,
                 old_refresh_token,
@@ -83,7 +82,7 @@ class DeleteRefreshTokenCookieMixin:
     def delete_cookie(cls, root, info, **kwargs):
         context = info.context
         context.delete_refresh_token_cookie = (
-            jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME in context.COOKIES and
-            getattr(context, 'jwt_cookie', False)
+            jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME in context.COOKIES
+            and getattr(context, "jwt_cookie", False)
         )
         return cls(deleted=context.delete_refresh_token_cookie)

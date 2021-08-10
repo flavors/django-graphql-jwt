@@ -11,7 +11,6 @@ from .testcases import TestCase
 
 
 class AuthenticateByHeaderTests(TestCase):
-
     def setUp(self):
         super().setUp()
         self.middleware = JSONWebTokenMiddleware()
@@ -19,8 +18,9 @@ class AuthenticateByHeaderTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_authenticate(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME:
-            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
+            jwt_settings.JWT_AUTH_HEADER_NAME: (
+                f"{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}"
+            ),
         }
 
         next_mock = mock.Mock()
@@ -32,11 +32,12 @@ class AuthenticateByHeaderTests(TestCase):
         self.assertEqual(info_mock.context.user, self.user)
 
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
-    @mock.patch('graphql_jwt.middleware.authenticate', return_value=None)
+    @mock.patch("graphql_jwt.middleware.authenticate", return_value=None)
     def test_not_authenticate(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME:
-            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
+            jwt_settings.JWT_AUTH_HEADER_NAME: (
+                f"{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}"
+            ),
         }
 
         next_mock = mock.Mock()
@@ -51,8 +52,9 @@ class AuthenticateByHeaderTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_invalid_token(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME:
-            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} invalid',
+            jwt_settings.JWT_AUTH_HEADER_NAME: (
+                f"{jwt_settings.JWT_AUTH_HEADER_PREFIX} invalid"
+            ),
         }
 
         next_mock = mock.Mock()
@@ -63,11 +65,12 @@ class AuthenticateByHeaderTests(TestCase):
 
         next_mock.assert_not_called()
 
-    @mock.patch('graphql_jwt.middleware.authenticate')
+    @mock.patch("graphql_jwt.middleware.authenticate")
     def test_already_authenticated(self, authenticate_mock):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME:
-            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
+            jwt_settings.JWT_AUTH_HEADER_NAME: (
+                f"{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}"
+            ),
         }
 
         next_mock = mock.Mock()
@@ -81,8 +84,9 @@ class AuthenticateByHeaderTests(TestCase):
     @override_jwt_settings(JWT_ALLOW_ANY_HANDLER=lambda *args: True)
     def test_allow_any(self):
         headers = {
-            jwt_settings.JWT_AUTH_HEADER_NAME:
-            f'{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}',
+            jwt_settings.JWT_AUTH_HEADER_NAME: (
+                f"{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}"
+            ),
         }
 
         next_mock = mock.Mock()
@@ -96,22 +100,21 @@ class AuthenticateByHeaderTests(TestCase):
     def test_authenticate_context(self):
         info_mock = self.info()
 
-        self.middleware.cached_allow_any.add('test')
+        self.middleware.cached_allow_any.add("test")
         authenticate_context = self.middleware.authenticate_context(info_mock)
 
         self.assertFalse(authenticate_context)
 
 
 class AuthenticateByArgumentTests(TestCase):
-
     @override_jwt_settings(JWT_ALLOW_ARGUMENT=True)
     def setUp(self):
         super().setUp()
         self.middleware = JSONWebTokenMiddleware()
 
     @override_jwt_settings(
-        JWT_ALLOW_ARGUMENT=True,
-        JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False)
+        JWT_ALLOW_ARGUMENT=True, JWT_ALLOW_ANY_HANDLER=lambda *args, **kwargs: False
+    )
     def test_authenticate(self):
         kwargs = {
             jwt_settings.JWT_ARGUMENT_NAME: self.token,
@@ -132,9 +135,9 @@ class AuthenticateByArgumentTests(TestCase):
     def test_authenticate_parent(self):
         next_mock = mock.Mock()
         info_mock = self.info(AnonymousUser())
-        info_mock.path = ['0', '1']
+        info_mock.path = ["0", "1"]
 
-        self.middleware.cached_authentication.insert(['0'], self.user)
+        self.middleware.cached_authentication.insert(["0"], self.user)
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
@@ -169,29 +172,30 @@ class AuthenticateByArgumentTests(TestCase):
         self.middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertFalse(hasattr(info_mock.context, 'user'))
+        self.assertFalse(hasattr(info_mock.context, "user"))
 
 
 class AllowAnyTests(TestCase):
-
     def info(self, user, **headers):
         info_mock = super().info(user, **headers)
-        info_mock.field_name = 'test'
-        info_mock.operation.operation.name = 'query'
+        info_mock.field_name = "test"
+        info_mock.operation.operation.name = "query"
         return info_mock
 
     def info_with_field_mock(self, user, field=None):
         info_mock = self.info(user)
-        info_mock.schema.get_type.return_value = mock.Mock(fields={
-            'test': field,
-        })
+        info_mock.schema.get_type.return_value = mock.Mock(
+            fields={
+                "test": field,
+            }
+        )
         return info_mock
 
     def info_with_type_mock(self, user, type=None):
         type_mock = mock.Mock(type=mock.Mock(graphene_type=type))
         return self.info_with_field_mock(user, type_mock)
 
-    @override_jwt_settings(JWT_ALLOW_ANY_CLASSES=['tests.testcases.TestCase'])
+    @override_jwt_settings(JWT_ALLOW_ANY_CLASSES=["tests.testcases.TestCase"])
     def test_allow_any(self):
         info_mock = self.info_with_type_mock(self.user, TestCase)
         allowed = allow_any(info_mock)

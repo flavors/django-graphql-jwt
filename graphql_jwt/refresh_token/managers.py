@@ -8,7 +8,6 @@ from ..settings import jwt_settings
 
 
 class RefreshTokenQuerySet(models.QuerySet):
-
     def expired(self):
         expires = timezone.now() - jwt_settings.JWT_REFRESH_EXPIRATION_DELTA
         return self.annotate(

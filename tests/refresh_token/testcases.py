@@ -5,7 +5,6 @@ from .. import testcases
 
 
 class CookieClient(testcases.CookieClient):
-
     def set_refresh_token_cookie(self, token):
         self.cookies[jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME] = token
 

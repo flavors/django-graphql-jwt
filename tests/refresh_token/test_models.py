@@ -8,7 +8,6 @@ from ..testcases import UserTestCase
 
 
 class AbstractRefreshTokenTests(UserTestCase):
-
     def setUp(self):
         super().setUp()
         self.refresh_token = create_refresh_token(self.user)
@@ -23,7 +22,7 @@ class AbstractRefreshTokenTests(UserTestCase):
         self.assertEqual(len(token), n_bytes * 2)
 
     def test_get_token(self):
-        self.refresh_token.token = 'hashed'
+        self.refresh_token.token = "hashed"
         token = self.refresh_token.get_token()
 
         self.assertEqual(self.refresh_token._cached_token, token)
@@ -39,8 +38,7 @@ class AbstractRefreshTokenTests(UserTestCase):
             self.assertTrue(self.refresh_token.is_expired())
 
     def test_revoke(self):
-        with catch_signal(refresh_token_revoked) as \
-                refresh_token_revoked_handler:
+        with catch_signal(refresh_token_revoked) as refresh_token_revoked_handler:
 
             self.refresh_token.revoke()
 

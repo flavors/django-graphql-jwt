@@ -7,28 +7,30 @@ from .decorators import token_auth
 from .refresh_token.relay import DeleteRefreshTokenCookie, Revoke
 
 __all__ = [
-    'JSONWebTokenMutation',
-    'ObtainJSONWebToken',
-    'Verify',
-    'Refresh',
-    'Revoke',
-    'DeleteRefreshTokenCookie',
+    "JSONWebTokenMutation",
+    "ObtainJSONWebToken",
+    "Verify",
+    "Refresh",
+    "Revoke",
+    "DeleteRefreshTokenCookie",
 ]
 
 
-class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
-                           graphene.ClientIDMutation):
-
+class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin, graphene.ClientIDMutation):
     class Meta:
         abstract = True
 
     @classmethod
     def Field(cls, *args, **kwargs):
-        cls._meta.arguments['input']._meta.fields.update({
-            get_user_model().USERNAME_FIELD:
-            graphene.InputField(graphene.String, required=True),
-            'password': graphene.InputField(graphene.String, required=True),
-        })
+        cls._meta.arguments["input"]._meta.fields.update(
+            {
+                get_user_model().USERNAME_FIELD: graphene.InputField(
+                    graphene.String,
+                    required=True,
+                ),
+                "password": graphene.InputField(graphene.String, required=True),
+            },
+        )
         return super().Field(*args, **kwargs)
 
     @classmethod
@@ -42,7 +44,6 @@ class ObtainJSONWebToken(mixins.ResolveMixin, JSONWebTokenMutation):
 
 
 class Verify(mixins.VerifyMixin, graphene.ClientIDMutation):
-
     class Input:
         token = graphene.String()
 
@@ -52,7 +53,6 @@ class Verify(mixins.VerifyMixin, graphene.ClientIDMutation):
 
 
 class Refresh(mixins.RefreshMixin, graphene.ClientIDMutation):
-
     class Input(mixins.RefreshMixin.Fields):
         """Refresh Input"""
 
@@ -62,9 +62,9 @@ class Refresh(mixins.RefreshMixin, graphene.ClientIDMutation):
 
 
 class DeleteJSONWebTokenCookie(
-        mixins.DeleteJSONWebTokenCookieMixin,
-        graphene.ClientIDMutation):
-
+    mixins.DeleteJSONWebTokenCookieMixin,
+    graphene.ClientIDMutation,
+):
     @classmethod
     def mutate_and_get_payload(cls, *args, **kwargs):
         return cls.delete_cookie(*args, **kwargs)

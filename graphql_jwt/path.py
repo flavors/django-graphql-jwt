@@ -1,4 +1,4 @@
-__all__ = ['PathDict']
+__all__ = ["PathDict"]
 
 
 def filter_strings(items):
@@ -6,9 +6,8 @@ def filter_strings(items):
 
 
 class PathDict(dict):
-
     def __repr__(self):
-        return f'<{self.__class__.__name__}: {super().__repr__()}>'
+        return f"<{self.__class__.__name__}: {super().__repr__()}>"
 
     def insert(self, path, value):
         self[filter_strings(path)] = value
@@ -17,7 +16,7 @@ class PathDict(dict):
         path = filter_strings(path)
 
         for depth in range(len(path) - 1):
-            parent = path[:-1 - depth]
+            parent = path[: -1 - depth]
 
             if parent in self:
                 value = self[parent]

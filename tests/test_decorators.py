@@ -7,11 +7,10 @@ from .testcases import TestCase
 
 
 class UserPassesTests(TestCase):
-
     def test_user_passes_test(self):
-        result = decorators.user_passes_test(
-            lambda u: u.pk == self.user.pk,
-        )(lambda info: None)(self.info(self.user))
+        result = decorators.user_passes_test(lambda u: u.pk == self.user.pk,)(
+            lambda info: None
+        )(self.info(self.user))
 
         self.assertIsNone(result)
 
@@ -25,7 +24,6 @@ class UserPassesTests(TestCase):
 
 
 class LoginRequiredTests(TestCase):
-
     def test_login_required(self):
         result = decorators.login_required(
             lambda info: None,
@@ -41,7 +39,6 @@ class LoginRequiredTests(TestCase):
 
 
 class StaffMemberRequiredTests(TestCase):
-
     def test_staff_member_required(self):
         self.user.is_staff = True
 
@@ -59,7 +56,6 @@ class StaffMemberRequiredTests(TestCase):
 
 
 class SuperuserRequiredTests(TestCase):
-
     def test_superuser_required(self):
         self.user.is_superuser = True
 
@@ -77,12 +73,11 @@ class SuperuserRequiredTests(TestCase):
 
 
 class PermissionRequiredTests(TestCase):
-
     def test_permission_required(self):
-        perm = Permission.objects.get(codename='add_user')
+        perm = Permission.objects.get(codename="add_user")
         self.user.user_permissions.add(perm)
 
-        result = decorators.permission_required('auth.add_user')(
+        result = decorators.permission_required("auth.add_user")(
             lambda info: None,
         )(self.info(self.user))
 
@@ -90,7 +85,7 @@ class PermissionRequiredTests(TestCase):
 
     def test_permission_denied(self):
         func = decorators.permission_required(
-            ['auth.add_user', 'auth.change_user'],
+            ["auth.add_user", "auth.change_user"],
         )(lambda info: None)
 
         with self.assertRaises(exceptions.PermissionDenied):
@@ -98,7 +93,6 @@ class PermissionRequiredTests(TestCase):
 
 
 class CSRFRotationTests(TestCase):
-
     @override_jwt_settings(JWT_CSRF_ROTATION=True)
     def test_csrf_rotation(self):
         info_mock = self.info(AnonymousUser())

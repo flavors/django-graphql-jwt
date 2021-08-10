@@ -5,6 +5,6 @@ except ImportError:
 
 
 def get_operation_name(operation):
-    if hasattr(operation, 'value'):
+    if hasattr(operation, "value"):
         return operation.value
     return operation

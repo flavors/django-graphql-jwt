@@ -17,7 +17,7 @@ def get_refresh_token(token, context=None):
         )
 
     except RefreshToken.DoesNotExist:
-        raise JSONWebTokenError(_('Invalid refresh token'))
+        raise JSONWebTokenError(_("Invalid refresh token"))
 
 
 def create_refresh_token(user, refresh_token=None):
@@ -28,7 +28,9 @@ def create_refresh_token(user, refresh_token=None):
 
 
 refresh_token_lazy = lazy(
-    lambda user, refresh_token=None:
-    create_refresh_token(user, refresh_token).get_token(),
+    lambda user, refresh_token=None: create_refresh_token(
+        user,
+        refresh_token,
+    ).get_token(),
     str,
 )

@@ -15,22 +15,41 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='RefreshToken',
+            name="RefreshToken",
             fields=[
-                ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('token', models.CharField(editable=False, max_length=255, verbose_name='token')),
-                ('created', models.DateTimeField(auto_now_add=True, verbose_name='created')),
-                ('revoked', models.DateTimeField(blank=True, null=True, verbose_name='revoked')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='refresh_tokens', to=settings.AUTH_USER_MODEL, verbose_name='user')),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
+                (
+                    "token",
+                    models.CharField(
+                        editable=False, max_length=255, verbose_name="token"
+                    ),
+                ),
+                (
+                    "created",
+                    models.DateTimeField(auto_now_add=True, verbose_name="created"),
+                ),
+                (
+                    "revoked",
+                    models.DateTimeField(blank=True, null=True, verbose_name="revoked"),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="refresh_tokens",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="user",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Refresh token',
-                'verbose_name_plural': 'Refresh tokens',
-                'abstract': False,
+                "verbose_name": "Refresh token",
+                "verbose_name_plural": "Refresh tokens",
+                "abstract": False,
             },
         ),
         migrations.AlterUniqueTogether(
-            name='refreshtoken',
-            unique_together={('token', 'revoked')},
+            name="refreshtoken",
+            unique_together={("token", "revoked")},
         ),
     ]

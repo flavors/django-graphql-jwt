@@ -18,23 +18,23 @@ class JSONWebTokenMixin:
     @classmethod
     def Field(cls, *args, **kwargs):
         if not jwt_settings.JWT_HIDE_TOKEN_FIELDS:
-            cls._meta.fields['token'] =\
-                graphene.Field(graphene.String, required=True)
+            cls._meta.fields["token"] = graphene.Field(graphene.String, required=True)
 
             if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-                cls._meta.fields['refresh_token'] =\
-                    graphene.Field(graphene.String, required=True)
+                cls._meta.fields["refresh_token"] = graphene.Field(
+                    graphene.String,
+                    required=True,
+                )
 
         return super().Field(*args, **kwargs)
 
 
 class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
-
     @classmethod
     def __init_subclass_with_meta__(cls, name=None, **options):
-        assert getattr(cls, 'resolve', None), (
-            f'{name or cls.__name__}.resolve '
-            'method is required in a JSONWebTokenMutation.'
+        assert getattr(cls, "resolve", None), (
+            f"{name or cls.__name__}.resolve "
+            "method is required in a JSONWebTokenMutation."
         )
 
         super().__init_subclass_with_meta__(name=name, **options)
@@ -50,14 +50,12 @@ class VerifyMixin:
 
 
 class ResolveMixin:
-
     @classmethod
     def resolve(cls, root, info, **kwargs):
         return cls()
 
 
 class KeepAliveRefreshMixin:
-
     class Fields:
         token = graphene.String()
 
@@ -74,18 +72,19 @@ class KeepAliveRefreshMixin:
         context = info.context
         payload = get_payload(token, context)
         user = get_user_by_payload(payload)
-        orig_iat = payload.get('origIat')
+        orig_iat = payload.get("origIat")
 
         if not orig_iat:
-            raise exceptions.JSONWebTokenError(_('origIat field is required'))
+            raise exceptions.JSONWebTokenError(_("origIat field is required"))
 
         if jwt_settings.JWT_REFRESH_EXPIRED_HANDLER(orig_iat, context):
-            raise exceptions.JSONWebTokenError(_('Refresh has expired'))
+            raise exceptions.JSONWebTokenError(_("Refresh has expired"))
 
         payload = jwt_settings.JWT_PAYLOAD_HANDLER(user, context)
-        payload['origIat'] = orig_iat
-        refresh_expires_in = orig_iat +\
-            jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+        payload["origIat"] = orig_iat
+        refresh_expires_in = (
+            orig_iat + jwt_settings.JWT_REFRESH_EXPIRATION_DELTA.total_seconds()
+        )
 
         token = jwt_settings.JWT_ENCODE_HANDLER(payload, context)
         signals.token_refreshed.send(sender=cls, request=context, user=user)
@@ -94,10 +93,14 @@ class KeepAliveRefreshMixin:
         return maybe_thenable((result, token), on_resolve)
 
 
-class RefreshMixin((RefreshTokenMixin
-                    if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN
-                    else KeepAliveRefreshMixin),
-                   JSONWebTokenMixin):
+class RefreshMixin(
+    (
+        RefreshTokenMixin
+        if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN
+        else KeepAliveRefreshMixin
+    ),
+    JSONWebTokenMixin,
+):
     """RefreshMixin"""
 
 
@@ -108,7 +111,7 @@ class DeleteJSONWebTokenCookieMixin:
     def delete_cookie(cls, root, info, **kwargs):
         context = info.context
         context.delete_jwt_cookie = (
-            jwt_settings.JWT_COOKIE_NAME in context.COOKIES and
-            getattr(context, 'jwt_cookie', False)
+            jwt_settings.JWT_COOKIE_NAME in context.COOKIES
+            and getattr(context, "jwt_cookie", False)
         )
         return cls(deleted=context.delete_jwt_cookie)

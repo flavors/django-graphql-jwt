@@ -7,27 +7,27 @@ from .decorators import token_auth
 from .refresh_token.mutations import DeleteRefreshTokenCookie, Revoke
 
 __all__ = [
-    'JSONWebTokenMutation',
-    'ObtainJSONWebToken',
-    'Verify',
-    'Refresh',
-    'Revoke',
-    'DeleteRefreshTokenCookie',
+    "JSONWebTokenMutation",
+    "ObtainJSONWebToken",
+    "Verify",
+    "Refresh",
+    "Revoke",
+    "DeleteRefreshTokenCookie",
 ]
 
 
-class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin,
-                           graphene.Mutation):
-
+class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin, graphene.Mutation):
     class Meta:
         abstract = True
 
     @classmethod
     def Field(cls, *args, **kwargs):
-        cls._meta.arguments.update({
-            get_user_model().USERNAME_FIELD: graphene.String(required=True),
-            'password': graphene.String(required=True),
-        })
+        cls._meta.arguments.update(
+            {
+                get_user_model().USERNAME_FIELD: graphene.String(required=True),
+                "password": graphene.String(required=True),
+            },
+        )
         return super().Field(*args, **kwargs)
 
     @classmethod
@@ -41,7 +41,6 @@ class ObtainJSONWebToken(mixins.ResolveMixin, JSONWebTokenMutation):
 
 
 class Verify(mixins.VerifyMixin, graphene.Mutation):
-
     class Arguments:
         token = graphene.String()
 
@@ -51,7 +50,6 @@ class Verify(mixins.VerifyMixin, graphene.Mutation):
 
 
 class Refresh(mixins.RefreshMixin, graphene.Mutation):
-
     class Arguments(mixins.RefreshMixin.Fields):
         """Refresh Arguments"""
 
@@ -60,10 +58,7 @@ class Refresh(mixins.RefreshMixin, graphene.Mutation):
         return cls.refresh(*arg, **kwargs)
 
 
-class DeleteJSONWebTokenCookie(
-        mixins.DeleteJSONWebTokenCookieMixin,
-        graphene.Mutation):
-
+class DeleteJSONWebTokenCookie(mixins.DeleteJSONWebTokenCookieMixin, graphene.Mutation):
     @classmethod
     def mutate(cls, *args, **kwargs):
         return cls.delete_cookie(*args, **kwargs)

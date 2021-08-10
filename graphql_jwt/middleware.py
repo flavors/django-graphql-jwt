@@ -8,8 +8,8 @@ from .settings import jwt_settings
 from .utils import get_http_authorization, get_token_argument
 
 __all__ = [
-    'allow_any',
-    'JSONWebTokenMiddleware',
+    "allow_any",
+    "JSONWebTokenMiddleware",
 ]
 
 
@@ -20,19 +20,19 @@ def allow_any(info, **kwargs):
     if field is None:
         return False
 
-    graphene_type = getattr(field.type, 'graphene_type', None)
+    graphene_type = getattr(field.type, "graphene_type", None)
 
-    return graphene_type is not None and\
-        issubclass(graphene_type, tuple(jwt_settings.JWT_ALLOW_ANY_CLASSES))
+    return graphene_type is not None and issubclass(
+        graphene_type, tuple(jwt_settings.JWT_ALLOW_ANY_CLASSES)
+    )
 
 
 def _authenticate(request):
-    is_anonymous = not hasattr(request, 'user') or request.user.is_anonymous
+    is_anonymous = not hasattr(request, "user") or request.user.is_anonymous
     return is_anonymous and get_http_authorization(request) is not None
 
 
 class JSONWebTokenMiddleware:
-
     def __init__(self):
         self.cached_allow_any = set()
 
@@ -59,15 +59,16 @@ class JSONWebTokenMiddleware:
             if user is not None:
                 context.user = user
 
-            elif hasattr(context, 'user'):
-                if hasattr(context, 'session'):
+            elif hasattr(context, "user"):
+                if hasattr(context, "session"):
                     context.user = get_user(context)
                     self.cached_authentication.insert(info.path, context.user)
                 else:
                     context.user = AnonymousUser()
 
-        if ((_authenticate(context) or token_argument is not None) and
-                self.authenticate_context(info, **kwargs)):
+        if (
+            _authenticate(context) or token_argument is not None
+        ) and self.authenticate_context(info, **kwargs):
 
             user = authenticate(request=context, **kwargs)
 
