@@ -46,4 +46,4 @@ class BackendsTests(TestCase):
 
     def test_get_user(self):
         user = self.backend.get_user(self.user.pk)
-        self.assertIsNone(user)
+        self.assertEqual(user, self.user)
