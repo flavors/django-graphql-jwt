@@ -94,7 +94,7 @@ todo_include_todos = True
 
 # Sphinx setup
 def setup(app):
-    app.add_stylesheet("style.css")
+    app.add_css_file("style.css")
 
 
 # -- Options for HTML output -------------------------------------------------

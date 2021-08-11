@@ -64,7 +64,7 @@ PyJWT
 
 
 `JWT_PRIVATE_KEY`_
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
   The RSA private key for *RS256*, *RS384* or *RS512* asymmetric algorithms. ``JWT_SECRET_KEY`` setting will be ignored
 
