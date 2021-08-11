@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.3.4
+-----
+
+* Added JSONWebTokenBackend.get_user method
+
 0.3.3
 -----
 

@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "django-graphql-jwt"
-version = "0.3.3"
+version = "0.3.4"
 description = "JSON Web Token for Django GraphQL."
 license = "MIT"
 authors = ["mongkok <dani@domake.io>"]
