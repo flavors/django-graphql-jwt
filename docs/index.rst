@@ -1,7 +1,7 @@
 Django GraphQL JWT
 ==================
 
-|Pypi| |Build Status| |Codecov| |Codacy|
+|Test| |Codecov| |Codacy| |Package version|
 
 
 `JSON Web Token <https://jwt.io/>`_ authentication for `Django GraphQL <https://github.com/graphql-python/graphene-django>`_
@@ -9,21 +9,21 @@ Django GraphQL JWT
 .. _JSON Web Token: https://jwt.io/
 .. _Django GraphQL: https://github.com/graphql-python/graphene-django
 
-.. |Pypi| image:: https://img.shields.io/pypi/v/django-graphql-jwt.svg
-   :target: https://pypi.python.org/pypi/django-graphql-jwt
-   :alt: Pypi
+.. |Test| image:: https://github.com/flavors/django-graphql-jwt/actions/workflows/test-suite.yml/badge.svg
+   :target: https://github.com/flavors/django-graphql-jwt/actions
+   :alt: Test
 
-.. |Build Status| image:: https://travis-ci.org/flavors/django-graphql-jwt.svg?branch=main
-   :target: https://travis-ci.org/flavors/django-graphql-jwt
-   :alt: Build Status
-
-.. |Codecov| image:: https://img.shields.io/codecov/c/github/flavors/django-graphql-jwt.svg
+.. |Codecov| image:: https://img.shields.io/codecov/c/github/flavors/django-graphql-jwt?color=%2334D058
    :target: https://codecov.io/gh/flavors/django-graphql-jwt
    :alt: Codecov
 
-.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/4f9fd439fbc74be88a215b9ed2abfcf9
-   :target: https://app.codacy.com/gh/flavors/django-graphql-jwt?utm_source=github.com&utm_medium=referral&utm_content=flavors/django-graphql-jwt&utm_campaign=Badge_Grade_Dashboard
+.. |Codacy| image:: https://app.codacy.com/project/badge/Grade/4f9fd439fbc74be88a215b9ed2abfcf9
+   :target: https://www.codacy.com/gh/flavors/django-graphql-jwt/dashboard
    :alt: Codacy
+
+.. |Package version| image:: https://img.shields.io/pypi/v/django-graphql-jwt.svg
+   :target: https://pypi.python.org/pypi/django-graphql-jwt
+   :alt: Pypi
 
 
 .. toctree::
