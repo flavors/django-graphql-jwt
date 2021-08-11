@@ -12,6 +12,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
 
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.1.2
+
+      - name: Install dependencies
+        run: poetry install
+
       - uses: ammaraskar/sphinx-action@master
         with:
           docs-folder: docs/
