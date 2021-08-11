@@ -9,4 +9,5 @@ __pycache__/
 .pytest_cache/
 coverage.xml
 dist/
+docs/_build/
 htmlcov/
