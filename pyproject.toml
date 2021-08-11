@@ -67,6 +67,7 @@ isort = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-django = "*"
+sphinx = "*"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "tests.settings"

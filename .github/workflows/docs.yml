@@ -18,13 +18,12 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - uses: ammaraskar/sphinx-action@master
-        with:
-          docs-folder: docs/
+      - name: Build docs
+        run: poetry run sphinx-build -b html docs docs/_build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: ./docs/_build/html
+          publish_dir: ./docs/_build
           cname: django-graphql-jwt.domake.io
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
