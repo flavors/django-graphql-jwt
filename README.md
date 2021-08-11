@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://django-graphql-jwt.domake.io/"><img width="420px" src="https://django-graphql-jwt.domake.io/en/latest/_static/logo.png" alt='Django GraphQL JWT'></a>
+  <a href="https://django-graphql-jwt.domake.io/"><img width="420px" src="https://django-graphql-jwt.domake.io/_static/logo.png" alt='Django GraphQL JWT'></a>
 </p>
 
 <p align="center">
