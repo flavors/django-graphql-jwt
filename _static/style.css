@@ -1,0 +1,43 @@
+body,
+.body,
+.highlight pre {
+  background: url(grid.png) repeat-x;
+  background-attachment: fixed;
+}
+
+div.sphinxsidebar a.current,
+#django-graphql-jwt ul {
+  color: #e535ab;
+}
+
+div#searchbox h3 {
+  text-transform: capitalize;
+}
+
+#settings .section h3 {
+  font-size: 110%;
+}
+
+#settings .section blockquote p {
+  margin: 2px;
+}
+
+.highlight pre {
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+}
+
+@media screen and (max-width: 1008px) {
+  div.sphinxsidebar {
+    display: none;
+  }
+
+  div.document {
+    width: 100%!important;
+  }
+
+  div.highlight pre {
+    margin-right: -30px;
+  }
+}

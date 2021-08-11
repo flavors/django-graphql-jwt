@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Relay &#8212; Django GraphQL JWT 0.3.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Signals" href="signals.html" />
+    <link rel="prev" title="Customizing" href="customizing.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">JSON Web Token (JWT) authentication for Graphene Django</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=flavors&repo=django-graphql-jwt&type=star&count=true&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+</p>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decorators.html">Decorators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="refresh_token.html">Refresh token</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Relay</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#queries">Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customizing">Customizing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Writing tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="customizing.html" title="previous chapter">Customizing</a></li>
+      <li>Next: <a href="signals.html" title="next chapter">Signals</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="relay">
+<h1>Relay<a class="headerlink" href="#relay" title="Permalink to this headline">¶</a></h1>
+<p>Complete support for <a class="reference external" href="https://facebook.github.io/relay/">Relay</a>.</p>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline">¶</a></h2>
+<p>Add mutations to the root schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphql_jwt</span>
+
+
+<span class="k">class</span> <span class="nc">Mutation</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">token_auth</span> <span class="o">=</span> <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">relay</span><span class="o">.</span><span class="n">ObtainJSONWebToken</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">verify_token</span> <span class="o">=</span> <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">relay</span><span class="o">.</span><span class="n">Verify</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">refresh_token</span> <span class="o">=</span> <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">relay</span><span class="o">.</span><span class="n">Refresh</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">delete_token_cookie</span> <span class="o">=</span> <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">relay</span><span class="o">.</span><span class="n">DeleteJSONWebTokenCookie</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+
+    <span class="c1"># Long running refresh tokens</span>
+    <span class="n">revoke_token</span> <span class="o">=</span> <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">relay</span><span class="o">.</span><span class="n">Revoke</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+
+    <span class="n">delete_refresh_token_cookie</span> <span class="o">=</span> \
+        <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">relay</span><span class="o">.</span><span class="n">DeleteRefreshTokenCookie</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">graphene</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">mutation</span><span class="o">=</span><span class="n">Mutation</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="queries">
+<h2>Queries<a class="headerlink" href="#queries" title="Permalink to this headline">¶</a></h2>
+<p>Relay mutations only accepts one argument named <em>input</em>.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">tokenAuth</span></code> to authenticate the user and obtain a <strong>JSON Web Token</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation TokenAuth($username: String!, $password: String!) {
+  tokenAuth(input: {username: $username, password: $password}) {
+    token
+    payload
+    refreshExpiresIn
+  }
+}
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verifyToken</span></code> to validate the <em>token</em> and obtain the <em>token payload</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation VerifyToken($token: String!) {
+  verifyToken(input: {token: $token}) {
+    payload
+  }
+}
+</pre></div>
+</div>
+</li>
+</ul>
+<section id="single-token-refresh">
+<h3>Single token refresh<a class="headerlink" href="#single-token-refresh" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">refreshToken</span></code> to obtain a brand new <em>token</em> with renewed expiration time for <strong>non-expired tokens</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation RefreshToken($token: String!) {
+  refreshToken(input: {token: $token}) {
+    token
+    payload
+    refreshExpiresIn
+  }
+}
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="long-running-refresh-tokens">
+<h3>Long running refresh tokens<a class="headerlink" href="#long-running-refresh-tokens" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">refreshToken</span></code> to refresh your <em>token</em>, using the <code class="docutils literal notranslate"><span class="pre">refreshToken</span></code> you already got during authorization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation RefreshToken($refreshToken: String!) {
+  refreshToken(input: {refreshToken: $refreshToken}) {
+    token
+    payload
+    refreshToken
+    refreshExpiresIn
+  }
+}
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">revokeToken</span></code> to revoke a valid <code class="docutils literal notranslate"><span class="pre">refreshToken</span></code>. The invalidation takes place immediately, and the <code class="docutils literal notranslate"><span class="pre">refreshToken</span></code> cannot be used again after the revocation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation RevokeToken($refreshToken: String!) {
+  revokeToken(input: {refreshToken: $refreshToken}) {
+    revoked
+  }
+}
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="cookies">
+<h3>Cookies<a class="headerlink" href="#cookies" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">deleteTokenCookie</span></code> to delete the <code class="docutils literal notranslate"><span class="pre">JWT</span></code> cookie:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mutation</span> <span class="p">{</span>
+  <span class="n">deleteTokenCookie</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="n">deleted</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deleteRefreshTokenCookie</span></code> to delete <code class="docutils literal notranslate"><span class="pre">JWT-refresh-token</span></code> cookie for <a class="reference internal" href="refresh_token.html"><span class="doc">long running refresh tokens</span></a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mutation</span> <span class="p">{</span>
+  <span class="n">deleteRefreshTokenCookie</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="n">deleted</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="customizing">
+<h2>Customizing<a class="headerlink" href="#customizing" title="Permalink to this headline">¶</a></h2>
+<p>If you want to customize the <code class="docutils literal notranslate"><span class="pre">ObtainJSONWebToken</span></code> behavior, you’ll need to customize the <code class="docutils literal notranslate"><span class="pre">resolve()</span></code> method on a subclass of:</p>
+<blockquote>
+<div><dl class="py class">
+<dt class="sig sig-object py" id="graphql_jwt.relay.JSONWebTokenMutation">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">JSONWebTokenMutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphql_jwt/relay.html#JSONWebTokenMutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphql_jwt.relay.JSONWebTokenMutation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphql_jwt</span>
+
+
+<span class="k">class</span> <span class="nc">ObtainJSONWebToken</span><span class="p">(</span><span class="n">graphql_jwt</span><span class="o">.</span><span class="n">relay</span><span class="o">.</span><span class="n">JSONWebTokenMutation</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">graphene</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">UserType</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Authenticate the user and obtain a <strong>JSON Web Token</strong> and the <em>user id</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation TokenAuth($username: String!, $password: String!) {
+  tokenAuth(input: {username: $username, password: $password}) {
+    token
+    payload
+    refreshExpiresIn
+    user {
+      id
+    }
+  }
+}
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2021, mongkok.
+      
+    </div>
+
+    
+    <a href="https://github.com/flavors/django-graphql-jwt" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

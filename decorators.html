@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Decorators &#8212; Django GraphQL JWT 0.3.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Refresh token" href="refresh_token.html" />
+    <link rel="prev" title="Authentication" href="authentication.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">JSON Web Token (JWT) authentication for Graphene Django</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=flavors&repo=django-graphql-jwt&type=star&count=true&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+</p>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Decorators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#login-required">&#64;login_required</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-passes-test">&#64;user_passes_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#permission-required">&#64;permission_required</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#staff-member-required">&#64;staff_member_required</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#superuser-required">&#64;superuser_required</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="refresh_token.html">Refresh token</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relay.html">Relay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Writing tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="authentication.html" title="previous chapter">Authentication</a></li>
+      <li>Next: <a href="refresh_token.html" title="next chapter">Refresh token</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="decorators">
+<h1>Decorators<a class="headerlink" href="#decorators" title="Permalink to this headline">¶</a></h1>
+<section id="login-required">
+<h2>&#64;login_required<a class="headerlink" href="#login-required" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="py data">
+<dt class="sig sig-object py" id="graphql_jwt.decorators.login_required">
+<span class="sig-name descname"><span class="pre">login_required</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">user_passes_test.&lt;locals&gt;.decorator&gt;</span></em><a class="headerlink" href="#graphql_jwt.decorators.login_required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+<p>As a shortcut, you can use the <code class="docutils literal notranslate"><span class="pre">login_required()</span></code> decorator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">from</span> <span class="nn">graphql_jwt.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+
+
+<span class="k">class</span> <span class="nc">Query</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">viewer</span> <span class="o">=</span> <span class="n">graphene</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">UserType</span><span class="p">)</span>
+
+    <span class="nd">@login_required</span>
+    <span class="k">def</span> <span class="nf">resolve_viewer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">info</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">user</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>If the user isn’t logged in, raise <code class="docutils literal notranslate"><span class="pre">PermissionDenied</span></code> exception.</p></li>
+<li><p>If the user is logged in, execute the function normally.</p></li>
+</ul>
+</section>
+<section id="user-passes-test">
+<h2>&#64;user_passes_test<a class="headerlink" href="#user-passes-test" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="py function">
+<dt class="sig sig-object py" id="graphql_jwt.decorators.user_passes_test">
+<span class="sig-name descname"><span class="pre">user_passes_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">test_func</span></em>, <em class="sig-param"><span class="pre">exc=&lt;class</span> <span class="pre">'graphql_jwt.exceptions.PermissionDenied'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphql_jwt/decorators.html#user_passes_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphql_jwt.decorators.user_passes_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+<p>As a shortcut, you can use the convenient <code class="docutils literal notranslate"><span class="pre">user_passes_test()</span></code> decorator which raises a <code class="docutils literal notranslate"><span class="pre">PermissionDenied</span></code> exception when the callable returns <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">get_user_model</span>
+
+<span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">from</span> <span class="nn">graphql_jwt.decorators</span> <span class="kn">import</span> <span class="n">user_passes_test</span>
+
+
+<span class="k">class</span> <span class="nc">Query</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">graphene</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">UserType</span><span class="p">)</span>
+
+    <span class="nd">@user_passes_test</span><span class="p">(</span><span class="k">lambda</span> <span class="n">user</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;@staff&quot;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">resolve_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">get_user_model</span><span class="p">()</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">user_passes_test()</span></code> takes a required argument: a callable that takes a <code class="docutils literal notranslate"><span class="pre">User</span></code> object and returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the user is allowed to perform the action. Note that <code class="docutils literal notranslate"><span class="pre">user_passes_test()</span></code> does not automatically check that the <code class="docutils literal notranslate"><span class="pre">User</span></code> is not anonymous.</p>
+</section>
+<section id="permission-required">
+<h2>&#64;permission_required<a class="headerlink" href="#permission-required" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="py function">
+<dt class="sig sig-object py" id="graphql_jwt.decorators.permission_required">
+<span class="sig-name descname"><span class="pre">permission_required</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphql_jwt/decorators.html#permission_required"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphql_jwt.decorators.permission_required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+<p>Decorator to check whether a user has a particular permission.</p>
+<p>Just like the <code class="docutils literal notranslate"><span class="pre">has_perm()</span></code> method, permission names take the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">app</span><span class="o">-</span><span class="n">label</span><span class="o">&gt;.&lt;</span><span class="n">permission</span><span class="o">-</span><span class="n">codename</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The decorator may also take an iterable of permissions, in which case the user must have all of the permissions in order to access the resolver or mutation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">from</span> <span class="nn">graphql_jwt.decorators</span> <span class="kn">import</span> <span class="n">permission_required</span>
+
+<span class="k">class</span> <span class="nc">UpdateUser</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">Mutation</span><span class="p">):</span>
+
+    <span class="k">class</span> <span class="nc">Arguments</span><span class="p">:</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="n">graphene</span><span class="o">.</span><span class="n">Int</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@permission_required</span><span class="p">(</span><span class="s2">&quot;auth.change_user&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">mutate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="staff-member-required">
+<h2>&#64;staff_member_required<a class="headerlink" href="#staff-member-required" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="py data">
+<dt class="sig sig-object py" id="graphql_jwt.decorators.staff_member_required">
+<span class="sig-name descname"><span class="pre">staff_member_required</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">user_passes_test.&lt;locals&gt;.decorator&gt;</span></em><a class="headerlink" href="#graphql_jwt.decorators.staff_member_required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+<p>A resolver or mutation decorated with this function will having the following behavior:</p>
+<p>If the user is a staff member (<code class="docutils literal notranslate"><span class="pre">User.is_staff=True</span></code>), execute the function normally.</p>
+<p>Otherwise, the <code class="docutils literal notranslate"><span class="pre">PermissionDenied</span></code> exception will be raised:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">get_user_model</span>
+
+<span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">from</span> <span class="nn">graphql_jwt.decorators</span> <span class="kn">import</span> <span class="n">staff_member_required</span>
+
+
+<span class="k">class</span> <span class="nc">Query</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">graphene</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">UserType</span><span class="p">)</span>
+
+    <span class="nd">@staff_member_required</span>
+    <span class="k">def</span> <span class="nf">resolve_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">get_user_model</span><span class="p">()</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="superuser-required">
+<h2>&#64;superuser_required<a class="headerlink" href="#superuser-required" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="py data">
+<dt class="sig sig-object py" id="graphql_jwt.decorators.superuser_required">
+<span class="sig-name descname"><span class="pre">superuser_required</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">user_passes_test.&lt;locals&gt;.decorator&gt;</span></em><a class="headerlink" href="#graphql_jwt.decorators.superuser_required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+<p>A resolver or mutation decorated with this function will having the following behavior:</p>
+<p>If the user is superuser (<code class="docutils literal notranslate"><span class="pre">User.is_superuser=True</span></code>), execute the function normally.</p>
+<p>Otherwise, the <code class="docutils literal notranslate"><span class="pre">PermissionDenied</span></code> exception will be raised:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">from</span> <span class="nn">graphql_jwt.decorators</span> <span class="kn">import</span> <span class="n">superuser_required</span>
+
+
+<span class="k">class</span> <span class="nc">DeleteUser</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">Mutation</span><span class="p">):</span>
+
+    <span class="k">class</span> <span class="nc">Arguments</span><span class="p">:</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="n">graphene</span><span class="o">.</span><span class="n">Int</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@superuser_required</span>
+    <span class="k">def</span> <span class="nf">mutate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2021, mongkok.
+      
+    </div>
+
+    
+    <a href="https://github.com/flavors/django-graphql-jwt" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Quickstart &#8212; Django GraphQL JWT 0.3.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Authentication" href="authentication.html" />
+    <link rel="prev" title="Django GraphQL JWT" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">JSON Web Token (JWT) authentication for Graphene Django</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=flavors&repo=django-graphql-jwt&type=star&count=true&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+</p>
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#queries">Queries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decorators.html">Decorators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="refresh_token.html">Refresh token</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relay.html">Relay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Writing tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Django GraphQL JWT</a></li>
+      <li>Next: <a href="authentication.html" title="next chapter">Authentication</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Python ≥ 3.6</p></li>
+<li><p>Django ≥ 2.0</p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Install last stable version v0.3.3 from Pypi:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">django</span><span class="o">-</span><span class="n">graphql</span><span class="o">-</span><span class="n">jwt</span>
+</pre></div>
+</div>
+<p>Add <code class="docutils literal notranslate"><span class="pre">AuthenticationMiddleware</span></code> middleware to your <em>MIDDLEWARE</em> settings:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="o">...</span>
+    <span class="s2">&quot;django.contrib.auth.middleware.AuthenticationMiddleware&quot;</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Add <code class="docutils literal notranslate"><span class="pre">JSONWebTokenMiddleware</span></code> middleware to your <em>GRAPHENE</em> settings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRAPHENE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;SCHEMA&quot;</span><span class="p">:</span> <span class="s2">&quot;mysite.myschema.schema&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MIDDLEWARE&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;graphql_jwt.middleware.JSONWebTokenMiddleware&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Add <code class="docutils literal notranslate"><span class="pre">JSONWebTokenBackend</span></code> backend to your <em>AUTHENTICATION_BACKENDS</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AUTHENTICATION_BACKENDS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;graphql_jwt.backends.JSONWebTokenBackend&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;django.contrib.auth.backends.ModelBackend&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline">¶</a></h2>
+<p>Add mutations to the root schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphql_jwt</span>
+
+
+<span class="k">class</span> <span class="nc">Mutation</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">token_auth</span> <span class="o">=</span> <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">ObtainJSONWebToken</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">verify_token</span> <span class="o">=</span> <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">Verify</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">refresh_token</span> <span class="o">=</span> <span class="n">graphql_jwt</span><span class="o">.</span><span class="n">Refresh</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">graphene</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">mutation</span><span class="o">=</span><span class="n">Mutation</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="queries">
+<h2>Queries<a class="headerlink" href="#queries" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">tokenAuth</span></code> to authenticate the user and obtain a <strong>JSON Web Token</strong>.</p>
+<p>The mutation uses your User’s model <a class="reference external" href="https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#django.contrib.auth.models.CustomUser">USERNAME_FIELD</a>, which by default is <code class="docutils literal notranslate"><span class="pre">username</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation TokenAuth($username: String!, $password: String!) {
+  tokenAuth(username: $username, password: $password) {
+    token
+    payload
+    refreshExpiresIn
+  }
+}
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verifyToken</span></code> to validate the <em>token</em> and obtain the <em>token payload</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation VerifyToken($token: String!) {
+  verifyToken(token: $token) {
+    payload
+  }
+}
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">refreshToken</span></code> to obtain a brand new <em>token</em> with renewed expiration time:</p>
+<p><a class="reference internal" href="refresh_token.html"><span class="doc">Configure your refresh token</span></a> scenario and set to <code class="docutils literal notranslate"><span class="pre">True</span></code> the <a class="reference internal" href="settings.html"><span class="doc">JWT_VERIFY_EXPIRATION</span></a> setting.</p>
+</li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2021, mongkok.
+      
+    </div>
+
+    
+    <a href="https://github.com/flavors/django-graphql-jwt" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
