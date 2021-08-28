@@ -75,7 +75,7 @@ def on_token_auth_resolve(values):
     payload.token = jwt_settings.JWT_ENCODE_HANDLER(payload.payload, context)
 
     if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-        if getattr(context, "jwt_cookie", False):
+        if getattr(context, "jwt_refresh_cookie", False):
             context.jwt_refresh_token = create_refresh_token(user)
             payload.refresh_token = context.jwt_refresh_token.get_token()
         else:
@@ -158,7 +158,7 @@ def jwt_cookie(view_func):
     @wraps(view_func)
     def wrapped_view(request, *args, **kwargs):
         request.jwt_cookie = True
-        response = view_func(request, *args, **kwargs)
+        response = jwt_refresh_cookie(view_func)(request, *args, **kwargs)
 
         if hasattr(request, "jwt_token"):
             expires = datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
@@ -169,22 +169,31 @@ def jwt_cookie(view_func):
                 request.jwt_token,
                 expires=expires,
             )
-            if hasattr(request, "jwt_refresh_token"):
-                refresh_token = request.jwt_refresh_token
-                expires = (
-                    refresh_token.created + jwt_settings.JWT_REFRESH_EXPIRATION_DELTA
-                )
-
-                set_cookie(
-                    response,
-                    jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
-                    refresh_token.token,
-                    expires=expires,
-                )
 
         if hasattr(request, "delete_jwt_cookie"):
             delete_cookie(response, jwt_settings.JWT_COOKIE_NAME)
 
+        return response
+
+    return wrapped_view
+
+
+def jwt_refresh_cookie(view_func):
+    @wraps(view_func)
+    def wrapped_view(request, *args, **kwargs):
+        request.jwt_refresh_cookie = True
+        response = view_func(request, *args, **kwargs)
+
+        if hasattr(request, "jwt_refresh_token"):
+            refresh_token = request.jwt_refresh_token
+            expires = refresh_token.created + jwt_settings.JWT_REFRESH_EXPIRATION_DELTA
+
+            set_cookie(
+                response,
+                jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
+                refresh_token.token,
+                expires=expires,
+            )
         if hasattr(request, "delete_refresh_token_cookie"):
             delete_cookie(response, jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME)
 

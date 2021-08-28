@@ -318,7 +318,14 @@ JWT_COOKIE_SAMESITE
 JWT_HIDE_TOKEN_FIELDS
 ~~~~~~~~~~~~~~~~~~~~~
 
-  For cookie-based authentications, remove the token fields from the GraphQL schema in order to prevent XSS exploitation
+  For cookie-based authentication using `@jwt_cookie` view decorator, remove the token and refresh token fields from the GraphQL schema in order to prevent XSS exploitation
+
+  Default: ``False``
+
+JWT_HIDE_REFRESH_TOKEN_FIELD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  For cookie-based authentication using `@jwt_refresh_cookie` view decorator, remove the refresh token field from the GraphQL schema in order to prevent XSS exploitation
 
   Default: ``False``
 
