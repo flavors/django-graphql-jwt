@@ -103,9 +103,8 @@ class JWTSettings:
 
         if attr in self.import_strings:
             value = perform_import(value, attr)
-        
-        if attr == "JWT_PUBLIC_KEY":
-            if value and callable(value):
+
+            if attr == "JWT_PUBLIC_KEY" and value and callable(value):
                 value = value()
 
         self._cached_attrs.add(attr)
