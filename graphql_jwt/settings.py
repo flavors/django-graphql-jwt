@@ -59,6 +59,7 @@ IMPORT_STRINGS = (
     "JWT_GET_REFRESH_TOKEN_HANDLER",
     "JWT_ALLOW_ANY_HANDLER",
     "JWT_ALLOW_ANY_CLASSES",
+    "JWT_PUBLIC_KEY",
 )
 
 
@@ -102,6 +103,10 @@ class JWTSettings:
 
         if attr in self.import_strings:
             value = perform_import(value, attr)
+        
+        if attr == "JWT_PUBLIC_KEY":
+            if value and callable(value):
+                value = value()
 
         self._cached_attrs.add(attr)
         setattr(self, attr, value)
