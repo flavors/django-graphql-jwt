@@ -18,12 +18,12 @@ class JSONWebTokenMixin:
     @classmethod
     def Field(cls, *args, **kwargs):
         if not jwt_settings.JWT_HIDE_TOKEN_FIELDS:
-            cls._meta.fields["token"] = graphene.Field(graphene.String, required=True)
+            cls._meta.fields["token"] = graphene.Field(graphene.String, required=False)
 
             if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
                 cls._meta.fields["refresh_token"] = graphene.Field(
                     graphene.String,
-                    required=True,
+                    required=False,
                 )
 
         return super().Field(*args, **kwargs)
