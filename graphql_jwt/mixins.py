@@ -12,8 +12,8 @@ from .utils import get_payload, get_user_by_payload
 
 
 class JSONWebTokenMixin:
-    payload = GenericScalar(required=True)
-    refresh_expires_in = graphene.Int(required=True)
+    payload = GenericScalar(required=False)
+    refresh_expires_in = graphene.Int(required=False)
 
     @classmethod
     def Field(cls, *args, **kwargs):
@@ -41,7 +41,7 @@ class ObtainJSONWebTokenMixin(JSONWebTokenMixin):
 
 
 class VerifyMixin:
-    payload = GenericScalar(required=True)
+    payload = GenericScalar(required=False)
 
     @classmethod
     @ensure_token
@@ -105,7 +105,7 @@ class RefreshMixin(
 
 
 class DeleteJSONWebTokenCookieMixin:
-    deleted = graphene.Boolean(required=True)
+    deleted = graphene.Boolean(required=False)
 
     @classmethod
     def delete_cookie(cls, root, info, **kwargs):
