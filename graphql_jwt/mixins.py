@@ -20,7 +20,10 @@ class JSONWebTokenMixin:
         if not jwt_settings.JWT_HIDE_TOKEN_FIELDS:
             cls._meta.fields["token"] = graphene.Field(graphene.String, required=True)
 
-            if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
+            if (
+                jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN
+                and not jwt_settings.JWT_HIDE_REFRESH_TOKEN_FIELD
+            ):
                 cls._meta.fields["refresh_token"] = graphene.Field(
                     graphene.String,
                     required=True,
