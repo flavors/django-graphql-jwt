@@ -1,0 +1,57 @@
+# Domake.io i18n
+# Copyright (C) mongkok 2022
+# This file is distributed under the same license as the django-graphql-jwt package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Django GraphQL JWT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-13 19:27+0000\n"
+"PO-Revision-Date: 2022-10-13 19:27+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: German\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: graphql_jwt/decorators.py:104
+msgid "Please enter valid credentials"
+msgstr "Bitte gültige Zugangsdaten eingeben"
+
+#: graphql_jwt/decorators.py:203
+msgid "Token is required"
+msgstr "Token abgelaufen"
+
+#: graphql_jwt/exceptions.py:15
+msgid "You do not have permission to perform this action"
+msgstr "Keine Berechtigung für diese Aktion"
+
+#: graphql_jwt/exceptions.py:19
+msgid "Signature has expired"
+msgstr "Signatur abgelaufen"
+
+#: graphql_jwt/mixins.py:78
+msgid "origIat field is required"
+msgstr "origIat Feld wird benötigt"
+
+#: graphql_jwt/mixins.py:81
+msgid "Refresh has expired"
+msgstr "Sitzung abgelaufen"
+
+#: graphql_jwt/utils.py:93
+msgid "Error decoding signature"
+msgstr "Fehler beim dekodieren der Signatur"
+
+#: graphql_jwt/utils.py:95
+msgid "Invalid token"
+msgstr "Ungültiger Token"
+
+#: graphql_jwt/utils.py:111
+msgid "Invalid payload"
+msgstr "Ungültige payload"
+
+#: graphql_jwt/utils.py:116
+msgid "User is disabled"
+msgstr "Benutzer ist deaktiviert"
