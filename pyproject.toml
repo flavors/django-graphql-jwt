@@ -61,7 +61,7 @@ PyJWT = ">=2,<3"
 [tool.poetry.dev-dependencies]
 black = "*"
 codecov = "*"
-cryptography = "2.8"
+cryptography = "39.0.1"
 flake8 = "*"
 isort = "*"
 pytest = "*"
