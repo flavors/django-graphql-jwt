@@ -137,8 +137,13 @@ def set_cookie(response, key, value, expires):
 
 
 def delete_cookie(response, key):
+    kwargs = {
+        "path": jwt_settings.JWT_COOKIE_PATH,
+        "domain": jwt_settings.JWT_COOKIE_DOMAIN,
+    }
+    if django.VERSION >= (2, 1):
+        kwargs["samesite"] = jwt_settings.JWT_COOKIE_SAMESITE
+
     response.delete_cookie(
-        key,
-        path=jwt_settings.JWT_COOKIE_PATH,
-        domain=jwt_settings.JWT_COOKIE_DOMAIN,
+        key, **kwargs
     )
