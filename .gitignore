@@ -11,3 +11,5 @@ coverage.xml
 dist/
 docs/_build/
 htmlcov/
+
+.idea/

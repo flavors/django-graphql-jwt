@@ -10,6 +10,12 @@ from graphql_jwt.settings import jwt_settings
 from .decorators import override_jwt_settings
 from .testcases import TestCase
 
+PRIVATE_KEY = rsa.generate_private_key(
+    public_exponent=65537,
+    key_size=2048,
+    backend=default_backend(),
+)
+
 
 class JWTPayloadTests(TestCase):
     @mock.patch(
@@ -35,20 +41,34 @@ class JWTPayloadTests(TestCase):
 
 class AsymmetricAlgorithmsTests(TestCase):
     def test_rsa_jwt(self):
-        private_key = rsa.generate_private_key(
-            public_exponent=65537,
-            key_size=2048,
-            backend=default_backend(),
-        )
-        public_key = private_key.public_key()
+        public_key = PRIVATE_KEY.public_key()
         payload = utils.jwt_payload(self.user)
 
         with override_jwt_settings(
             JWT_PUBLIC_KEY=public_key,
-            JWT_PRIVATE_KEY=private_key,
+            JWT_PRIVATE_KEY=PRIVATE_KEY,
             JWT_ALGORITHM="RS256",
         ):
+            token = utils.jwt_encode(payload)
+            decoded = utils.jwt_decode(token)
 
+        self.assertEqual(payload, decoded)
+
+
+def get_rsa_jwt():
+    public_key = PRIVATE_KEY.public_key()
+    return public_key
+
+
+class PublicKeyImportStringTest(TestCase):
+    def test_import_string_public_key(self):
+        payload = utils.jwt_payload(self.user)
+
+        with override_jwt_settings(
+            JWT_PRIVATE_KEY=PRIVATE_KEY,
+            JWT_PUBLIC_KEY="tests.test_utils.get_rsa_jwt",
+            JWT_ALGORITHM="RS256",
+        ):
             token = utils.jwt_encode(payload)
             decoded = utils.jwt_decode(token)
 
