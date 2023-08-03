@@ -62,7 +62,6 @@ class RefreshMixin:
         with catch_signal(
             token_refreshed
         ) as token_refreshed_handler, back_to_the_future(seconds=1):
-
             response = self.execute(
                 {
                     "token": self.token,

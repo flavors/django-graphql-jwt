@@ -39,7 +39,6 @@ class AbstractRefreshTokenTests(UserTestCase):
 
     def test_revoke(self):
         with catch_signal(refresh_token_revoked) as refresh_token_revoked_handler:
-
             self.refresh_token.revoke()
 
         self.assertIsNotNone(self.refresh_token.revoked)
