@@ -103,4 +103,7 @@ class CSRFRotationTests(TestCase):
             lambda cls, root, info, *args, **kwargs: None,
         )(self, None, info_mock)
 
-        self.assertTrue(info_mock.context.csrf_cookie_needs_reset)
+        if django.VERSION >= (4,):
+            self.assertTrue(info_mock.context.META["CSRF_COOKIE_NEEDS_UPDATE"])
+        else:
+            self.assertTrue(info_mock.context.csrf_cookie_needs_reset)
