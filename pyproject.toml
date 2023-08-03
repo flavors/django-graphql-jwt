@@ -1,24 +1,18 @@
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
+[project]
 name = "django-graphql-jwt"
-version = "0.3.4"
 description = "JSON Web Token for Django GraphQL."
-license = "MIT"
-authors = ["mongkok <dani@domake.io>"]
 readme = "README.md"
-include = ["LICENSE", "README.md"]
-keywords = ["django", "graphql", "jwt"]
-
-homepage = "https://github.com/flavors/django-graphql-jwt"
-repository = "https://github.com/flavors/django-graphql-jwt"
-documentation = "https://django-graphql-jwt.domake.io"
-
-packages = [
-    { include = "graphql_jwt" },
+license = "MIT"
+requires-python = ">=3.6"
+dynamic = ["version"]
+authors = [
+  { name = "Dani", email = "dani@domake.io" }
 ]
+keywords = ["django", "graphql", "jwt"]
 
 classifiers = [
     "Intended Audience :: Information Technology",
@@ -55,24 +49,43 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.6"
+dependencies = [
+    "Django >=2.0",
+    "graphene >=2.1.5",
+    "graphene-django >=2.0.0",
+    "PyJWT >=2,<3",
+]
 
-Django = ">=2.0"
-graphene = ">=2.1.5"
-graphene-django = ">=2.0.0"
-PyJWT = ">=2,<3"
+[project.urls]
+homepage = "https://github.com/flavors/django-graphql-jwt"
+repository = "https://github.com/flavors/django-graphql-jwt"
+documentation = "https://django-graphql-jwt.domake.io"
+changelog = "https://django-graphql-jwt.domake.io/changelog"
 
-[tool.poetry.dev-dependencies]
-black = "*"
-codecov = "*"
-cryptography = "2.8"
-flake8 = "*"
-isort = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-django = "*"
-sphinx = "*"
+[project.optional-dependencies]
+test = [
+    "black",
+    "codecov",
+    "cryptography",
+    "flake8",
+    "isort",
+    "pytest",
+    "pytest-cov",
+    "pytest-django",
+]
+
+doc = [
+    "sphinx",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["graphql_jwt"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["graphql_jwt"]
+
+[tool.hatch.version]
+path = "graphql_jwt/__init__.py"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "tests.settings"
