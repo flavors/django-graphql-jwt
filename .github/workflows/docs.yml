@@ -9,17 +9,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v2.1.2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
 
       - name: Install dependencies
-        run: poetry install
+        run: pip install .[doc]
 
       - name: Build docs
-        run: poetry run sphinx-build -b html docs docs/_build
+        run: sphinx-build -b html docs docs/_build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

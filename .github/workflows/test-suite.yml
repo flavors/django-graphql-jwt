@@ -4,34 +4,32 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: build (Python ${{ matrix.python-version }}, Django ${{ matrix.django-version }})
-    runs-on: ubuntu-18.04
+    name: Build (Python ${{ matrix.python-version }}, Django ${{ matrix.django-version }})
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10']
         django-version: ['3.0', '3.1', '3.2', '4.0', '4.1', '4.2']
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
-          path: ~/.cache/pip
-          key: py-${{ matrix.python-version }}-django-${{ matrix.django-version }}-${{ hashFiles('**/poetry.lock') }}
+          path: ${{ env.pythonLocation }}
+          key: ${{ runner.os }}-python-${{ matrix.python-version }}-django-${{ matrix.django-version }}-${{ hashFiles('pyproject.toml') }}
 
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v2.1.2
+      - name: Install Django
+        run: pip install django==${{ matrix.django-version }}
 
       - name: Install dependencies
-        run: |
-          poetry add django==${{ matrix.django-version }}
-          poetry install
+        run: pip install -e .[test]
 
       - name: Tests
-        run: poetry run scripts/test.sh
+        run: scripts/test.sh
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
