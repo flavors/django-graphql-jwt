@@ -11,3 +11,4 @@ coverage.xml
 dist/
 docs/_build/
 htmlcov/
+venv/
