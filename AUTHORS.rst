@@ -24,3 +24,4 @@ Contributors
 * Lasse Steffen `@lassesteffen <https://github.com/lassesteffen>`_
 * Rainshaw `@RainshawGao <https://github.com/RainshawGao>`_
 * `@TitanFighter <https://github.com/TitanFighter>`_
+* Sebastian Wiedenroth `@wiedi <https://github.com/wiedi>`_

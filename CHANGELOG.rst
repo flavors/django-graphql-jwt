@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.4.0
+-----
+
+* Added german translation
+* Added support for any root query name
+
 0.3.4
 -----
 
