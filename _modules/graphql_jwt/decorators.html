@@ -1,19 +1,17 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>graphql_jwt.decorators &#8212; Django GraphQL JWT 0.3.4 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=ea900cb4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=3d5424db" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3c521a7a"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -77,7 +75,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="documentwrapper">
@@ -95,10 +93,10 @@
 <span class="kn">from</span> <span class="nn">django.middleware.csrf</span> <span class="kn">import</span> <span class="n">rotate_token</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
 
+<span class="kn">from</span> <span class="nn">graphene</span> <span class="kn">import</span> <span class="n">ResolveInfo</span>
 <span class="kn">from</span> <span class="nn">graphene.utils.thenables</span> <span class="kn">import</span> <span class="n">maybe_thenable</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">exceptions</span><span class="p">,</span> <span class="n">signals</span>
-<span class="kn">from</span> <span class="nn">.compat</span> <span class="kn">import</span> <span class="n">GraphQLResolveInfo</span>
 <span class="kn">from</span> <span class="nn">.refresh_token.shortcuts</span> <span class="kn">import</span> <span class="n">create_refresh_token</span><span class="p">,</span> <span class="n">refresh_token_lazy</span>
 <span class="kn">from</span> <span class="nn">.settings</span> <span class="kn">import</span> <span class="n">jwt_settings</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">delete_cookie</span><span class="p">,</span> <span class="n">set_cookie</span>
@@ -120,7 +118,7 @@
 <span class="k">def</span> <span class="nf">context</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-            <span class="n">info</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">GraphQLResolveInfo</span><span class="p">))</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">ResolveInfo</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">wrapper</span>
@@ -302,7 +300,7 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2021, mongkok.
+      &copy;2023, mongkok.
       
     </div>
 

@@ -1,20 +1,18 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Authentication &#8212; Django GraphQL JWT 0.3.4 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=ea900cb4" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=3d5424db" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=3c521a7a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Decorators" href="decorators.html" />
@@ -85,7 +83,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="documentwrapper">
@@ -95,7 +93,7 @@
           <div class="body" role="main">
             
   <section id="authentication">
-<h1>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h1>
+<h1>Authentication<a class="headerlink" href="#authentication" title="Permalink to this heading">¶</a></h1>
 <p><em>Django-graphql-jwt</em> uses a <a class="reference external" href="https://docs.graphene-python.org/en/latest/execution/middleware/">Graphene middleware</a> to hook the authenticated user into <em>context</em> object. The simple, raw way to limit access to data is to check <code class="docutils literal notranslate"><span class="pre">info.context.user.is_authenticated</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
 
@@ -112,7 +110,7 @@
 </div>
 <p>As a shortcut, you can use <a class="reference internal" href="decorators.html"><span class="doc">decorators</span></a> for your <em>resolvers</em> and <em>mutations</em>.</p>
 <section id="http-header">
-<h2>HTTP header<a class="headerlink" href="#http-header" title="Permalink to this headline">¶</a></h2>
+<h2>HTTP header<a class="headerlink" href="#http-header" title="Permalink to this heading">¶</a></h2>
 <p>Now in order to access protected API you must include the <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> HTTP header:</p>
 <div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="o">:</span> <span class="l">domake.io</span>
@@ -122,7 +120,7 @@
 </div>
 </section>
 <section id="per-cookie">
-<h2>Per-cookie<a class="headerlink" href="#per-cookie" title="Permalink to this headline">¶</a></h2>
+<h2>Per-cookie<a class="headerlink" href="#per-cookie" title="Permalink to this heading">¶</a></h2>
 <p>When a token is requested and <code class="docutils literal notranslate"><span class="pre">jwt_cookie</span></code> decorator is set, the response will set the given cookie with the token string:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
 
@@ -137,7 +135,7 @@
 <p>If the <code class="docutils literal notranslate"><span class="pre">jwt_cookie</span></code> decorator is set, consider adding <a class="reference external" href="https://docs.djangoproject.com/es/2.1/ref/csrf/">CSRF middleware</a> <code class="docutils literal notranslate"><span class="pre">&quot;django.middleware.csrf.CsrfViewMiddleware&quot;</span></code> to provide protection against <a class="reference external" href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)">Cross Site Request Forgeries</a>.</p>
 <p>A cookie-based authentication does not require sending the tokens as a mutation input argument.</p>
 <section id="delete-cookies">
-<h3>Delete Cookies<a class="headerlink" href="#delete-cookies" title="Permalink to this headline">¶</a></h3>
+<h3>Delete Cookies<a class="headerlink" href="#delete-cookies" title="Permalink to this heading">¶</a></h3>
 <p>In order to prevent XSS (cross-site scripting) attacks, cookies have the <code class="docutils literal notranslate"><span class="pre">HttpOnly</span></code> flag set, so you cannot delete them on the client-side. This package includes some mutations to delete the cookies on the server-side.</p>
 <p>Add mutations to the root schema:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
@@ -177,11 +175,11 @@
 </section>
 </section>
 <section id="per-argument">
-<h2>Per-argument<a class="headerlink" href="#per-argument" title="Permalink to this headline">¶</a></h2>
+<h2>Per-argument<a class="headerlink" href="#per-argument" title="Permalink to this heading">¶</a></h2>
 <p>Another option to send the <em>token</em> is using an argument within the <em>GraphQL</em> query, being able to send a batch of queries authenticated with different credentials.</p>
 <p><em>Django-graphql-jwt</em>  looks for the <em>token</em> in the list of arguments sent and if it does not exists, it looks for the token in the HTTP header.</p>
 <section id="settings">
-<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h3>
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h3>
 <p>Enable the argument authentication in your settings:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRAPHQL_JWT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;JWT_ALLOW_ARGUMENT&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -190,7 +188,7 @@
 </div>
 </section>
 <section id="schema">
-<h3>Schema<a class="headerlink" href="#schema" title="Permalink to this headline">¶</a></h3>
+<h3>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">¶</a></h3>
 <p>Add the <em>token</em> argument in any of your fields using the same name defined in <code class="docutils literal notranslate"><span class="pre">JWT_ARGUMENT_NAME</span></code> setting:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
 <span class="kn">from</span> <span class="nn">graphql_jwt.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
@@ -206,7 +204,7 @@
 </div>
 </section>
 <section id="queries">
-<h3>Queries<a class="headerlink" href="#queries" title="Permalink to this headline">¶</a></h3>
+<h3>Queries<a class="headerlink" href="#queries" title="Permalink to this heading">¶</a></h3>
 <p>Send the token as another variable within the query:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>query GetViewer($token: String!) {
   viewer(token: $token) {
@@ -241,7 +239,7 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2021, mongkok.
+      &copy;2023, mongkok.
       
     </div>
 

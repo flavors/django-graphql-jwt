@@ -1,20 +1,18 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Settings &#8212; Django GraphQL JWT 0.3.4 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=ea900cb4" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=3d5424db" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=3c521a7a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Changelog" href="changelog.html" />
@@ -90,7 +88,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="documentwrapper">
@@ -100,7 +98,7 @@
           <div class="body" role="main">
             
   <section id="settings">
-<h1>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h1>
+<h1>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h1>
 <p><em>Django-graphql-jwt</em> reads your configuration from a single <strong>Django setting</strong> named <code class="docutils literal notranslate"><span class="pre">GRAPHQL_JWT</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRAPHQL_JWT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;JWT_VERIFY_EXPIRATION&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -110,65 +108,65 @@
 </div>
 <p>Here’s a <strong>list of settings</strong> available in <em>django-graphql-jwt</em> and their default values:</p>
 <section id="pyjwt">
-<h2>PyJWT<a class="headerlink" href="#pyjwt" title="Permalink to this headline">¶</a></h2>
+<h2>PyJWT<a class="headerlink" href="#pyjwt" title="Permalink to this heading">¶</a></h2>
 <section id="jwt-algorithm">
-<h3><a class="reference external" href="https://pyjwt.readthedocs.io/en/latest/algorithms.html">JWT_ALGORITHM</a><a class="headerlink" href="#jwt-algorithm" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="https://pyjwt.readthedocs.io/en/latest/algorithms.html">JWT_ALGORITHM</a><a class="headerlink" href="#jwt-algorithm" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Algorithm for cryptographic signing</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">&quot;HS256&quot;</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-audience">
-<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud">JWT_AUDIENCE</a><a class="headerlink" href="#jwt-audience" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html#audience-claim-aud">JWT_AUDIENCE</a><a class="headerlink" href="#jwt-audience" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Identifies the recipients that the JWT is intended for</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-issuer">
-<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss">JWT_ISSUER</a><a class="headerlink" href="#jwt-issuer" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html#issuer-claim-iss">JWT_ISSUER</a><a class="headerlink" href="#jwt-issuer" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Identifies the principal that issued the JWT</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-leeway">
-<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=leeway#expiration-time-claim-exp">JWT_LEEWAY</a><a class="headerlink" href="#jwt-leeway" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=leeway#expiration-time-claim-exp">JWT_LEEWAY</a><a class="headerlink" href="#jwt-leeway" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Validate an expiration time which is in the past but not very far</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">timedelta(seconds=0)</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-secret-key">
-<h3><a class="reference external" href="https://pyjwt.readthedocs.io/en/latest/usage.html?highlight=secret%20key#usage-examples">JWT_SECRET_KEY</a><a class="headerlink" href="#jwt-secret-key" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="https://pyjwt.readthedocs.io/en/latest/usage.html?highlight=secret%20key#usage-examples">JWT_SECRET_KEY</a><a class="headerlink" href="#jwt-secret-key" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The secret key used to sign the JWT</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">settings.SECRET_KEY</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-public-key">
-<h3><a class="reference internal" href="#jwt-public-key">JWT_PUBLIC_KEY</a><a class="headerlink" href="#jwt-public-key" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference internal" href="#jwt-public-key">JWT_PUBLIC_KEY</a><a class="headerlink" href="#jwt-public-key" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The RSA public key for <em>RS256</em>, <em>RS384</em> or <em>RS512</em> asymmetric algorithms. <code class="docutils literal notranslate"><span class="pre">JWT_SECRET_KEY</span></code> setting will be ignored</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-private-key">
-<h3><a class="reference internal" href="#jwt-private-key">JWT_PRIVATE_KEY</a><a class="headerlink" href="#jwt-private-key" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference internal" href="#jwt-private-key">JWT_PRIVATE_KEY</a><a class="headerlink" href="#jwt-private-key" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The RSA private key for <em>RS256</em>, <em>RS384</em> or <em>RS512</em> asymmetric algorithms. <code class="docutils literal notranslate"><span class="pre">JWT_SECRET_KEY</span></code> setting will be ignored</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-verify">
-<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify#reading-the-claimset-without-validation">JWT_VERIFY</a><a class="headerlink" href="#jwt-verify" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify#reading-the-claimset-without-validation">JWT_VERIFY</a><a class="headerlink" href="#jwt-verify" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Secret key verification</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-encode-handler">
-<h3>JWT_ENCODE_HANDLER<a class="headerlink" href="#jwt-encode-handler" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_ENCODE_HANDLER<a class="headerlink" href="#jwt-encode-handler" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A custom function to encode the token</p>
 <dl class="py function">
@@ -179,7 +177,7 @@
 </div></blockquote>
 </section>
 <section id="jwt-decode-handler">
-<h3>JWT_DECODE_HANDLER<a class="headerlink" href="#jwt-decode-handler" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_DECODE_HANDLER<a class="headerlink" href="#jwt-decode-handler" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A custom function to decode the token</p>
 <dl class="py function">
@@ -190,7 +188,7 @@
 </div></blockquote>
 </section>
 <section id="jwt-payload-handler">
-<h3>JWT_PAYLOAD_HANDLER<a class="headerlink" href="#jwt-payload-handler" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_PAYLOAD_HANDLER<a class="headerlink" href="#jwt-payload-handler" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A custom function to generate the token payload</p>
 <dl class="py function">
@@ -201,7 +199,7 @@
 </div></blockquote>
 </section>
 <section id="jwt-payload-get-username-handler">
-<h3>JWT_PAYLOAD_GET_USERNAME_HANDLER<a class="headerlink" href="#jwt-payload-get-username-handler" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_PAYLOAD_GET_USERNAME_HANDLER<a class="headerlink" href="#jwt-payload-get-username-handler" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A custom function to obtain the username:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">lambda</span> <span class="n">payload</span><span class="p">:</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">get_user_model</span><span class="p">()</span><span class="o">.</span><span class="n">USERNAME_FIELD</span><span class="p">)</span>
@@ -210,7 +208,7 @@
 </div></blockquote>
 </section>
 <section id="jwt-get-user-by-natural-key-handler">
-<h3>JWT_GET_USER_BY_NATURAL_KEY_HANDLER<a class="headerlink" href="#jwt-get-user-by-natural-key-handler" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_GET_USER_BY_NATURAL_KEY_HANDLER<a class="headerlink" href="#jwt-get-user-by-natural-key-handler" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A custom function to get User object from username</p>
 <dl class="py function">
@@ -222,16 +220,16 @@
 </section>
 </section>
 <section id="token-expiration">
-<h2>Token expiration<a class="headerlink" href="#token-expiration" title="Permalink to this headline">¶</a></h2>
+<h2>Token expiration<a class="headerlink" href="#token-expiration" title="Permalink to this heading">¶</a></h2>
 <section id="jwt-verify-expiration">
-<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify_exp#expiration-time-claim-exp">JWT_VERIFY_EXPIRATION</a><a class="headerlink" href="#jwt-verify-expiration" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="http://pyjwt.readthedocs.io/en/latest/usage.html?highlight=verify_exp#expiration-time-claim-exp">JWT_VERIFY_EXPIRATION</a><a class="headerlink" href="#jwt-verify-expiration" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Expiration time verification</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-expiration-delta">
-<h3>JWT_EXPIRATION_DELTA<a class="headerlink" href="#jwt-expiration-delta" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_EXPIRATION_DELTA<a class="headerlink" href="#jwt-expiration-delta" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Timedelta added to <em>utcnow()</em> to set the expiration time</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">timedelta(minutes=5)</span></code></p>
@@ -239,56 +237,56 @@
 </section>
 </section>
 <section id="refresh-token">
-<h2>Refresh token<a class="headerlink" href="#refresh-token" title="Permalink to this headline">¶</a></h2>
+<h2>Refresh token<a class="headerlink" href="#refresh-token" title="Permalink to this heading">¶</a></h2>
 <section id="jwt-allow-refresh">
-<h3>JWT_ALLOW_REFRESH<a class="headerlink" href="#jwt-allow-refresh" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_ALLOW_REFRESH<a class="headerlink" href="#jwt-allow-refresh" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Enable token refresh</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-refresh-expiration-delta">
-<h3>JWT_REFRESH_EXPIRATION_DELTA<a class="headerlink" href="#jwt-refresh-expiration-delta" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_REFRESH_EXPIRATION_DELTA<a class="headerlink" href="#jwt-refresh-expiration-delta" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Limit on token refresh</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">timedelta(days=7)</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-long-running-refresh-token">
-<h3>JWT_LONG_RUNNING_REFRESH_TOKEN<a class="headerlink" href="#jwt-long-running-refresh-token" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_LONG_RUNNING_REFRESH_TOKEN<a class="headerlink" href="#jwt-long-running-refresh-token" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Enable long time running refresh token</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-refresh-token-model">
-<h3>JWT_REFRESH_TOKEN_MODEL<a class="headerlink" href="#jwt-refresh-token-model" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_REFRESH_TOKEN_MODEL<a class="headerlink" href="#jwt-refresh-token-model" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The model to use to represent a refresh token</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="graphql_jwt.refresh_token.models.RefreshToken">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">RefreshToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphql_jwt/refresh_token/models.html#RefreshToken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphql_jwt.refresh_token.models.RefreshToken" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RefreshToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphql_jwt/refresh_token/models.html#RefreshToken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphql_jwt.refresh_token.models.RefreshToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>RefreshToken default model</p>
 </dd></dl>
 
 </div></blockquote>
 </section>
 <section id="jwt-refresh-token-n-bytes">
-<h3>JWT_REFRESH_TOKEN_N_BYTES<a class="headerlink" href="#jwt-refresh-token-n-bytes" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_REFRESH_TOKEN_N_BYTES<a class="headerlink" href="#jwt-refresh-token-n-bytes" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Long running refresh token number of bytes</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">20</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-reuse-refresh-tokens">
-<h3>JWT_REUSE_REFRESH_TOKENS<a class="headerlink" href="#jwt-reuse-refresh-tokens" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_REUSE_REFRESH_TOKENS<a class="headerlink" href="#jwt-reuse-refresh-tokens" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A new long running refresh token is being generated but replaces the existing database record and thus invalidates the previous long running refresh token.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-refresh-expired-handler">
-<h3>JWT_REFRESH_EXPIRED_HANDLER<a class="headerlink" href="#jwt-refresh-expired-handler" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_REFRESH_EXPIRED_HANDLER<a class="headerlink" href="#jwt-refresh-expired-handler" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A custom function to determine if refresh has expired</p>
 <dl class="py function">
@@ -299,7 +297,7 @@
 </div></blockquote>
 </section>
 <section id="jwt-get-refresh-token-handler">
-<h3>JWT_GET_REFRESH_TOKEN_HANDLER<a class="headerlink" href="#jwt-get-refresh-token-handler" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_GET_REFRESH_TOKEN_HANDLER<a class="headerlink" href="#jwt-get-refresh-token-handler" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A custom function to retrieve a long time refresh token instance</p>
 <dl class="py function">
@@ -311,9 +309,9 @@
 </section>
 </section>
 <section id="permissions">
-<h2>Permissions<a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h2>
+<h2>Permissions<a class="headerlink" href="#permissions" title="Permalink to this heading">¶</a></h2>
 <section id="jwt-allow-any-handler">
-<h3>JWT_ALLOW_ANY_HANDLER<a class="headerlink" href="#jwt-allow-any-handler" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_ALLOW_ANY_HANDLER<a class="headerlink" href="#jwt-allow-any-handler" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A custom function to determine the non-authentication <strong>per-field</strong></p>
 <dl class="py function">
@@ -324,7 +322,7 @@
 </div></blockquote>
 </section>
 <section id="jwt-allow-any-classes">
-<h3>JWT_ALLOW_ANY_CLASSES<a class="headerlink" href="#jwt-allow-any-classes" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_ALLOW_ANY_CLASSES<a class="headerlink" href="#jwt-allow-any-classes" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>A list or tuple of Graphene classes that do not need authentication</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">()</span></code></p>
@@ -332,16 +330,16 @@
 </section>
 </section>
 <section id="http-header">
-<h2>HTTP header<a class="headerlink" href="#http-header" title="Permalink to this headline">¶</a></h2>
+<h2>HTTP header<a class="headerlink" href="#http-header" title="Permalink to this heading">¶</a></h2>
 <section id="jwt-auth-header-name">
-<h3>JWT_AUTH_HEADER_NAME<a class="headerlink" href="#jwt-auth-header-name" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_AUTH_HEADER_NAME<a class="headerlink" href="#jwt-auth-header-name" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Authorization header name</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">&quot;HTTP_AUTHORIZATION&quot;</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-auth-header-prefix">
-<h3>JWT_AUTH_HEADER_PREFIX<a class="headerlink" href="#jwt-auth-header-prefix" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_AUTH_HEADER_PREFIX<a class="headerlink" href="#jwt-auth-header-prefix" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Authorization header prefix</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">&quot;JWT&quot;</span></code></p>
@@ -349,16 +347,16 @@
 </section>
 </section>
 <section id="per-argument">
-<h2>Per-argument<a class="headerlink" href="#per-argument" title="Permalink to this headline">¶</a></h2>
+<h2>Per-argument<a class="headerlink" href="#per-argument" title="Permalink to this heading">¶</a></h2>
 <section id="jwt-allow-argument">
-<h3>JWT_ALLOW_ARGUMENT<a class="headerlink" href="#jwt-allow-argument" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_ALLOW_ARGUMENT<a class="headerlink" href="#jwt-allow-argument" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Allow per-argument authentication system</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-argument-name">
-<h3>JWT_ARGUMENT_NAME<a class="headerlink" href="#jwt-argument-name" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_ARGUMENT_NAME<a class="headerlink" href="#jwt-argument-name" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Argument name for per-argument authentication system</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">&quot;token&quot;</span></code></p>
@@ -366,44 +364,44 @@
 </section>
 </section>
 <section id="cookie-authentication">
-<h2>Cookie authentication<a class="headerlink" href="#cookie-authentication" title="Permalink to this headline">¶</a></h2>
+<h2>Cookie authentication<a class="headerlink" href="#cookie-authentication" title="Permalink to this heading">¶</a></h2>
 <section id="jwt-cookie-name">
-<h3>JWT_COOKIE_NAME<a class="headerlink" href="#jwt-cookie-name" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_COOKIE_NAME<a class="headerlink" href="#jwt-cookie-name" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The name of the cookie when HTTP cookies are used as a valid transport for the token</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">&quot;JWT&quot;</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-refresh-token-cookie-name">
-<h3>JWT_REFRESH_TOKEN_COOKIE_NAME<a class="headerlink" href="#jwt-refresh-token-cookie-name" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_REFRESH_TOKEN_COOKIE_NAME<a class="headerlink" href="#jwt-refresh-token-cookie-name" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The name of the cookie when HTTP cookies are used as a valid transport for the refresh token</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">&quot;JWT-refresh-token&quot;</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-cookie-secure">
-<h3>JWT_COOKIE_SECURE<a class="headerlink" href="#jwt-cookie-secure" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_COOKIE_SECURE<a class="headerlink" href="#jwt-cookie-secure" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Whether to use a secure cookie for the JWT cookie. If this is set to True, the cookie will be marked as “secure”, which means browsers may ensure that the cookie is only sent under an HTTPS connection</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-cookie-path">
-<h3>JWT_COOKIE_PATH<a class="headerlink" href="#jwt-cookie-path" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_COOKIE_PATH<a class="headerlink" href="#jwt-cookie-path" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Document location for the cookie</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">&quot;/&quot;</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-cookie-domain">
-<h3>JWT_COOKIE_DOMAIN<a class="headerlink" href="#jwt-cookie-domain" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_COOKIE_DOMAIN<a class="headerlink" href="#jwt-cookie-domain" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Use domain if you want to set a cross-domain cookie</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </div></blockquote>
 </section>
 <section id="jwt-cookie-samesite">
-<h3>JWT_COOKIE_SAMESITE<a class="headerlink" href="#jwt-cookie-samesite" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_COOKIE_SAMESITE<a class="headerlink" href="#jwt-cookie-samesite" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Use ‘Strict’ or ‘Lax’ to tell the browser not to send the JWT cookie when performing a cross-origin request (Django ≥ 2.1 required)</p>
 <p>Use ‘None’ (string) to explicitly state that the JWT cookie is sent with all same-site and cross-site requests (Django ≥ 3.1 required)</p>
@@ -411,7 +409,7 @@
 </div></blockquote>
 </section>
 <section id="jwt-hide-token-fields">
-<h3>JWT_HIDE_TOKEN_FIELDS<a class="headerlink" href="#jwt-hide-token-fields" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_HIDE_TOKEN_FIELDS<a class="headerlink" href="#jwt-hide-token-fields" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>For cookie-based authentications, remove the token fields from the GraphQL schema in order to prevent XSS exploitation</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
@@ -419,9 +417,9 @@
 </section>
 </section>
 <section id="csrf">
-<h2>CSRF<a class="headerlink" href="#csrf" title="Permalink to this headline">¶</a></h2>
+<h2>CSRF<a class="headerlink" href="#csrf" title="Permalink to this heading">¶</a></h2>
 <section id="jwt-csrf-rotation">
-<h3>JWT_CSRF_ROTATION<a class="headerlink" href="#jwt-csrf-rotation" title="Permalink to this headline">¶</a></h3>
+<h3>JWT_CSRF_ROTATION<a class="headerlink" href="#jwt-csrf-rotation" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Rotate CSRF tokens each time a token or refresh token is issued</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
@@ -438,7 +436,7 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2021, mongkok.
+      &copy;2023, mongkok.
       
     </div>
 

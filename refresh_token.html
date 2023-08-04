@@ -1,20 +1,18 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Refresh token &#8212; Django GraphQL JWT 0.3.4 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=ea900cb4" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=3d5424db" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=3c521a7a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Customizing" href="customizing.html" />
@@ -84,7 +82,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="documentwrapper">
@@ -94,16 +92,16 @@
           <div class="body" role="main">
             
   <section id="refresh-token">
-<h1>Refresh token<a class="headerlink" href="#refresh-token" title="Permalink to this headline">¶</a></h1>
+<h1>Refresh token<a class="headerlink" href="#refresh-token" title="Permalink to this heading">¶</a></h1>
 <p>This package supports two refresh methods:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="#single-token-refresh">Single token refresh</a> (by default)</p></li>
 <li><p><a class="reference external" href="#long-running-refresh-tokens">Long running refresh tokens</a></p></li>
 </ul>
 <section id="single-token-refresh">
-<h2>Single token refresh<a class="headerlink" href="#single-token-refresh" title="Permalink to this headline">¶</a></h2>
+<h2>Single token refresh<a class="headerlink" href="#single-token-refresh" title="Permalink to this heading">¶</a></h2>
 <section id="settings">
-<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h3>
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRAPHQL_JWT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;JWT_VERIFY_EXPIRATION&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
     <span class="s2">&quot;JWT_EXPIRATION_DELTA&quot;</span><span class="p">:</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
@@ -114,7 +112,7 @@
 <p>It means that you need to refresh every 5 mins (<code class="docutils literal notranslate"><span class="pre">payload.exp</span></code>) and even you keep on refreshing token every 5 mins, you will still be logout in 7 days after the first token has been issued (<code class="docutils literal notranslate"><span class="pre">refreshExpiresIn</span></code>).</p>
 </section>
 <section id="queries">
-<h3>Queries<a class="headerlink" href="#queries" title="Permalink to this headline">¶</a></h3>
+<h3>Queries<a class="headerlink" href="#queries" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">refreshToken</span></code> to obtain a brand new <em>token</em> with renewed expiration time for <strong>non-expired tokens</strong>:</p></li>
 </ul>
@@ -166,7 +164,7 @@ refreshToken (t): error!
 </section>
 </section>
 <section id="long-running-refresh-tokens">
-<h2>Long running refresh tokens<a class="headerlink" href="#long-running-refresh-tokens" title="Permalink to this headline">¶</a></h2>
+<h2>Long running refresh tokens<a class="headerlink" href="#long-running-refresh-tokens" title="Permalink to this heading">¶</a></h2>
 <p>Refresh tokens stored on database.</p>
 <p>Add <code class="docutils literal notranslate"><span class="pre">graphql_jwt.refresh_token</span></code> to your <em>INSTALLED_APPS</em>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
@@ -177,7 +175,7 @@ refreshToken (t): error!
 </pre></div>
 </div>
 <section id="id1">
-<h3>Settings<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>Settings<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRAPHQL_JWT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;JWT_VERIFY_EXPIRATION&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
     <span class="s2">&quot;JWT_LONG_RUNNING_REFRESH_TOKEN&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -189,7 +187,7 @@ refreshToken (t): error!
 <p>It means that you need to refresh every 5 mins (<code class="docutils literal notranslate"><span class="pre">payload.exp</span></code>) and you need to replace your refresh token in 7 days after it has been issued (<code class="docutils literal notranslate"><span class="pre">refreshExpiresIn</span></code>).</p>
 </section>
 <section id="schema">
-<h3>Schema<a class="headerlink" href="#schema" title="Permalink to this headline">¶</a></h3>
+<h3>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">¶</a></h3>
 <p>Add mutations to the root schema:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
 <span class="kn">import</span> <span class="nn">graphql_jwt</span>
@@ -206,7 +204,7 @@ refreshToken (t): error!
 </div>
 </section>
 <section id="id2">
-<h3>Queries<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>Queries<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">tokenAuth</span></code> to authenticate the user and obtain a <strong>JSON Web Token</strong> and <strong>Refresh Token</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mutation TokenAuth($username: String!, $password: String!) {
@@ -244,11 +242,11 @@ refreshToken (t): error!
 </ul>
 </section>
 <section id="per-cookie">
-<h3>Per-cookie<a class="headerlink" href="#per-cookie" title="Permalink to this headline">¶</a></h3>
+<h3>Per-cookie<a class="headerlink" href="#per-cookie" title="Permalink to this heading">¶</a></h3>
 <p>When a refresh token is requested and <code class="docutils literal notranslate"><span class="pre">jwt_cookie</span></code> decorator is set, the response will set the given cookie with the refresh token string.</p>
 </section>
 <section id="unlimited-refresh">
-<h3>Unlimited refresh<a class="headerlink" href="#unlimited-refresh" title="Permalink to this headline">¶</a></h3>
+<h3>Unlimited refresh<a class="headerlink" href="#unlimited-refresh" title="Permalink to this heading">¶</a></h3>
 <p>Configure the <code class="docutils literal notranslate"><span class="pre">JWT_REFRESH_EXPIRED_HANDLER</span></code> setting that checks if the refresh token is expired:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRAPHQL_JWT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;JWT_VERIFY_EXPIRATION&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -259,7 +257,7 @@ refreshToken (t): error!
 </div>
 </section>
 <section id="one-time-only-use-refresh-token">
-<h3>One time only use refresh token<a class="headerlink" href="#one-time-only-use-refresh-token" title="Permalink to this headline">¶</a></h3>
+<h3>One time only use refresh token<a class="headerlink" href="#one-time-only-use-refresh-token" title="Permalink to this heading">¶</a></h3>
 <p>Automatically revoke a refresh token after it has been used:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.dispatch</span> <span class="kn">import</span> <span class="n">receiver</span>
 
@@ -273,7 +271,7 @@ refreshToken (t): error!
 </div>
 </section>
 <section id="clear-refresh-tokens">
-<h3>Clear refresh tokens<a class="headerlink" href="#clear-refresh-tokens" title="Permalink to this headline">¶</a></h3>
+<h3>Clear refresh tokens<a class="headerlink" href="#clear-refresh-tokens" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><dl class="py method">
 <dt class="sig sig-object py" id="graphql_jwt.refresh_token.management.commands.cleartokens.Command.handle">
@@ -284,12 +282,12 @@ this method.</p>
 
 </div></blockquote>
 <p>Delete revoked refresh tokens with <code class="docutils literal notranslate"><span class="pre">cleartokens</span></code> command.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ python manage.py cleartokens --help
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>manage.py<span class="w"> </span>cleartokens<span class="w"> </span>--help
 
-usage: cleartokens <span class="o">[</span>--expired<span class="o">]</span>
+usage:<span class="w"> </span>cleartokens<span class="w"> </span><span class="o">[</span>--expired<span class="o">]</span>
 
-optional arguments:
-  --expired             Clears expired tokens
+optional<span class="w"> </span>arguments:
+<span class="w">  </span>--expired<span class="w">             </span>Clears<span class="w"> </span>expired<span class="w"> </span>tokens
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">--expired</span></code> argument allows the user to remove those refresh tokens whose lifetime is greater than the amount specified by <code class="docutils literal notranslate"><span class="pre">JWT_REFRESH_EXPIRATION_DELTA</span></code> setting.</p>
@@ -305,7 +303,7 @@ optional arguments:
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2021, mongkok.
+      &copy;2023, mongkok.
       
     </div>
 

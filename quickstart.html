@@ -1,20 +1,18 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Quickstart &#8212; Django GraphQL JWT 0.3.4 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=ea900cb4" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=3d5424db" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=3c521a7a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Authentication" href="authentication.html" />
@@ -86,7 +84,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="documentwrapper">
@@ -96,16 +94,16 @@
           <div class="body" role="main">
             
   <section id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">¶</a></h1>
 <section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Python ≥ 3.6</p></li>
 <li><p>Django ≥ 2.0</p></li>
 </ul>
 </section>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
 <p>Install last stable version v0.3.4 from Pypi:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">django</span><span class="o">-</span><span class="n">graphql</span><span class="o">-</span><span class="n">jwt</span>
 </pre></div>
@@ -136,7 +134,7 @@
 </div>
 </section>
 <section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline">¶</a></h2>
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">¶</a></h2>
 <p>Add mutations to the root schema:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
 <span class="kn">import</span> <span class="nn">graphql_jwt</span>
@@ -153,7 +151,7 @@
 </div>
 </section>
 <section id="queries">
-<h2>Queries<a class="headerlink" href="#queries" title="Permalink to this headline">¶</a></h2>
+<h2>Queries<a class="headerlink" href="#queries" title="Permalink to this heading">¶</a></h2>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">tokenAuth</span></code> to authenticate the user and obtain a <strong>JSON Web Token</strong>.</p>
 <p>The mutation uses your User’s model <a class="reference external" href="https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#django.contrib.auth.models.CustomUser">USERNAME_FIELD</a>, which by default is <code class="docutils literal notranslate"><span class="pre">username</span></code>:</p>
@@ -191,7 +189,7 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2021, mongkok.
+      &copy;2023, mongkok.
       
     </div>
 
