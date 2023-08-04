@@ -179,12 +179,12 @@ class AllowAnyTests(TestCase):
     def info(self, user, **headers):
         info_mock = super().info(user, **headers)
         info_mock.field_name = "test"
-        info_mock.operation.operation.name = "query"
+        info_mock.operation.operation.value = "query"
         return info_mock
 
     def info_with_field_mock(self, user, field=None):
         info_mock = self.info(user)
-        info_mock.schema.get_root_type.return_value = mock.Mock(
+        info_mock.schema.query_type = mock.Mock(
             fields={
                 "test": field,
             }
