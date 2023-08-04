@@ -6,8 +6,8 @@ from django.test import RequestFactory, TestCase
 
 import graphene
 from graphene_django.views import GraphQLView
+from graphql.execution.execute import GraphQLResolveInfo
 
-from graphql_jwt.compat import GraphQLResolveInfo
 from graphql_jwt.decorators import jwt_cookie
 from graphql_jwt.settings import jwt_settings
 from graphql_jwt.testcases import JSONWebTokenClient, JSONWebTokenTestCase

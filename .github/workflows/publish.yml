@@ -2,25 +2,25 @@ name: Publish
 
 on:
   release:
-    types: created
+    types: [created]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
 
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v2.1.2
+      - name: Install dependencies
+        run: pip install build
 
       - name: Build
-        run: poetry build
+        run: python -m build
 
       - name: Publish to PyPI
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
-        run: poetry publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_TOKEN }}

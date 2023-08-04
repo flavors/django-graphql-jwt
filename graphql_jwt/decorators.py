@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 from graphene.utils.thenables import maybe_thenable
 
 from . import exceptions, signals
-from .compat import GraphQLResolveInfo
+from ._compat import GraphQLResolveInfo
 from .refresh_token.shortcuts import create_refresh_token, refresh_token_lazy
 from .settings import jwt_settings
 from .utils import delete_cookie, set_cookie

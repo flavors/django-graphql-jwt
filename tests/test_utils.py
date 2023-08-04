@@ -48,7 +48,6 @@ class AsymmetricAlgorithmsTests(TestCase):
             JWT_PRIVATE_KEY=private_key,
             JWT_ALGORITHM="RS256",
         ):
-
             token = utils.jwt_encode(payload)
             decoded = utils.jwt_decode(token)
 

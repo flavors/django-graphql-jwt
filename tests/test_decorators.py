@@ -1,3 +1,4 @@
+import django
 from django.contrib.auth.models import AnonymousUser, Permission
 
 from graphql_jwt import decorators, exceptions
@@ -8,7 +9,9 @@ from .testcases import TestCase
 
 class UserPassesTests(TestCase):
     def test_user_passes_test(self):
-        result = decorators.user_passes_test(lambda u: u.pk == self.user.pk,)(
+        result = decorators.user_passes_test(
+            lambda u: u.pk == self.user.pk,
+        )(
             lambda info: None
         )(self.info(self.user))
 
@@ -100,4 +103,7 @@ class CSRFRotationTests(TestCase):
             lambda cls, root, info, *args, **kwargs: None,
         )(self, None, info_mock)
 
-        self.assertTrue(info_mock.context.csrf_cookie_needs_reset)
+        if django.VERSION >= (4,):
+            self.assertTrue(info_mock.context.META["CSRF_COOKIE_NEEDS_UPDATE"])
+        else:
+            self.assertTrue(info_mock.context.csrf_cookie_needs_reset)

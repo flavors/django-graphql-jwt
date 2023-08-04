@@ -58,7 +58,6 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         with catch_signal(
             refresh_token_rotated
         ) as refresh_token_rotated_handler, back_to_the_future(seconds=1):
-
             response = self.execute(
                 {
                     "refreshToken": self.refresh_token.token,
@@ -86,7 +85,6 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         with catch_signal(
             refresh_token_rotated
         ) as refresh_token_rotated_handler, back_to_the_future(seconds=1):
-
             response = self.execute(
                 {
                     "refreshToken": self.refresh_token.token,
@@ -123,7 +121,6 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
 class RevokeMixin(RefreshTokenMixin):
     def test_revoke(self):
         with catch_signal(refresh_token_revoked) as refresh_token_revoked_handler:
-
             response = self.execute(
                 {
                     "refreshToken": self.refresh_token.token,
@@ -168,7 +165,6 @@ class CookieRefreshMixin(RefreshTokenMutationMixin):
         with catch_signal(
             refresh_token_rotated
         ) as refresh_token_rotated_handler, back_to_the_future(seconds=1):
-
             response = self.execute()
 
         data = response.data["refreshToken"]
