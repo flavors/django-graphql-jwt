@@ -6,7 +6,6 @@ from django.test import RequestFactory, TestCase
 
 import graphene
 from graphene_django.views import GraphQLView
-from graphql.execution.execute import GraphQLResolveInfo
 
 from graphql_jwt.decorators import jwt_cookie
 from graphql_jwt.settings import jwt_settings
@@ -29,16 +28,22 @@ class TestCase(UserTestCase):
         self.token = jwt_encode(self.payload)
         self.request_factory = RequestFactory()
 
-    def info(self, user=None, **headers):
-        request = self.request_factory.post("/", **headers)
+
+class ResolveInfoTestCase(TestCase):
+    def info_mock(self, user=None, path=None, headers=None, **kwargs):
+        request = self.request_factory.post("/", **(headers or {}))
 
         if user is not None:
             request.user = user
 
+        if path is None:
+            path = [""]
+
         return mock.Mock(
             context=request,
-            path=["test"],
+            path=path,
             spec=graphene.ResolveInfo,
+            **kwargs,
         )
 
 
