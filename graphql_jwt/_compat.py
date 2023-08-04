@@ -1,10 +1,5 @@
 import graphql
 
-try:
-    from graphql.execution.execute import GraphQLResolveInfo
-except ImportError:
-    from graphql.execution.base import ResolveInfo as GraphQLResolveInfo  # noqa
-
 
 def get_root_type(info):
     if graphql.__version__.startswith("2"):

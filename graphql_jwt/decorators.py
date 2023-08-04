@@ -6,10 +6,10 @@ from django.contrib.auth import authenticate, get_user_model
 from django.middleware.csrf import rotate_token
 from django.utils.translation import gettext as _
 
+from graphene import ResolveInfo
 from graphene.utils.thenables import maybe_thenable
 
 from . import exceptions, signals
-from ._compat import GraphQLResolveInfo
 from .refresh_token.shortcuts import create_refresh_token, refresh_token_lazy
 from .settings import jwt_settings
 from .utils import delete_cookie, set_cookie
@@ -31,7 +31,7 @@ __all__ = [
 def context(f):
     def decorator(func):
         def wrapper(*args, **kwargs):
-            info = next(arg for arg in args if isinstance(arg, GraphQLResolveInfo))
+            info = next(arg for arg in args if isinstance(arg, ResolveInfo))
             return func(info.context, *args, **kwargs)
 
         return wrapper

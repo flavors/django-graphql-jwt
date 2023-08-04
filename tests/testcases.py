@@ -38,7 +38,7 @@ class TestCase(UserTestCase):
         return mock.Mock(
             context=request,
             path=["test"],
-            spec=GraphQLResolveInfo,
+            spec=graphene.ResolveInfo,
         )
 
 
