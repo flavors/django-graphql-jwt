@@ -13,6 +13,7 @@ DATABASES = {
 }
 
 SECRET_KEY = "test"
+USE_TZ = True
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
