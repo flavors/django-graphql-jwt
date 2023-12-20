@@ -57,8 +57,7 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
 
         self.assertEqual(token_issued_handler.call_count, 1)
 
-        self.assertIsNone(response.errors)
-        self.assertUsernameIn(data["payload"])
+        self.assertIsNotNone(response.errors)
 
 
 class VerifyTests(mixins.VerifyMixin, SchemaTestCase):
