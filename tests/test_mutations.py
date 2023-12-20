@@ -1,9 +1,17 @@
+from django.test import override_settings
+
 import graphene
 
 import graphql_jwt
+from graphql_jwt.settings import jwt_settings
+from graphql_jwt.signals import token_issued
 
 from . import mixins
+from .context_managers import catch_signal
 from .testcases import CookieTestCase, SchemaTestCase
+
+GRAPHENE_MODIFIED_SETTINGS = jwt_settings
+GRAPHENE_MODIFIED_SETTINGS["JWT_MUTATION_USERNAME_FIELD"] = ["cellphone"]
 
 
 class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
@@ -18,6 +26,39 @@ class TokenAuthTests(mixins.TokenAuthMixin, SchemaTestCase):
 
     class Mutation(graphene.ObjectType):
         token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+
+    def test_token_auth(self):
+        with catch_signal(token_issued) as token_issued_handler:
+            response = self.execute(
+                {
+                    self.user.USERNAME_FIELD: self.user.get_username(),
+                    "password": "dolphins",
+                }
+            )
+
+        data = response.data["tokenAuth"]
+
+        self.assertEqual(token_issued_handler.call_count, 1)
+
+        self.assertIsNone(response.errors)
+        self.assertUsernameIn(data["payload"])
+
+    @override_settings(GRAPHENE=GRAPHENE_MODIFIED_SETTINGS)
+    def test_token_auth_with_custom_username_field(self):
+        with catch_signal(token_issued) as token_issued_handler:
+            response = self.execute(
+                {
+                    jwt_settings.JWT_MUTATION_USERNAME_FIELD: self.user.get_username(),
+                    "password": "dolphins",
+                }
+            )
+
+        data = response.data["tokenAuth"]
+
+        self.assertEqual(token_issued_handler.call_count, 1)
+
+        self.assertIsNone(response.errors)
+        self.assertUsernameIn(data["payload"])
 
 
 class VerifyTests(mixins.VerifyMixin, SchemaTestCase):

@@ -1,10 +1,9 @@
-from django.contrib.auth import get_user_model
-
 import graphene
 
 from . import mixins
 from .decorators import token_auth
 from .refresh_token.mutations import DeleteRefreshTokenCookie, Revoke
+from .settings import jwt_settings
 
 __all__ = [
     "JSONWebTokenMutation",
@@ -24,7 +23,9 @@ class JSONWebTokenMutation(mixins.ObtainJSONWebTokenMixin, graphene.Mutation):
     def Field(cls, *args, **kwargs):
         cls._meta.arguments.update(
             {
-                get_user_model().USERNAME_FIELD: graphene.String(required=True),
+                jwt_settings.JWT_MUTATION_USERNAME_FIELD: graphene.String(
+                    required=True
+                ),
                 "password": graphene.String(required=True),
             },
         )

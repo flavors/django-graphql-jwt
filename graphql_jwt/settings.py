@@ -47,6 +47,9 @@ DEFAULTS = {
     "JWT_COOKIE_PATH": "/",
     "JWT_COOKIE_DOMAIN": None,
     "JWT_COOKIE_SAMESITE": None,
+    "JWT_MUTATION_USERNAME_FIELD": (
+        lambda payload: payload.get(get_user_model().USERNAME_FIELD)
+    ),
 }
 
 IMPORT_STRINGS = (
